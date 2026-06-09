@@ -184,6 +184,9 @@ struct ActiveTimerView: View {
                     onFinish: {
                         showCountdown = false
                         lastTickDate = Date()   // anchor interpolation from session start
+                        // Fire first block cues immediately — don't wait for the first tick
+                        fireCues(for: currentBlock)
+                        flashPhaseLabel(block: currentBlock, round: currentRound)
                     },
                     onStart: {
                         // Play the countdown-start cue (e.g. "Warming up") immediately
@@ -389,9 +392,10 @@ struct ActiveTimerView: View {
         let isNewRound = secInRound == 0
 
         // Fire ALL cues at the START of each block:
-        //   • elapsed == 1  → first tick of the session, announce the first block
-        //   • isNewBlock    → a new block just became active, announce it
-        if elapsed == 1 || isNewBlock {
+        //   • elapsed == 1  → only if no opening countdown (otherwise fired in onFinish)
+        //   • isNewBlock    → a new block just became active
+        let hasCountdown = config.openingCountdownSecs > 0
+        if (elapsed == 1 && !hasCountdown) || isNewBlock {
             fireCues(for: postBlock)
             flashPhaseLabel(block: postBlock, round: currentRound)
         }
