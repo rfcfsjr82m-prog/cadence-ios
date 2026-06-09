@@ -77,6 +77,19 @@ struct SettingsView: View {
                         }
                     }
 
+                    // MARK: - Widget
+                    settingsSection(title: "Widget") {
+                        VStack(spacing: 0) {
+                            NavigationSettingsRow(title: "Choose Widget Timers") {
+                                WidgetTimerPickerView()
+                            }
+                        }
+                        .background(Color.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .overlay(RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(Color.borderDefault, lineWidth: 0.5))
+                    }
+
                     // MARK: - Activity
                     settingsSection(title: "Activity") {
                         VStack(spacing: 0) {

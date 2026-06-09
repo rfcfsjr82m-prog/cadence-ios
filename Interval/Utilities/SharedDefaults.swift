@@ -49,7 +49,17 @@ enum SharedDefaults {
         }
     }
 
-    // MARK: - All timer snapshots (for widget intent picker)
+    // MARK: - Widget-selected timers (chosen in-app, up to 3)
+
+    static func readWidgetTimers() -> [PinnedTimerSnapshot] {
+        readSnapshots(file: "widget_timers.json") ?? []
+    }
+
+    static func writeWidgetTimers(_ snapshots: [PinnedTimerSnapshot]) {
+        writeSnapshots(snapshots, file: "widget_timers.json")
+    }
+
+    // MARK: - All timer snapshots (for entity picker)
 
     static func readAllSnapshots() -> [PinnedTimerSnapshot] {
         // Try file first (most reliable cross-process), fall back to UserDefaults
