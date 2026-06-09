@@ -49,6 +49,16 @@ enum SharedDefaults {
         }
     }
 
+    // MARK: - Widget small-timer index (which of the selected timers is shown)
+
+    static func widgetTimerIndex() -> Int {
+        suite.integer(forKey: "widgetTimerIndex")
+    }
+
+    static func setWidgetTimerIndex(_ index: Int) {
+        suite.set(index, forKey: "widgetTimerIndex")
+    }
+
     // MARK: - Widget-selected timers (chosen in-app, up to 3)
 
     static func readWidgetTimers() -> [PinnedTimerSnapshot] {

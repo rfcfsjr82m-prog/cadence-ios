@@ -6,6 +6,7 @@ import WidgetKit
 struct PinnedTimersEntry: TimelineEntry {
     let date: Date
     let timers: [PinnedTimerSnapshot]
+    var smallIndex: Int = 0   // which timer the small widget shows
 }
 
 // MARK: - Timeline provider
@@ -34,11 +35,16 @@ struct PinnedTimersProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (PinnedTimersEntry) -> Void) {
-        completion(PinnedTimersEntry(date: Date(), timers: SharedDefaults.readWidgetTimers()))
+        let timers = SharedDefaults.readWidgetTimers()
+        let idx = SharedDefaults.widgetTimerIndex()
+        completion(PinnedTimersEntry(date: Date(), timers: timers, smallIndex: idx))
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<PinnedTimersEntry>) -> Void) {
-        completion(Timeline(entries: [PinnedTimersEntry(date: Date(), timers: SharedDefaults.readWidgetTimers())], policy: .never))
+        let timers = SharedDefaults.readWidgetTimers()
+        let idx = SharedDefaults.widgetTimerIndex()
+        let entry = PinnedTimersEntry(date: Date(), timers: timers, smallIndex: idx)
+        completion(Timeline(entries: [entry], policy: .never))
     }
 }
 
@@ -67,7 +73,8 @@ private struct PinnedTimersWidgetView: View {
     var body: some View {
         switch family {
         case .systemSmall:
-            SmallPinnedView(timer: entry.timers.first)
+            let timer = entry.timers.isEmpty ? nil : entry.timers[entry.smallIndex % entry.timers.count]
+            SmallPinnedView(timer: timer, totalCount: entry.timers.count, currentIndex: entry.smallIndex % max(1, entry.timers.count))
         default:
             MediumPinnedView(timers: Array(entry.timers.prefix(3)))
         }
@@ -78,24 +85,30 @@ private struct PinnedTimersWidgetView: View {
 
 private struct SmallPinnedView: View {
     let timer: PinnedTimerSnapshot?
+    let totalCount: Int
+    let currentIndex: Int
 
     var body: some View {
         if let t = timer {
             VStack(alignment: .leading, spacing: 0) {
                 ColorStripView(colorHexes: t.blockColorHexes, durations: t.blockDurationSeconds)
                     .frame(height: 3)
+
                 VStack(alignment: .leading, spacing: 6) {
                     Text(t.name)
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(Color(hex: "F0F0F2"))
                         .lineLimit(2)
                         .fixedSize(horizontal: false, vertical: true)
+
                     Text(verbatim: t.blockLabels.joined(separator: " · "))
                         .font(.system(size: 11))
                         .foregroundStyle(Color(hex: "8A8A96"))
                         .lineLimit(1)
+
                     Spacer(minLength: 0)
-                    HStack {
+
+                    HStack(alignment: .bottom) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(verbatim: "\(t.totalMinutes) min")
                                 .font(.system(size: 12, weight: .medium, design: .monospaced))
@@ -105,12 +118,40 @@ private struct SmallPinnedView: View {
                                 .foregroundStyle(Color(hex: "56565E"))
                         }
                         Spacer()
-                        Image(systemName: "play.fill")
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(Color(hex: "7C6FFF"))
-                            .frame(width: 28, height: 28)
-                            .background(Color(hex: "7C6FFF").opacity(0.15))
-                            .clipShape(Circle())
+
+                        // Cycle button — only shown when more than 1 timer selected
+                        if totalCount > 1 {
+                            HStack(spacing: 4) {
+                                // Dot indicators
+                                HStack(spacing: 3) {
+                                    ForEach(0..<totalCount, id: \.self) { i in
+                                        Circle()
+                                            .fill(i == currentIndex
+                                                  ? Color(hex: "7C6FFF")
+                                                  : Color(hex: "3A3A44"))
+                                            .frame(width: 4, height: 4)
+                                    }
+                                }
+                                // Next button
+                                Button(intent: CycleWidgetTimerIntent(direction: 1)) {
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 10, weight: .semibold))
+                                        .foregroundStyle(Color(hex: "7C6FFF"))
+                                        .frame(width: 24, height: 24)
+                                        .background(Color(hex: "7C6FFF").opacity(0.15))
+                                        .clipShape(Circle())
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        } else {
+                            // Play indicator when only 1 timer
+                            Image(systemName: "play.fill")
+                                .font(.system(size: 11, weight: .semibold))
+                                .foregroundStyle(Color(hex: "7C6FFF"))
+                                .frame(width: 28, height: 28)
+                                .background(Color(hex: "7C6FFF").opacity(0.15))
+                                .clipShape(Circle())
+                        }
                     }
                 }
                 .padding(12)

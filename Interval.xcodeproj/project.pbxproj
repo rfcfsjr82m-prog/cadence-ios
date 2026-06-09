@@ -33,6 +33,7 @@
 		2D864DE990BA93BA54ED348F /* TimerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97937D9A8D394E01BCF5A7D8 /* TimerConfig.swift */; };
 		31A0C4FC5D34B6D5C61C27B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0E66B77B59D6BCD1515FF00 /* Assets.xcassets */; };
 		3290114CC08141EC6C1A799B /* CadenceWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F0344C568D3ECB0624D400 /* CadenceWidget.swift */; };
+		BB001122334455667788AABB /* CycleWidgetTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB001122334455667788AABC /* CycleWidgetTimerIntent.swift */; };
 		3656DC961DB92ECA5BC87BB7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91173C3D7AD797A976FD93BD /* SettingsView.swift */; };
 		AA112233445566778899AABB /* WidgetTimerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA112233445566778899AABC /* WidgetTimerPickerView.swift */; };
 		376C54054840C646DDCCC637 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76DC586C4CEAFE4151D583F2 /* AppIntents.framework */; };
@@ -185,6 +186,7 @@
 		2F02BB70C9F4F026968C27E3 /* Voice_Female_Start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mpeg; path = Voice_Female_Start.mp3; sourceTree = "<group>"; };
 		2F579338A03427C4DFE9356A /* Gong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Gong.wav; sourceTree = "<group>"; };
 		2FAD5471AB820F2D10639225 /* TimerWidgetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerWidgetEntity.swift; sourceTree = "<group>"; };
+		BB001122334455667788AABC /* CycleWidgetTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleWidgetTimerIntent.swift; sourceTree = "<group>"; };
 		3035E93A89A3415DEC5DE48F /* SessionDoneOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDoneOverlay.swift; sourceTree = "<group>"; };
 		3083E654F0FA90F75D51F462 /* PinnedTimersWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedTimersWidget.swift; sourceTree = "<group>"; };
 		34A5632178D8C25C7D38D8C4 /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 				C8AF2A15B124D8F1FC0AE4B9 /* CadenceActivityAttributes.swift */,
 				3083E654F0FA90F75D51F462 /* PinnedTimersWidget.swift */,
 				2FAD5471AB820F2D10639225 /* TimerWidgetEntity.swift */,
+				BB001122334455667788AABC /* CycleWidgetTimerIntent.swift */,
 				1751537378BF40212ECD2911 /* CadenceWidget.entitlements */,
 			);
 			path = CadenceWidget;
@@ -728,6 +731,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3290114CC08141EC6C1A799B /* CadenceWidget.swift in Sources */,
+				BB001122334455667788AABB /* CycleWidgetTimerIntent.swift in Sources */,
 				030D32F0A0F070ECF71044F8 /* CadenceActivityAttributes.swift in Sources */,
 				ADCED144B85784F41D12D801 /* PinnedTimersWidget.swift in Sources */,
 				77A1542E9B1A39A6A399499E /* TimerWidgetEntity.swift in Sources */,
