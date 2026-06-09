@@ -48,7 +48,7 @@ struct ReviewPromptView: View {
                 .animation(.easeInOut(duration: 0.15), value: selectedStars)
 
                 // Buttons
-                VStack(spacing: 10) {
+                VStack(spacing: 20) {
                     if selectedStars > 0 && selectedStars <= 3 {
                         Button(action: { openAppStore() }) {
                             Text("Send feedback")
@@ -66,6 +66,8 @@ struct ReviewPromptView: View {
                         Text("Maybe later")
                             .font(.system(size: 14))
                             .foregroundStyle(Color.textSecondary)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
                     }
                     .buttonStyle(.plain)
 
@@ -73,6 +75,8 @@ struct ReviewPromptView: View {
                         Text("No, I don't want to help")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.textTertiary)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
                     }
                     .buttonStyle(.plain)
                 }
