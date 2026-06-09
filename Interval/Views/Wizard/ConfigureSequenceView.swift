@@ -17,6 +17,7 @@ struct ConfigureSequenceView: View {
     @State private var draggingID: UUID? = nil
     @State private var metronomeUseMinutes: Bool = false
     @State private var showMetronomeSoundPicker = false
+    @FocusState private var nameFocused: Bool
 
     // Snapshot taken at screen-open so we can detect real changes
     @State private var originalSession: TimerConfig? = nil
@@ -112,6 +113,14 @@ struct ConfigureSequenceView: View {
             .font(.system(size: 16))
             .foregroundStyle(.textPrimary)
             .tint(.accent)
+            .focused($nameFocused)
+            .onChange(of: nameFocused) { _, focused in
+                if focused {
+                    DispatchQueue.main.async {
+                        UIApplication.shared.sendAction(#selector(UIResponder.selectAll(_:)), to: nil, from: nil, for: nil)
+                    }
+                }
+            }
             .padding(.horizontal, 14)
             .padding(.vertical, 12)
             .background(Color.surface)
@@ -883,6 +892,9 @@ private struct RepeatStepper: View {
                 .onChange(of: isFocused) { _, focused in
                     if focused {
                         inputText = "\(value)"
+                        DispatchQueue.main.async {
+                            UIApplication.shared.sendAction(#selector(UIResponder.selectAll(_:)), to: nil, from: nil, for: nil)
+                        }
                     } else {
                         commitInput()
                     }

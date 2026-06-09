@@ -57,11 +57,21 @@ struct BlockEditorSheet: View {
 
     // MARK: - Label
 
+    @FocusState private var labelFocused: Bool
+
     private var labelSection: some View {
         EditorSection(title: "Label") {
             TextField("Block name", text: $block.label)
                 .onChange(of: block.label) { _, new in
                     if new.count > 20 { block.label = String(new.prefix(20)) }
+                }
+                .focused($labelFocused)
+                .onChange(of: labelFocused) { _, focused in
+                    if focused {
+                        DispatchQueue.main.async {
+                            UIApplication.shared.sendAction(#selector(UIResponder.selectAll(_:)), to: nil, from: nil, for: nil)
+                        }
+                    }
                 }
                 .font(.system(size: 15))
                 .foregroundStyle(.textPrimary)
@@ -299,6 +309,9 @@ struct DurationStepper: View {
                 .onChange(of: isFocused) { _, focused in
                     if focused {
                         inputText = "\(value)"
+                        DispatchQueue.main.async {
+                            UIApplication.shared.sendAction(#selector(UIResponder.selectAll(_:)), to: nil, from: nil, for: nil)
+                        }
                     } else {
                         commitInput()
                     }

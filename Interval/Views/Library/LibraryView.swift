@@ -142,9 +142,9 @@ struct LibraryView: View {
                     .foregroundStyle(.textPrimary)
                 Spacer()
                 Button { appState.navigate(to: .settings) } label: {
-                    Image(systemName: "gearshape")
-                        .font(.system(size: 18))
-                        .foregroundStyle(.textSecondary)
+                    Image(systemName: "line.3.horizontal")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundStyle(.textPrimary)
                         .frame(width: 36, height: 36)
                         .contentShape(Rectangle())
                 }

@@ -26,6 +26,8 @@
 		26C4204A26C735107422E0C8 /* SharedDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DCEC91A0215178C240C0AB /* SharedDefaults.swift */; };
 		27D4017D15BF955D0A28FBBC /* ProgramDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB98E160919765781CFC9A3F /* ProgramDetailView.swift */; };
 		280872945CF92613B9F9CA92 /* Beacon.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54B2A964BF7C59BA63F178D7 /* Beacon.wav */; };
+		90967F0CD0404CDAA6074D9A /* Beeps.wav in Resources */ = {isa = PBXBuildFile; fileRef = 75FB0A38D8E84A589C6048BC /* Beeps.wav */; };
+		333AF30001DA4FD5BA8C308F /* Buzzer.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D6A54627A794EC6A8C682A7 /* Buzzer.wav */; };
 		297CCFBB22F089FBFE9A2A63 /* OpeningClosingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3FBD7A455B76663A032778 /* OpeningClosingView.swift */; };
 		29B3C11373B2B0EB3DAA3677 /* AllTimersSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D405ABE5D25088B214C3B74 /* AllTimersSync.swift */; };
 		2B4817D8E863594DC49D51C1 /* Bell Reverb.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3C83944BF1E85E3873A36BD2 /* Bell Reverb.mp3 */; };
@@ -43,6 +45,8 @@
 		4803B70D129ECE60625F71E8 /* CadenceWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55BCDE59125FD4BEF5D7A4E /* CadenceWatchApp.swift */; };
 		5277906CC85ACECE4A9A6022 /* Gong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 2F579338A03427C4DFE9356A /* Gong.wav */; };
 		52E2009B543DB8D7889D2842 /* Beacon.wav in Resources */ = {isa = PBXBuildFile; fileRef = 54B2A964BF7C59BA63F178D7 /* Beacon.wav */; };
+		594A7FBAF4624E2CB3CEE4D4 /* Beeps.wav in Resources */ = {isa = PBXBuildFile; fileRef = 75FB0A38D8E84A589C6048BC /* Beeps.wav */; };
+		923DD98D1E184ADE9C9A15C5 /* Buzzer.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7D6A54627A794EC6A8C682A7 /* Buzzer.wav */; };
 		5AF6AC7EFDC7A62DE1AA4C10 /* Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A6D43F7994151791CDDCD9 /* Presets.swift */; };
 		5BD90D2872CD486B7AF93172 /* Tock.wav in Resources */ = {isa = PBXBuildFile; fileRef = 17E184ED048E4504E0F775F1 /* Tock.wav */; };
 		5DC617E6C4004627130EAC8A /* WatchSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999330AE8E903658E8EDD5F5 /* WatchSyncManager.swift */; };
@@ -182,6 +186,8 @@
 		AE4450A22FCEF69800787E02 /* BeepPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4450A12FCEF69800787E01 /* BeepPlayer.swift */; };
 		21440A642E1615205CDD8B2B /* Sonar High.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Sonar High.wav"; sourceTree = "<group>"; };
 		2D69173FFD6C6B27E58FB04F /* Bleep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Bleep.wav; sourceTree = "<group>"; };
+		75FB0A38D8E84A589C6048BC /* Beeps.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Beeps.wav; sourceTree = "<group>"; };
+		7D6A54627A794EC6A8C682A7 /* Buzzer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Buzzer.wav; sourceTree = "<group>"; };
 		2DF9140D6D12032D2635E98C /* SoundPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPickerSheet.swift; sourceTree = "<group>"; };
 		2F02BB70C9F4F026968C27E3 /* Voice_Female_Start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mpeg; path = Voice_Female_Start.mp3; sourceTree = "<group>"; };
 		2F579338A03427C4DFE9356A /* Gong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Gong.wav; sourceTree = "<group>"; };
@@ -313,10 +319,12 @@
 			children = (
 				F0E66B77B59D6BCD1515FF00 /* Assets.xcassets */,
 				54B2A964BF7C59BA63F178D7 /* Beacon.wav */,
+				75FB0A38D8E84A589C6048BC /* Beeps.wav */,
 				A62F272295C9722A08B3C87D /* Bell Gentle.wav */,
 				3C83944BF1E85E3873A36BD2 /* Bell Reverb.mp3 */,
 				EED0EC38E32963BD648753ED /* Bell.wav */,
 				2D69173FFD6C6B27E58FB04F /* Bleep.wav */,
+				7D6A54627A794EC6A8C682A7 /* Buzzer.wav */,
 				2F579338A03427C4DFE9356A /* Gong.wav */,
 				21440A642E1615205CDD8B2B /* Sonar High.wav */,
 				8AFE92C24AF9306C588113E3 /* Sonar Low.wav */,
@@ -661,10 +669,12 @@
 			files = (
 				9A7265F3C60C7F532874F390 /* Assets.xcassets in Resources */,
 				52E2009B543DB8D7889D2842 /* Beacon.wav in Resources */,
+				594A7FBAF4624E2CB3CEE4D4 /* Beeps.wav in Resources */,
 				C30E163B8B602602FD0A79CD /* Bell Gentle.wav in Resources */,
 				2B4817D8E863594DC49D51C1 /* Bell Reverb.mp3 in Resources */,
 				BAAB6E4FE3685CD1C54A8951 /* Bell.wav in Resources */,
 				DEF73028A3453BAFDA3682F9 /* Bleep.wav in Resources */,
+				923DD98D1E184ADE9C9A15C5 /* Buzzer.wav in Resources */,
 				F60EC38370C977AED352860D /* Gong.wav in Resources */,
 				179AE702FE212969FB243BDF /* Sonar High.wav in Resources */,
 				9F58BA8208B877D990165F45 /* Sonar Low.wav in Resources */,
@@ -692,10 +702,12 @@
 				5E8140A72FCEF69800787B63 /* InfoPlist.strings in Resources */,
 				31A0C4FC5D34B6D5C61C27B4 /* Assets.xcassets in Resources */,
 				280872945CF92613B9F9CA92 /* Beacon.wav in Resources */,
+				90967F0CD0404CDAA6074D9A /* Beeps.wav in Resources */,
 				13DA53C6D2D55AD460424DB0 /* Bell Gentle.wav in Resources */,
 				736899D7411B079E96C639A5 /* Bell Reverb.mp3 in Resources */,
 				C32EA3780A358843A0AB4FE2 /* Bell.wav in Resources */,
 				885D3938B8170F7312001811 /* Bleep.wav in Resources */,
+				333AF30001DA4FD5BA8C308F /* Buzzer.wav in Resources */,
 				5277906CC85ACECE4A9A6022 /* Gong.wav in Resources */,
 				D76D3C15D727FF9C24E9F67A /* Sonar High.wav in Resources */,
 				231CC2A6057540198958C005 /* Sonar Low.wav in Resources */,

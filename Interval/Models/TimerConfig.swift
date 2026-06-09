@@ -227,11 +227,13 @@ enum VoiceGender: String, Codable {
 enum SoundCue: String, Codable, CaseIterable, Identifiable {
     // ── Audio-file cues ─────────────────────────────────────────────
     case beacon      = "Beacon"
+    case beeps       = "Beeps"
     case bellGentle  = "Bell Gentle"
     case bellReverb  = "Bell Reverb"
     case bell        = "Bell"
     case bleep       = "Bleep"
     case boxingBell  = "Boxing Bell"
+    case buzzer      = "Buzzer"
     case gong        = "Gong"
     case sonarHigh   = "Sonar High"
     case sonarLow    = "Sonar Low"

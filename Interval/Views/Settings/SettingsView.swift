@@ -112,7 +112,7 @@ struct SettingsView: View {
                             Divider().background(Color.borderDefault).padding(.horizontal, 14)
                             LinkSettingsRow(title: "Contact Support",
                                            icon: "envelope",
-                                           url: URL(string: "mailto:support@interval.app")!)
+                                           url: URL(string: "https://cadence-interval-timer.app/contact.html")!)
                             Divider().background(Color.borderDefault).padding(.horizontal, 14)
                             LinkSettingsRow(title: "Subscription",
                                            icon: "crown",
@@ -127,13 +127,13 @@ struct SettingsView: View {
                     // MARK: - Legal
                     settingsSection(title: "Legal") {
                         VStack(spacing: 0) {
-                            NavigationSettingsRow(title: "Privacy Policy") {
-                                LegalView(title: "Privacy Policy", content: privacyPolicyText)
-                            }
+                            LinkSettingsRow(title: "Privacy Policy",
+                                           icon: "lock.shield",
+                                           url: URL(string: "https://cadence-interval-timer.app/app-privacy.html")!)
                             Divider().background(Color.borderDefault).padding(.horizontal, 14)
-                            NavigationSettingsRow(title: "Terms of Service") {
-                                LegalView(title: "Terms of Service", content: termsOfServiceText)
-                            }
+                            LinkSettingsRow(title: "Terms and Conditions",
+                                           icon: "doc.text",
+                                           url: URL(string: "https://cadence-interval-timer.app/TermsandConditions.html")!)
                         }
                         .background(Color.surface)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
