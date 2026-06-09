@@ -10,7 +10,9 @@ struct PinnedTimersEntry: TimelineEntry {
 
 // MARK: - Timeline provider
 
-struct PinnedTimersProvider: TimelineProvider {
+struct PinnedTimersProvider: AppIntentTimelineProvider {
+    typealias Intent = TimerWidgetIntent
+
     private static let placeholderTimers = [
         PinnedTimerSnapshot(id: UUID(), name: "Morning Run",
                             totalMinutes: 25, totalRounds: 8,
@@ -33,12 +35,21 @@ struct PinnedTimersProvider: TimelineProvider {
         PinnedTimersEntry(date: Date(), timers: Self.placeholderTimers)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (PinnedTimersEntry) -> Void) {
-        completion(PinnedTimersEntry(date: Date(), timers: SharedDefaults.read()))
+    func snapshot(for intent: TimerWidgetIntent, in context: Context) async -> PinnedTimersEntry {
+        PinnedTimersEntry(date: Date(), timers: resolveTimers(from: intent))
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<PinnedTimersEntry>) -> Void) {
-        completion(Timeline(entries: [PinnedTimersEntry(date: Date(), timers: SharedDefaults.read())], policy: .never))
+    func timeline(for intent: TimerWidgetIntent, in context: Context) async -> Timeline<PinnedTimersEntry> {
+        Timeline(entries: [PinnedTimersEntry(date: Date(), timers: resolveTimers(from: intent))], policy: .never)
+    }
+
+    /// Map the three intent slots to actual snapshots from SharedDefaults.
+    private func resolveTimers(from intent: TimerWidgetIntent) -> [PinnedTimerSnapshot] {
+        let all = SharedDefaults.readAllSnapshots()
+        let map = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
+        return [intent.timer1?.id, intent.timer2?.id, intent.timer3?.id]
+            .compactMap { $0 }
+            .compactMap { map[$0] }
     }
 }
 
@@ -48,12 +59,12 @@ struct PinnedTimersWidget: Widget {
     let kind = "PinnedTimersWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: PinnedTimersProvider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: TimerWidgetIntent.self, provider: PinnedTimersProvider()) { entry in
             PinnedTimersWidgetView(entry: entry)
                 .containerBackground(Color(hex: "0F0F11"), for: .widget)
         }
         .configurationDisplayName("My Timers")
-        .description("Pin timers in Cadence to show them here.")
+        .description("Choose up to 3 timers to show in the widget.")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
@@ -228,7 +239,7 @@ private struct EmptyPinnedView: View {
             Text("No timers selected")
                 .font(.system(size: 12, weight: .medium))
                 .foregroundStyle(Color(hex: "56565E"))
-            Text("Pin timers in Cadence to show them here.")
+            Text("Edit the widget to select your timers.")
                 .font(.system(size: 10))
                 .foregroundStyle(Color(hex: "3A3A44"))
                 .multilineTextAlignment(.center)

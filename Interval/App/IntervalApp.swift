@@ -87,6 +87,7 @@ struct RootView: View {
             let allConfigs = sessions.compactMap { $0.config() }
             appState.syncPinnedSnapshots(allConfigs: allConfigs)
             SharedDefaults.writeAllTimers(allConfigs)
+            SharedDefaults.writeAllSnapshots(allConfigs.map { PinnedTimerSnapshot(from: $0) })
             WatchSyncManager.shared.sync(allConfigs)
         }
         .onChange(of: appState.pinnedTimerIDs) { _, _ in
@@ -96,6 +97,7 @@ struct RootView: View {
         .onChange(of: sessions) { _, _ in
             let allConfigs = sessions.compactMap { $0.config() }
             SharedDefaults.writeAllTimers(allConfigs)
+            SharedDefaults.writeAllSnapshots(allConfigs.map { PinnedTimerSnapshot(from: $0) })
             WatchSyncManager.shared.sync(allConfigs)
         }
         .onReceive(NotificationCenter.default.publisher(for: WatchSyncManager.completionNotification)) { note in
