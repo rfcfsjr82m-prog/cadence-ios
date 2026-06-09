@@ -43,13 +43,10 @@ struct PinnedTimersProvider: AppIntentTimelineProvider {
         Timeline(entries: [PinnedTimersEntry(date: Date(), timers: resolveTimers(from: intent))], policy: .never)
     }
 
-    /// Map the three intent slots to actual snapshots from SharedDefaults.
+    /// Extract snapshots directly from intent entities — no extra SharedDefaults lookup needed.
     private func resolveTimers(from intent: TimerWidgetIntent) -> [PinnedTimerSnapshot] {
-        let all = SharedDefaults.readAllSnapshots()
-        let map = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
-        return [intent.timer1?.id, intent.timer2?.id, intent.timer3?.id]
-            .compactMap { $0 }
-            .compactMap { map[$0] }
+        [intent.timer1, intent.timer2, intent.timer3]
+            .compactMap { $0?.snapshot }
     }
 }
 
