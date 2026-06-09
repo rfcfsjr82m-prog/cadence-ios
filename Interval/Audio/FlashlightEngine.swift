@@ -57,6 +57,23 @@ final class FlashlightEngine: @unchecked Sendable {
         device = nil
     }
 
+    // MARK: - Preview (one-shot, no prepare needed)
+
+    /// Fire a single torch burst without requiring a prior prepare() call.
+    /// Used for in-app previews (e.g. BlockEditorSheet).
+    func preview() {
+        guard let dev = bestTorchDevice(), dev.hasTorch else { return }
+        do {
+            try dev.lockForConfiguration()
+            try dev.setTorchModeOn(level: 1.0)
+            nonisolated(unsafe) let capturedDev = dev
+            DispatchQueue.main.asyncAfter(deadline: .now() + onDuration) {
+                capturedDev.torchMode = .off
+                capturedDev.unlockForConfiguration()
+            }
+        } catch {}
+    }
+
     // MARK: - Burst
 
     func burst() {

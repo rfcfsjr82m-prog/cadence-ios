@@ -605,13 +605,16 @@
 /* Round prep signal */
 "Round Prep Signal" = "Runden-Vorbereitungssignal";
 "Round prep signal" = "Runden-Vorbereitungssignal";
+"ROUND prep signal" = "RUNDEN-Vorbereitungssignal";
 "Beeps at the end of each round to signal the next" = "Piept am Ende jeder Runde, um die nächste anzukündigen";
 "Duration" = "Dauer";
 
-/* Phase prep signal */
-"Phase Prep Signal" = "Phasen-Vorbereitungssignal";
-"Phase prep signal" = "Phasen-Vorbereitungssignal";
-"Beeps at the end of each block to signal the next phase" = "Piept am Ende jedes Blocks, um die nächste Phase anzukündigen";
+/* Block prep signal */
+"Phase Prep Signal" = "Block-Vorbereitungssignal";
+"Phase prep signal" = "Block-Vorbereitungssignal";
+"BLOCK prep signal" = "BLOCK-Vorbereitungssignal";
+"Beeps at the end of each block to signal the next phase" = "Piept am Ende jedes Blocks, um den nächsten anzukündigen";
+"Beeps at the end of each block to signal the next" = "Piept am Ende jedes Blocks, um den nächsten anzukündigen";
 
 /* Prep signals combined */
 "Prep Signals" = "Vorbereitungssignale";

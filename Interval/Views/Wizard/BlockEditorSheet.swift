@@ -5,6 +5,7 @@ struct BlockEditorSheet: View {
     var onCancel: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @State private var showSoundPicker = false
+    @State private var colorFlashOpacity: Double = 0
 
     // Quick-pick sounds shown in the grid (audio cues only)
     private let quickSounds: [SoundCue] = [.bellGentle, .bell, .bleep, .silent]
@@ -26,6 +27,11 @@ struct BlockEditorSheet: View {
                     .padding(.top, 16)
                     .padding(.bottom, 40)
                 }
+                // Brief full-screen color flash preview
+                block.color.color
+                    .ignoresSafeArea()
+                    .opacity(colorFlashOpacity)
+                    .allowsHitTesting(false)
             }
             .navigationTitle("Edit Block")
             .navigationBarTitleDisplayMode(.inline)
@@ -115,6 +121,13 @@ struct BlockEditorSheet: View {
     }
 
     // MARK: - Color
+
+    private func flashColorPreview() {
+        colorFlashOpacity = 0.6
+        withAnimation(.easeOut(duration: 0.4)) {
+            colorFlashOpacity = 0
+        }
+    }
 
     private var colorSection: some View {
         EditorSection(title: "Color") {
@@ -227,6 +240,14 @@ struct BlockEditorSheet: View {
                     OptionTile(label: flash.displayName,
                                isSelected: block.visualFlash == flash) {
                         block.visualFlash = flash
+                        switch flash {
+                        case .flashlight:
+                            FlashlightEngine.shared.preview()
+                        case .blockColor:
+                            flashColorPreview()
+                        default:
+                            break
+                        }
                     }
                 }
             }

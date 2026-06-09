@@ -603,15 +603,18 @@
 "Send feedback" = "Envoyer un avis";
 
 /* Round prep signal */
-"Round Prep Signal" = "Signal de préparation";
-"Round prep signal" = "Signal de préparation";
+"Round Prep Signal" = "Signal de préparation de tour";
+"Round prep signal" = "Signal de préparation de tour";
+"ROUND prep signal" = "Signal de préparation de TOUR";
 "Beeps at the end of each round to signal the next" = "Bipe à la fin de chaque tour pour signaler le suivant";
 "Duration" = "Durée";
 
-/* Phase prep signal */
-"Phase Prep Signal" = "Signal de préparation de phase";
-"Phase prep signal" = "Signal de préparation de phase";
-"Beeps at the end of each block to signal the next phase" = "Bipe à la fin de chaque bloc pour signaler la phase suivante";
+/* Block prep signal */
+"Phase Prep Signal" = "Signal de préparation de bloc";
+"Phase prep signal" = "Signal de préparation de bloc";
+"BLOCK prep signal" = "Signal de préparation de BLOC";
+"Beeps at the end of each block to signal the next phase" = "Bipe à la fin de chaque bloc pour signaler le suivant";
+"Beeps at the end of each block to signal the next" = "Bipe à la fin de chaque bloc pour signaler le suivant";
 
 /* Prep signals combined */
 "Prep Signals" = "Signaux de préparation";

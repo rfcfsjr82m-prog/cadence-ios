@@ -330,7 +330,7 @@ struct ConfigureSequenceView: View {
 
                 // MARK: Round prep toggle
                 prepRow(
-                    title: "Round prep signal",
+                    title: "ROUND prep signal",
                     subtitle: "Beeps at the end of each round to signal the next",
                     isOn: Binding(
                         get: { session.wrappedValue.roundPrepEnabled },
@@ -353,8 +353,8 @@ struct ConfigureSequenceView: View {
                     Divider().background(Color.borderDefault).padding(.horizontal, 14)
 
                     prepRow(
-                        title: "Phase prep signal",
-                        subtitle: "Beeps at the end of each block to signal the next phase",
+                        title: "BLOCK prep signal",
+                        subtitle: "Beeps at the end of each block to signal the next",
                         isOn: Binding(
                             get: { session.wrappedValue.phasePrepEnabled },
                             set: { session.phasePrepEnabled.wrappedValue = $0 }

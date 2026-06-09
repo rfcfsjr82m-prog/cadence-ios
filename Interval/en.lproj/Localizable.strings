@@ -605,13 +605,16 @@
 /* Round prep signal */
 "Round Prep Signal" = "Round Prep Signal";
 "Round prep signal" = "Round prep signal";
+"ROUND prep signal" = "ROUND prep signal";
 "Beeps at the end of each round to signal the next" = "Beeps at the end of each round to signal the next";
 "Duration" = "Duration";
 
-/* Phase prep signal */
-"Phase Prep Signal" = "Phase Prep Signal";
-"Phase prep signal" = "Phase prep signal";
-"Beeps at the end of each block to signal the next phase" = "Beeps at the end of each block to signal the next phase";
+/* Block prep signal */
+"Phase Prep Signal" = "Block Prep Signal";
+"Phase prep signal" = "Block prep signal";
+"BLOCK prep signal" = "BLOCK prep signal";
+"Beeps at the end of each block to signal the next phase" = "Beeps at the end of each block to signal the next";
+"Beeps at the end of each block to signal the next" = "Beeps at the end of each block to signal the next";
 
 /* Prep signals combined */
 "Prep Signals" = "Prep Signals";
