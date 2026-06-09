@@ -292,6 +292,8 @@ enum Presets {
         openingVoiceEnabled: true,
         closingVoiceEnabled: true,
         voiceGender: .female,
+        phasePrepEnabled: true,
+        phasePrepSecs: 3,
         isPreset: true,
         description: NSLocalizedString("preset.tabata.desc", comment: ""),
         createdAt: Date(timeIntervalSince1970: 2)
@@ -320,6 +322,8 @@ enum Presets {
         voiceGender: .male,
         openingAnnouncementCue: .voice(.male),
         closingAnnouncementCue: .voice(.male),
+        phasePrepEnabled: true,
+        phasePrepSecs: 3,
         isPreset: true,
         description: NSLocalizedString("preset.hiit.desc", comment: ""),
         createdAt: Date(timeIntervalSince1970: 8)
@@ -348,6 +352,8 @@ enum Presets {
         voiceGender: .male,
         openingAnnouncementCue: .voice(.male),
         closingAnnouncementCue: .voice(.male),
+        phasePrepEnabled: true,
+        phasePrepSecs: 5,
         isPreset: true,
         description: NSLocalizedString("preset.sprint.desc", comment: ""),
         createdAt: Date(timeIntervalSince1970: 9)

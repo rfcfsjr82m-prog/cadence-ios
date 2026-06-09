@@ -27,7 +27,7 @@ enum TrainingProtocols {
 
     static let fiveK = TrainingProtocol(
         id: UUID(uuidString: "5F000000-0000-0000-0000-000000000000")!,
-        name: "5K Run Training",
+        name: "Train Towards a 5k Run",
         description: NSLocalizedString("5k.description", comment: ""),
         category: .physical,
         units: [
@@ -151,7 +151,7 @@ enum TrainingProtocols {
                                    repeatMode: RepeatMode, desc: String) -> TimerConfig {
         TimerConfig(
             id: UUID(uuidString: String(format: "5F%06X-0000-0000-0000-000000000000", n))!,
-            name: "5K Run Training – Unit \(n)",
+            name: "Train Towards a 5k Run – Unit \(n)",
             category: .physical,
             blocks: blocks,
             repeatMode: repeatMode,
@@ -164,6 +164,8 @@ enum TrainingProtocols {
             openingCountdownCue: .sound(.voiceMaleWarmingUp),
             openingAnnouncementCue: .voice(.male),
             closingAnnouncementCue: .voice(.male),
+            phasePrepEnabled: true,
+            phasePrepSecs: 5,
             isPreset: true,
             description: desc
         )

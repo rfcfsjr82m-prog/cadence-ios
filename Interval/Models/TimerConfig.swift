@@ -63,6 +63,8 @@ struct TimerConfig: Identifiable, Codable, Equatable {
          openingCountdownCue: AnnouncementCue = .none,
          openingAnnouncementCue: AnnouncementCue = .voice(.female),
          closingAnnouncementCue: AnnouncementCue = .voice(.female),
+         roundPrepEnabled: Bool = false, roundPrepSecs: Int = 3,
+         phasePrepEnabled: Bool = false, phasePrepSecs: Int = 3,
          isPreset: Bool = false, description: String = "", createdAt: Date = Date()) {
         self.id = id; self.name = name; self.category = category
         self.blocks = blocks; self.repeatMode = repeatMode
@@ -75,6 +77,8 @@ struct TimerConfig: Identifiable, Codable, Equatable {
         self.openingCountdownCue = openingCountdownCue
         self.openingAnnouncementCue = openingAnnouncementCue
         self.closingAnnouncementCue = closingAnnouncementCue
+        self.roundPrepEnabled = roundPrepEnabled; self.roundPrepSecs = roundPrepSecs
+        self.phasePrepEnabled = phasePrepEnabled; self.phasePrepSecs = phasePrepSecs
         self.isPreset = isPreset; self.description = description; self.createdAt = createdAt
     }
 
