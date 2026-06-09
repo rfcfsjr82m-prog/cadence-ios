@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 @main
 struct IntervalApp: App {
@@ -98,6 +99,7 @@ struct RootView: View {
             let allConfigs = sessions.compactMap { $0.config() }
             SharedDefaults.writeAllTimers(allConfigs)
             SharedDefaults.writeAllSnapshots(allConfigs.map { PinnedTimerSnapshot(from: $0) })
+            WidgetCenter.shared.reloadAllTimelines()
             WatchSyncManager.shared.sync(allConfigs)
         }
         .onReceive(NotificationCenter.default.publisher(for: WatchSyncManager.completionNotification)) { note in

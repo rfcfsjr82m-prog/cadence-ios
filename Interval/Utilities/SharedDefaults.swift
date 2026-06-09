@@ -15,7 +15,7 @@ struct PinnedTimerSnapshot: Codable, Identifiable {
     var blockDurationSeconds: [Int] // raw durations, used to compute strip fractions
 }
 
-// MARK: - Shared UserDefaults bridge
+// MARK: - Shared storage bridge (App Group container file + UserDefaults fallback)
 
 enum SharedDefaults {
     static let suiteName        = "group.com.christiankasper.cadence"
@@ -23,21 +23,39 @@ enum SharedDefaults {
     static let allTimersKey     = "allTimerData"
     static let allSnapshotsKey  = "allTimerSnapshots"
 
+    // MARK: UserDefaults suite (for simple keys)
     static var suite: UserDefaults { UserDefaults(suiteName: suiteName) ?? .standard }
 
+    // MARK: App Group container URL
+    private static var containerURL: URL? {
+        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: suiteName)
+    }
+
+    private static func fileURL(named name: String) -> URL? {
+        containerURL?.appendingPathComponent(name)
+    }
+
+    // MARK: - Pinned snapshots (shown in widget based on pin state)
+
     static func read() -> [PinnedTimerSnapshot] {
-        guard let data = suite.data(forKey: pinnedDataKey),
-              let list = try? JSONDecoder().decode([PinnedTimerSnapshot].self, from: data)
-        else { return [] }
-        return list
+        readSnapshots(file: "pinned_snapshots.json") ?? []
     }
 
     static func write(_ snapshots: [PinnedTimerSnapshot]) {
-        guard let data = try? JSONEncoder().encode(snapshots) else { return }
-        suite.set(data, forKey: pinnedDataKey)
+        writeSnapshots(snapshots, file: "pinned_snapshots.json")
+        // Also keep UserDefaults in sync as fallback
+        if let data = try? JSONEncoder().encode(snapshots) {
+            suite.set(data, forKey: pinnedDataKey)
+        }
     }
 
+    // MARK: - All timer snapshots (for widget intent picker)
+
     static func readAllSnapshots() -> [PinnedTimerSnapshot] {
+        // Try file first (most reliable cross-process), fall back to UserDefaults
+        if let list = readSnapshots(file: "all_snapshots.json"), !list.isEmpty {
+            return list
+        }
         guard let data = suite.data(forKey: allSnapshotsKey),
               let list = try? JSONDecoder().decode([PinnedTimerSnapshot].self, from: data)
         else { return [] }
@@ -45,7 +63,27 @@ enum SharedDefaults {
     }
 
     static func writeAllSnapshots(_ snapshots: [PinnedTimerSnapshot]) {
-        guard let data = try? JSONEncoder().encode(snapshots) else { return }
-        suite.set(data, forKey: allSnapshotsKey)
+        writeSnapshots(snapshots, file: "all_snapshots.json")
+        // Also write to UserDefaults as fallback
+        if let data = try? JSONEncoder().encode(snapshots) {
+            suite.set(data, forKey: allSnapshotsKey)
+        }
+    }
+
+    // MARK: - File helpers
+
+    private static func readSnapshots(file: String) -> [PinnedTimerSnapshot]? {
+        guard let url = fileURL(named: file),
+              let data = try? Data(contentsOf: url),
+              let list = try? JSONDecoder().decode([PinnedTimerSnapshot].self, from: data)
+        else { return nil }
+        return list
+    }
+
+    private static func writeSnapshots(_ snapshots: [PinnedTimerSnapshot], file: String) {
+        guard let url = fileURL(named: file),
+              let data = try? JSONEncoder().encode(snapshots)
+        else { return }
+        try? data.write(to: url, options: .atomic)
     }
 }
