@@ -1,0 +1,72 @@
+{
+  "source": "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Library/TimerCard.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Unpin",
+        "location": {
+          "startingColumn": 47,
+          "startingLine": 71
+        }
+      },
+      {
+        "comment": "",
+        "key": "Pin to Top",
+        "location": {
+          "startingColumn": 57,
+          "startingLine": 71
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "Duplicate & Edit",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 78
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 106
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create new timer",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 190
+        }
+      },
+      {
+        "comment": "",
+        "key": "Build a custom sequence from scratch",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 193
+        }
+      }
+    ]
+  },
+  "version": 1
+}

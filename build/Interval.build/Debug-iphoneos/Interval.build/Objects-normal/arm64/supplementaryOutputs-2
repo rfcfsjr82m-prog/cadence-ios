@@ -1,0 +1,37 @@
+{
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Models/PersistedSession.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/PersistedSession.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/PersistedSession.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/PersistedSession.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/PersistedSession.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/PersistedSession.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Models/Presets.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/Presets.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/Presets.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/Presets.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/Presets.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/Presets.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Models/TrainingProtocol.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TrainingProtocol.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TrainingProtocol.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TrainingProtocol.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TrainingProtocol.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TrainingProtocol.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Library/LibraryView.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LibraryView.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LibraryView.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LibraryView.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LibraryView.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LibraryView.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Library/TimerCard.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerCard.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerCard.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerCard.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerCard.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerCard.swiftdeps"
+  }
+}

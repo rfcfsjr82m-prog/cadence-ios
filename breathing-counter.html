@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Breathing Counter</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', sans-serif;
+      background: #0a0a0f;
+      color: #fff;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: background 0.15s ease-out;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body.inhale {
+      background: #e8f4ff;
+    }
+
+    body.exhale {
+      background: #f0e8ff;
+    }
+
+    .screen-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.1s ease-out;
+      border-radius: 0;
+    }
+
+    .screen-overlay.flash {
+      opacity: 1;
+    }
+
+    #inhale-overlay { background: radial-gradient(ellipse at center, rgba(120,200,255,0.6) 0%, transparent 70%); }
+    #exhale-overlay { background: radial-gradient(ellipse at center, rgba(180,120,255,0.6) 0%, transparent 70%); }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      color: #fff;
+    }
+
+    .breath-ring {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+      transition: box-shadow 0.2s ease-out, border-color 0.2s ease-out;
+    }
+
+    .breath-ring.pulse-in {
+      box-shadow: 0 0 60px rgba(120,200,255,0.5), 0 0 120px rgba(120,200,255,0.2);
+      border-color: rgba(120,200,255,0.6);
+    }
+
+    .breath-ring.pulse-out {
+      box-shadow: 0 0 60px rgba(180,120,255,0.5), 0 0 120px rgba(180,120,255,0.2);
+      border-color: rgba(180,120,255,0.6);
+    }
+
+    .count {
+      font-size: 72px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .count-label {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-top: 4px;
+    }
+
+    .phase-label {
+      font-size: 22px;
+      font-weight: 500;
+      min-height: 32px;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+      color: #fff;
+    }
+
+    .timer-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .timer {
+      font-size: 48px;
+      font-weight: 300;
+      letter-spacing: -1px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-label {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+
+    .btn {
+      padding: 16px 48px;
+      border-radius: 50px;
+      border: none;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: transform 0.1s, opacity 0.1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:active { transform: scale(0.96); }
+
+    .btn-primary {
+      background: #fff;
+      color: #0a0a0f;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .permission-hint {
+      font-size: 13px;
+      opacity: 0.35;
+      text-align: center;
+      max-width: 260px;
+      line-height: 1.5;
+    }
+
+    .legend {
+      display: flex;
+      gap: 20px;
+      font-size: 12px;
+      opacity: 0.4;
+    }
+
+    .legend span { display: flex; align-items: center; gap: 6px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-in  { background: rgb(120,200,255); }
+    .dot-out { background: rgb(180,120,255); }
+
+    #result-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .result-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    .result-breaths {
+      font-size: 96px;
+      font-weight: 700;
+      letter-spacing: -4px;
+      line-height: 1;
+    }
+
+    .result-sub {
+      font-size: 16px;
+      opacity: 0.5;
+      margin-top: -12px;
+    }
+
+    .result-bpm {
+      font-size: 28px;
+      font-weight: 300;
+      opacity: 0.7;
+    }
+
+    .result-note {
+      font-size: 13px;
+      opacity: 0.4;
+      max-width: 260px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="inhale-overlay" class="screen-overlay"></div>
+  <div id="exhale-overlay" class="screen-overlay"></div>
+
+  <!-- Start screen -->
+  <div class="container" id="start-screen">
+    <h1>Breathing Counter</h1>
+    <div class="breath-ring" id="breath-ring">
+      <div class="count" id="count-display">0</div>
+      <div class="count-label">breaths</div>
+    </div>
+    <div class="phase-label" id="phase-label">Place phone on belly</div>
+    <div class="timer-row">
+      <div class="timer" id="timer-display">0:30</div>
+      <div class="timer-label">sec</div>
+    </div>
+    <div class="legend">
+      <span><span class="dot dot-in"></span> Inhale</span>
+      <span><span class="dot dot-out"></span> Exhale</span>
+    </div>
+    <button class="btn btn-primary" id="start-btn" onclick="startSession()">Start</button>
+    <div class="permission-hint" id="perm-hint">
+      Lay your phone face-up on your belly.<br>Tap Start, then breathe normally.
+    </div>
+  </div>
+
+  <!-- Result screen -->
+  <div id="result-screen">
+    <div class="result-title">Session Complete</div>
+    <div class="result-breaths" id="result-count">0</div>
+    <div class="result-sub">breaths in 30 seconds</div>
+    <div class="result-bpm" id="result-bpm">0 breaths / min</div>
+    <div class="result-note" id="result-note"></div>
+    <button class="btn btn-primary" onclick="resetSession()">Try Again</button>
+  </div>
+
+<script>
+  const DURATION = 30;   // seconds
+  const SAMPLE_RATE = 60; // Hz (iOS DeviceMotion default)
+
+  // Low-pass filter alpha — isolates ~0.1–0.5 Hz (breathing range)
+  const LP_ALPHA = 0.08;
+
+  // Minimum amplitude to register a breath event (tune if needed)
+  const THRESHOLD_FACTOR = 0.15; // fraction of recent amplitude
+
+  let running = false;
+  let motionAllowed = false;
+  let breathCount = 0;
+  let timeLeft = DURATION;
+  let timerInterval = null;
+
+  // Signal state
+  let smoothZ = null;
+  let baseline = null;
+  let amplitude = 0;
+  let lastPeak = null;     // 'up' | 'down'
+  let peakBuffer = [];
+  let lastEventTime = 0;
+  let minBreathInterval = 1000; // ms — guard against double-trigger
+
+  // DOM refs
+  const ring       = document.getElementById('breath-ring');
+  const countEl    = document.getElementById('count-display');
+  const phaseEl    = document.getElementById('phase-label');
+  const timerEl    = document.getElementById('timer-display');
+  const startBtn   = document.getElementById('start-btn');
+  const permHint   = document.getElementById('perm-hint');
+  const inhaleOvl  = document.getElementById('inhale-overlay');
+  const exhaleOvl  = document.getElementById('exhale-overlay');
+
+  function formatTime(s) {
+    return '0:' + String(s).padStart(2, '0');
+  }
+
+  async function requestMotionPermission() {
+    if (typeof DeviceMotionEvent === 'undefined') {
+      permHint.textContent = 'DeviceMotion not supported on this device.';
+      return false;
+    }
+    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+      try {
+        const result = await DeviceMotionEvent.requestPermission();
+        return result === 'granted';
+      } catch (e) {
+        return false;
+      }
+    }
+    // Android / older iOS — no permission needed
+    return true;
+  }
+
+  async function startSession() {
+    if (running) return;
+
+    const granted = await requestMotionPermission();
+    if (!granted) {
+      permHint.textContent = 'Motion permission denied. Enable in Settings > Safari > Motion & Orientation.';
+      return;
+    }
+
+    // Reset state
+    breathCount = 0;
+    timeLeft = DURATION;
+    smoothZ = null;
+    baseline = null;
+    amplitude = 0;
+    lastPeak = null;
+    peakBuffer = [];
+    lastEventTime = 0;
+    running = true;
+
+    countEl.textContent = '0';
+    phaseEl.textContent = 'Calibrating…';
+    timerEl.textContent = formatTime(DURATION);
+    startBtn.style.display = 'none';
+    permHint.style.display = 'none';
+
+    // Keep screen awake (no lock API in Safari, but we try)
+    window.addEventListener('devicemotion', onMotion, { passive: true });
+
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      timerEl.textContent = formatTime(timeLeft);
+      if (timeLeft <= 0) endSession();
+    }, 1000);
+  }
+
+  function onMotion(e) {
+    if (!running) return;
+
+    const acc = e.accelerationIncludingGravity;
+    if (!acc) return;
+
+    // Use Z axis — phone face-up on belly, belly rise = Z increase
+    const raw = acc.z ?? acc.z;
+    if (raw == null) return;
+
+    // Initialise smoother
+    if (smoothZ === null) {
+      smoothZ = raw;
+      baseline = raw;
+      return;
+    }
+
+    // Low-pass filter (EMA)
+    smoothZ = LP_ALPHA * raw + (1 - LP_ALPHA) * smoothZ;
+
+    // Update baseline very slowly (remove gravity drift)
+    baseline = 0.002 * smoothZ + 0.998 * baseline;
+
+    const signal = smoothZ - baseline;
+
+    // Track recent amplitude
+    peakBuffer.push(Math.abs(signal));
+    if (peakBuffer.length > 300) peakBuffer.shift(); // ~5 sec window
+    amplitude = Math.max(...peakBuffer);
+
+    const threshold = Math.max(0.02, amplitude * THRESHOLD_FACTOR);
+    const now = Date.now();
+
+    // Detect phase crossings with hysteresis
+    if (signal > threshold && lastPeak !== 'up' && (now - lastEventTime) > minBreathInterval) {
+      lastPeak = 'up';
+      onInhale();
+      lastEventTime = now;
+    } else if (signal < -threshold && lastPeak !== 'down' && lastPeak === 'up' && (now - lastEventTime) > minBreathInterval / 2) {
+      lastPeak = 'down';
+      onExhale();
+      lastEventTime = now;
+    }
+  }
+
+  function onInhale() {
+    breathCount++;
+    countEl.textContent = breathCount;
+    phaseEl.textContent = 'Inhale ↑';
+
+    ring.classList.remove('pulse-out');
+    ring.classList.add('pulse-in');
+    document.body.classList.remove('exhale');
+    document.body.classList.add('inhale');
+
+    flash(inhaleOvl);
+
+    setTimeout(() => {
+      ring.classList.remove('pulse-in');
+      document.body.classList.remove('inhale');
+    }, 400);
+  }
+
+  function onExhale() {
+    phaseEl.textContent = 'Exhale ↓';
+
+    ring.classList.remove('pulse-in');
+    ring.classList.add('pulse-out');
+    document.body.classList.remove('inhale');
+    document.body.classList.add('exhale');
+
+    flash(exhaleOvl);
+
+    setTimeout(() => {
+      ring.classList.remove('pulse-out');
+      document.body.classList.remove('exhale');
+    }, 400);
+  }
+
+  function flash(el) {
+    el.classList.add('flash');
+    setTimeout(() => el.classList.remove('flash'), 300);
+  }
+
+  function endSession() {
+    running = false;
+    clearInterval(timerInterval);
+    window.removeEventListener('devicemotion', onMotion);
+
+    document.getElementById('start-screen').style.display = 'none';
+    document.body.classList.remove('inhale', 'exhale');
+
+    const resultScreen = document.getElementById('result-screen');
+    resultScreen.style.display = 'flex';
+
+    const bpm = breathCount * 2; // 30 sec → per-min
+    document.getElementById('result-count').textContent = breathCount;
+    document.getElementById('result-bpm').textContent = bpm + ' breaths / min';
+
+    let note = '';
+    if (bpm < 10)       note = 'Very slow breathing — check sensor sensitivity or try again.';
+    else if (bpm <= 16) note = 'Excellent — within the calm, healthy range (10–16/min).';
+    else if (bpm <= 20) note = 'Normal resting breathing rate.';
+    else                note = 'Slightly elevated — try relaxing before the next session.';
+    document.getElementById('result-note').textContent = note;
+  }
+
+  function resetSession() {
+    document.getElementById('result-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'flex';
+    startBtn.style.display = '';
+    permHint.style.display = '';
+    permHint.textContent = 'Lay your phone face-up on your belly.\nTap Start, then breathe normally.';
+    countEl.textContent = '0';
+    phaseEl.textContent = 'Place phone on belly';
+    timerEl.textContent = formatTime(DURATION);
+  }
+</script>
+</body>
+</html>

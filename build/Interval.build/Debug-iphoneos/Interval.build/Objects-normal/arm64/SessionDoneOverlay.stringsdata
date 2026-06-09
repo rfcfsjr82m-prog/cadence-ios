@@ -1,0 +1,80 @@
+{
+  "source": "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Timer/SessionDoneOverlay.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Session complete",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 142
+        }
+      },
+      {
+        "comment": "",
+        "key": "Session stopped",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 143
+        }
+      },
+      {
+        "comment": "",
+        "key": "Well executed.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 151
+        }
+      },
+      {
+        "comment": "",
+        "key": "Continue session",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 44
+        }
+      },
+      {
+        "comment": "",
+        "key": "Share",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 61
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start again",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 74
+        }
+      },
+      {
+        "comment": "",
+        "key": "Saved to Health",
+        "location": {
+          "startingColumn": 66,
+          "startingLine": 98
+        }
+      },
+      {
+        "comment": "",
+        "key": "Save to Health",
+        "location": {
+          "startingColumn": 86,
+          "startingLine": 98
+        }
+      },
+      {
+        "comment": "",
+        "key": "Back to library",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 117
+        }
+      }
+    ]
+  },
+  "version": 1
+}

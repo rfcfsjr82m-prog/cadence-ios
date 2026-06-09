@@ -1,0 +1,44 @@
+{
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/App/AppState.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AppState.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AppState.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AppState.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AppState.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AppState.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/App/AudioSettings.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AudioSettings.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AudioSettings.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AudioSettings.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AudioSettings.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/AudioSettings.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/App/HealthKitManager.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/HealthKitManager.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/HealthKitManager.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/HealthKitManager.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/HealthKitManager.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/HealthKitManager.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/App/IntervalApp.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/IntervalApp.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/IntervalApp.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/IntervalApp.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/IntervalApp.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/IntervalApp.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/App/WatchSyncManager.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/WatchSyncManager.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/WatchSyncManager.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/WatchSyncManager.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/WatchSyncManager.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/WatchSyncManager.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Models/TimerConfig.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerConfig.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerConfig.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerConfig.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerConfig.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/TimerConfig.swiftdeps"
+  }
+}

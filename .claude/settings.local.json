@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__gemini__edit_image",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/christiankasper/Library/Application Support/Claude-3p/claude_desktop_config.json'\\)\\); print\\(json.dumps\\(d, indent=2\\)\\)\")",
+      "Bash(python3 -c 'import json; d=json.load\\(open\\('\\\\''__TRACKED_VAR__/.claude.json'\\\\''\\)\\); keys=list\\(d.keys\\(\\)\\); print\\('\\\\''Top-level keys:'\\\\'', keys[:20]\\)')",
+      "Read(//Users/christiankasper/Documents/Cowork/Code/PrayerApp/PrayerApp/Assets.xcassets/Icone/png-white/vaterunser.imageset/**)",
+      "Read(//Users/christiankasper/Documents/Cowork/Code/PrayerApp/PrayerApp/Assets.xcassets/Icone/png-white/2x/vaterunser.imageset/**)",
+      "Bash(ls \"/Users/christiankasper/Documents/Cowork/Prayer App/Prayers/Final/\")",
+      "Bash(cp \"/Users/christiankasper/Documents/Cowork/Code/PrayerApp/PrayerApp/Assets.xcassets/ocean_background.dataset/ocean_background.mp4\" \"/Users/christiankasper/Documents/Cowork/Code/PrayerApp/PrayerApp/ocean_background.mp4\" *)",
+      "Bash(find /Users/christiankasper/Documents/Cowork/Code/PrayerApp/PrayerApp/Assets.xcassets/Icone/png-white -name \"teilen*\" -o -name \"vor*\" -o -name \"zurueck*\" | grep imageset | head -20)",
+      "Bash(python3 -c ' *)",
+      "Read(//usr/bin/**)",
+      "Bash(qlmanage -t -s 400 -o /tmp/ \"/Users/christiankasper/Downloads/ScreenRecording_06-05-2026 13-37-01_1.MP4\")",
+      "Bash(ls /tmp/*.png 2>/dev/null | head -5 *)",
+      "mcp__gemini__analyze_image",
+      "Read(//Users/christiankasper/Documents/Cowork/Code/PrayerApp/**)",
+      "Bash(xcodebuild build *)",
+      "Bash(ls -la \"/Users/christiankasper/Library/Developer/Xcode/DerivedData/PrayerApp-gmigqojtmgczitatfclvorygqcew/Build/Products/Debug-iphonesimulator/PrayerApp.app/\" | grep -i psalm)",
+      "Bash(xcodebuild -scheme PrayerApp -configuration Debug -destination 'generic/platform=iOS Simulator')",
+      "Bash(python3)",
+      "Bash(grep -v \"^\\\\.DS_Store$\")"
+    ]
+  }
+}

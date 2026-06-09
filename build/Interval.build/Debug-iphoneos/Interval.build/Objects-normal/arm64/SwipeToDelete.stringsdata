@@ -1,0 +1,16 @@
+{
+  "source": "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Utilities/SwipeToDelete.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 35
+        }
+      }
+    ]
+  },
+  "version": 1
+}

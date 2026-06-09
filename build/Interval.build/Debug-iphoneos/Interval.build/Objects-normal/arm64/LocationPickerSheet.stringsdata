@@ -1,0 +1,64 @@
+{
+  "source": "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Timer/LocationPickerSheet.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Gym, city, neighbourhood…",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 135
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add Location",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 140
+        }
+      },
+      {
+        "comment": "",
+        "key": "You are here",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 37
+        }
+      },
+      {
+        "comment": "",
+        "key": "No results",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 49
+        }
+      },
+      {
+        "comment": "",
+        "key": "Use \"%@ %@\"",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 104
+        }
+      },
+      {
+        "comment": "",
+        "key": "Looking up…",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 127
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 144
+        }
+      }
+    ]
+  },
+  "version": 1
+}

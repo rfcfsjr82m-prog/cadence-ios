@@ -1,0 +1,49 @@
+{
+  "" : {
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget-primary.dia",
+    "emit-module-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget-primary-emit-module.dia",
+    "pch" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget-primary.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/CadenceWidget/CadenceActivityAttributes.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceActivityAttributes.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceActivityAttributes.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceActivityAttributes.dia",
+    "index-unit-output-path" : "/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceActivityAttributes.o",
+    "llvm-bc" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceActivityAttributes.bc",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceActivityAttributes.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceActivityAttributes.swiftdeps",
+    "swiftmodule" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceActivityAttributes~partial.swiftmodule"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/CadenceWidget/CadenceWidget.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget.dia",
+    "index-unit-output-path" : "/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget.o",
+    "llvm-bc" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget.bc",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget.swiftdeps",
+    "swiftmodule" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/CadenceWidget~partial.swiftmodule"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/CadenceWidget/PinnedTimersWidget.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/PinnedTimersWidget.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/PinnedTimersWidget.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/PinnedTimersWidget.dia",
+    "index-unit-output-path" : "/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/PinnedTimersWidget.o",
+    "llvm-bc" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/PinnedTimersWidget.bc",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/PinnedTimersWidget.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/PinnedTimersWidget.swiftdeps",
+    "swiftmodule" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/PinnedTimersWidget~partial.swiftmodule"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Utilities/SharedDefaults.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/SharedDefaults.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/SharedDefaults.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/SharedDefaults.dia",
+    "index-unit-output-path" : "/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/SharedDefaults.o",
+    "llvm-bc" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/SharedDefaults.bc",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/SharedDefaults.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/SharedDefaults.swiftdeps",
+    "swiftmodule" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/CadenceWidget.build/Objects-normal/arm64/SharedDefaults~partial.swiftmodule"
+  }
+}

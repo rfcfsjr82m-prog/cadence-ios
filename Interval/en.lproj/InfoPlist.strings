@@ -1,0 +1,15 @@
+/* Bundle display name */
+"CFBundleDisplayName" = "CFBundleDisplayName";
+
+/* Bundle name */
+"CFBundleName" = "CFBundleName";
+
+/* Privacy - Health Update Usage Description */
+"NSHealthUpdateUsageDescription" = "NSHealthUpdateUsageDescription";
+
+/* Privacy - Location When In Use Usage Description */
+"NSLocationWhenInUseUsageDescription" = "NSLocationWhenInUseUsageDescription";
+
+/* Privacy - Photo Library Additions Usage Description */
+"NSPhotoLibraryAddUsageDescription" = "NSPhotoLibraryAddUsageDescription";
+

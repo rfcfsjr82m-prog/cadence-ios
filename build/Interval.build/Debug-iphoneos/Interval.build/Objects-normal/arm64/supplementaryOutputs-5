@@ -1,0 +1,37 @@
+{
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Audio/SoundEngine.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundEngine.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundEngine.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundEngine.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundEngine.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundEngine.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Settings/SettingsView.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SettingsView.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SettingsView.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SettingsView.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SettingsView.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Timer/LocationPickerSheet.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LocationPickerSheet.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LocationPickerSheet.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LocationPickerSheet.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LocationPickerSheet.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/LocationPickerSheet.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Timer/SessionDoneOverlay.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SessionDoneOverlay.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SessionDoneOverlay.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SessionDoneOverlay.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SessionDoneOverlay.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SessionDoneOverlay.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Timer/ShareCardView.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ShareCardView.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ShareCardView.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ShareCardView.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ShareCardView.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ShareCardView.swiftdeps"
+  }
+}

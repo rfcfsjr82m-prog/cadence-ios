@@ -1,0 +1,16 @@
+{
+  "source": "/Users/christiankasper/Documents/Cowork/Code/Interval/CadenceWidget/CadenceWidget.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Paused",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 120
+        }
+      }
+    ]
+  },
+  "version": 1
+}

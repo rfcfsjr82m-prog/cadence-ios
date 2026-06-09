@@ -1,0 +1,37 @@
+{
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Timer/ActiveTimerView.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ActiveTimerView.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ActiveTimerView.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ActiveTimerView.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ActiveTimerView.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/ActiveTimerView.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Timer/CountdownOverlay.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/CountdownOverlay.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/CountdownOverlay.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/CountdownOverlay.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/CountdownOverlay.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/CountdownOverlay.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Timer/RingsView.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/RingsView.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/RingsView.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/RingsView.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/RingsView.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/RingsView.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Wizard/OpeningClosingView.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/OpeningClosingView.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/OpeningClosingView.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/OpeningClosingView.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/OpeningClosingView.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/OpeningClosingView.swiftdeps"
+  },
+  "/Users/christiankasper/Documents/Cowork/Code/Interval/Interval/Views/Wizard/SoundPickerSheet.swift" : {
+    "const-values" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundPickerSheet.swiftconstvalues",
+    "dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundPickerSheet.d",
+    "diagnostics" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundPickerSheet.dia",
+    "object" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundPickerSheet.o",
+    "swift-dependencies" : "/Users/christiankasper/Documents/Cowork/Code/Interval/build/Interval.build/Debug-iphoneos/Interval.build/Objects-normal/arm64/SoundPickerSheet.swiftdeps"
+  }
+}

@@ -1,0 +1,16 @@
+/* Generated — edit translations.csv */
+
+/* Bundle display name */
+"CFBundleDisplayName" = "Cadence";
+
+/* Bundle name */
+"CFBundleName" = "Interval";
+
+/* Privacy - Health Update Usage Description */
+"NSHealthUpdateUsageDescription" = "Cadence guarda tus sesiones completadas en Apple Salud.";
+
+/* Privacy - Location When In Use Usage Description */
+"NSLocationWhenInUseUsageDescription" = "Cadence puede añadir tu ubicación a la tarjeta de compartir para que recuerdes dónde practicaste.";
+
+/* Privacy - Photo Library Additions Usage Description */
+"NSPhotoLibraryAddUsageDescription" = "Cadence guarda tu tarjeta de sesión en Fotos.";

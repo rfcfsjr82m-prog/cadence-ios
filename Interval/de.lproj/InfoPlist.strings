@@ -1,0 +1,15 @@
+/* Bundle display name */
+"CFBundleDisplayName" = "Cadence";
+
+/* Bundle name */
+"CFBundleName" = "Interval";
+
+/* Privacy - Health Update Usage Description */
+"NSHealthUpdateUsageDescription" = "Cadence speichert deine abgeschlossenen Einheiten in Apple Health.";
+
+/* Privacy - Location When In Use Usage Description */
+"NSLocationWhenInUseUsageDescription" = "Cadence kann deinen Standort zur Teilhabenkarte hinzufügen, damit du dich erinnerst, wo du trainiert hast.";
+
+/* Privacy - Photo Library Additions Usage Description */
+"NSPhotoLibraryAddUsageDescription" = "Cadence speichert deine Einheitenkarte in Fotos.";
+
