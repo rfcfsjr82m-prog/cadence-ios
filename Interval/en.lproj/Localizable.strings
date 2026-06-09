@@ -311,9 +311,33 @@
 
 /* No comment provided by engineer. */
 "Terms of Service" = "Terms of Service";
+"Terms and Conditions" = "Terms and Conditions";
 
 /* No comment provided by engineer. */
 "FAQ" = "FAQ";
+
+/* Widget section */
+"Choose Widget Timers" = "Choose Widget Timers";
+"Widget Timers" = "Widget Timers";
+"Choose up to 3 timers to show in the widget. Tap to add or remove." = "Choose up to 3 timers to show in the widget. Tap to add or remove.";
+
+/* FAQ questions and answers */
+"faq.q1" = "How do I create a custom timer?";
+"faq.a1" = "Tap \"Create new timer\" in the Library. Use the sequence editor to add interval blocks, set durations, choose sound and haptic cues, then configure how your session starts and ends.";
+"faq.q2" = "Can I reorder interval blocks?";
+"faq.a2" = "Tap the slider icon on any block to edit it. To delete multiple blocks at once, tap Select in the sequence editor and check the ones you want to remove.";
+"faq.q3" = "How do I save a session to Apple Health?";
+"faq.a3" = "After completing a session, tap \"Save to Health\" on the summary screen. Mind and Productivity timers save as Mindful Sessions; Body timers save as HIIT Workouts.";
+"faq.q4" = "Why isn't the voice announcement playing?";
+"faq.a4" = "Make sure your device is not on silent mode and that the volume is turned up. Voice announcements require the audio cue volume to be above 0% in Settings.";
+"faq.q5" = "How do presets work?";
+"faq.a5" = "Presets are built-in timers curated for common practices. You can't edit them directly, but you can duplicate any preset to create your own version.";
+"faq.q6" = "What does \"Louder than music\" do?";
+"faq.a6" = "When enabled, your music or podcast volume is temporarily reduced while an interval cue plays, so you never miss a transition.";
+"faq.q7" = "Why doesn't the flashlight cue work on the lock screen?";
+"faq.a7" = "iOS restricts camera and torch access for all third-party apps when the screen is locked — this is an iOS privacy protection that cannot be worked around. The flashlight cue works normally when the screen is on.";
+"faq.q8" = "How do I cancel my subscription?";
+"faq.a8" = "Go to Settings → Subscription to manage your subscription through Apple. You can cancel at any time from your App Store subscription settings.";
 
 /* No comment provided by engineer. */
 "Legal" = "Legal";

@@ -80,7 +80,7 @@ struct SettingsView: View {
                     // MARK: - Widget
                     settingsSection(title: "Widget") {
                         VStack(spacing: 0) {
-                            NavigationSettingsRow(title: "Choose Widget Timers") {
+                            NavigationSettingsRow(title: NSLocalizedString("Choose Widget Timers", comment: "")) {
                                 WidgetTimerPickerView()
                             }
                         }
@@ -342,24 +342,24 @@ private struct SubscriptionBadge: View {
 private struct FAQView: View {
     @Environment(\.dismiss) private var dismiss
 
-    private let faqs: [(String, String)] = [
-        ("How do I create a custom timer?",
-         "Tap \"Create new timer\" in the Library. Use the sequence editor to add interval blocks, set durations, choose sound and haptic cues, then configure how your session starts and ends."),
-        ("Can I reorder interval blocks?",
-         "Tap the slider icon on any block to edit it. To delete multiple blocks at once, tap Select in the sequence editor and check the ones you want to remove."),
-        ("How do I save a session to Apple Health?",
-         "After completing a session, tap \"Save to Health\" on the summary screen. Mind and Productivity timers save as Mindful Sessions; Body timers save as HIIT Workouts."),
-        ("Why isn't the voice announcement playing?",
-         "Make sure your device is not on silent mode and that the volume is turned up. Voice announcements require the audio cue volume to be above 0% in Settings."),
-        ("How do presets work?",
-         "Presets are built-in timers curated for common practices. You can't edit them directly, but you can duplicate any preset to create your own version."),
-        ("What does \"Louder than music\" do?",
-         "When enabled, your music or podcast volume is temporarily reduced while an interval cue plays, so you never miss a transition."),
-        ("Why doesn't the flashlight cue work on the lock screen?",
-         "iOS restricts camera and torch access for all third-party apps when the screen is locked — this is an iOS privacy protection that cannot be worked around. The flashlight cue works normally when the screen is on."),
-        ("How do I cancel my subscription?",
-         "Go to Settings → Subscription to manage your subscription through Apple. You can cancel at any time from your App Store subscription settings."),
-    ]
+    private var faqs: [(String, String)] {[
+        (NSLocalizedString("faq.q1", comment: ""),
+         NSLocalizedString("faq.a1", comment: "")),
+        (NSLocalizedString("faq.q2", comment: ""),
+         NSLocalizedString("faq.a2", comment: "")),
+        (NSLocalizedString("faq.q3", comment: ""),
+         NSLocalizedString("faq.a3", comment: "")),
+        (NSLocalizedString("faq.q4", comment: ""),
+         NSLocalizedString("faq.a4", comment: "")),
+        (NSLocalizedString("faq.q5", comment: ""),
+         NSLocalizedString("faq.a5", comment: "")),
+        (NSLocalizedString("faq.q6", comment: ""),
+         NSLocalizedString("faq.a6", comment: "")),
+        (NSLocalizedString("faq.q7", comment: ""),
+         NSLocalizedString("faq.a7", comment: "")),
+        (NSLocalizedString("faq.q8", comment: ""),
+         NSLocalizedString("faq.a8", comment: "")),
+    ]}
 
     var body: some View {
         NavigationStack {

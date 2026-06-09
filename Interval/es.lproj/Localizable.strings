@@ -311,9 +311,33 @@
 
 /* No comment provided by engineer. */
 "Terms of Service" = "Términos de servicio";
+"Terms and Conditions" = "Términos y condiciones";
 
 /* No comment provided by engineer. */
 "FAQ" = "FAQ";
+
+/* Widget section */
+"Choose Widget Timers" = "Elegir temporizadores del widget";
+"Widget Timers" = "Temporizadores del widget";
+"Choose up to 3 timers to show in the widget. Tap to add or remove." = "Elige hasta 3 temporizadores para mostrar en el widget. Toca para añadir o eliminar.";
+
+/* FAQ questions and answers */
+"faq.q1" = "¿Cómo creo un temporizador personalizado?";
+"faq.a1" = "Toca \"Crear nuevo temporizador\" en la Biblioteca. Usa el editor de secuencias para añadir bloques de intervalo, establecer duraciones, elegir señales de sonido y hápticas, y configurar el inicio y el final de tu sesión.";
+"faq.q2" = "¿Puedo reordenar los bloques de intervalo?";
+"faq.a2" = "Toca el icono del deslizador en cualquier bloque para editarlo. Para eliminar varios bloques a la vez, toca Seleccionar en el editor de secuencias y marca los que quieras eliminar.";
+"faq.q3" = "¿Cómo guardo una sesión en Apple Health?";
+"faq.a3" = "Al completar una sesión, toca \"Guardar en Health\" en la pantalla de resumen. Los temporizadores de Mente y Productividad se guardan como Sesiones de atención plena; los de Cuerpo como Entrenamientos HIIT.";
+"faq.q4" = "¿Por qué no se reproduce el anuncio de voz?";
+"faq.a4" = "Asegúrate de que el dispositivo no esté en modo silencio y de que el volumen esté subido. Los anuncios de voz requieren que el volumen de señales de audio sea superior al 0 % en Ajustes.";
+"faq.q5" = "¿Cómo funcionan los preajustes?";
+"faq.a5" = "Los preajustes son temporizadores integrados diseñados para prácticas comunes. No puedes editarlos directamente, pero puedes duplicar cualquiera para crear tu propia versión.";
+"faq.q6" = "¿Qué hace \"Más alto que la música\"?";
+"faq.a6" = "Cuando está activado, el volumen de tu música o pódcast se reduce temporalmente mientras suena una señal de intervalo, para que no te pierdas ninguna transición.";
+"faq.q7" = "¿Por qué la señal de linterna no funciona en la pantalla de bloqueo?";
+"faq.a7" = "iOS restringe el acceso a la cámara y la linterna para todas las apps de terceros cuando la pantalla está bloqueada — es una protección de privacidad de iOS que no se puede evitar. La señal de linterna funciona con normalidad cuando la pantalla está encendida.";
+"faq.q8" = "¿Cómo cancelo mi suscripción?";
+"faq.a8" = "Ve a Ajustes → Suscripción para gestionar tu suscripción a través de Apple. Puedes cancelar en cualquier momento desde los ajustes de suscripción de la App Store.";
 
 /* No comment provided by engineer. */
 "Legal" = "Legal";

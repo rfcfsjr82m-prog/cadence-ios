@@ -127,7 +127,7 @@ struct ShareCard: View {
 
     private var formattedDate: String {
         // startDate here is actually the end time — passed correctly from SessionDoneOverlay
-        let f = DateFormatter(); f.dateFormat = "EEE, HH:mm"
+        let f = DateFormatter(); f.dateFormat = "EEE, d. MMM · HH:mm"
         return f.string(from: startDate)
     }
 

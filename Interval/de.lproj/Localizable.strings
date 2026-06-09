@@ -311,9 +311,33 @@
 
 /* No comment provided by engineer. */
 "Terms of Service" = "Nutzungsbedingungen";
+"Terms and Conditions" = "AGB";
 
 /* No comment provided by engineer. */
 "FAQ" = "FAQ";
+
+/* Widget section */
+"Choose Widget Timers" = "Widget-Timer auswählen";
+"Widget Timers" = "Widget-Timer";
+"Choose up to 3 timers to show in the widget. Tap to add or remove." = "Wähle bis zu 3 Timer für das Widget. Tippe zum Hinzufügen oder Entfernen.";
+
+/* FAQ questions and answers */
+"faq.q1" = "Wie erstelle ich einen eigenen Timer?";
+"faq.a1" = "Tippe in der Bibliothek auf \"Neuen Timer erstellen\". Füge im Sequenzeditor Intervallblöcke hinzu, lege Dauern fest, wähle Ton- und Haptik-Signale und konfiguriere Start und Ende deiner Einheit.";
+"faq.q2" = "Kann ich Intervallblöcke neu anordnen?";
+"faq.a2" = "Tippe auf das Schieberegler-Symbol eines Blocks, um ihn zu bearbeiten. Um mehrere Blöcke gleichzeitig zu löschen, tippe im Sequenzeditor auf \"Auswählen\" und markiere die gewünschten Blöcke.";
+"faq.q3" = "Wie speichere ich eine Einheit in Apple Health?";
+"faq.a3" = "Tippe nach Abschluss einer Einheit auf dem Übersichtsbildschirm auf \"In Health speichern\". Mind- und Produktivitäts-Timer werden als Achtsamkeitseinheiten gespeichert; Körper-Timer als HIIT-Trainings.";
+"faq.q4" = "Warum wird die Sprachansage nicht abgespielt?";
+"faq.a4" = "Stelle sicher, dass dein Gerät nicht im Lautlosmodus ist und die Lautstärke aufgedreht ist. Sprachansagen erfordern eine Signallautstärke von mehr als 0 % in den Einstellungen.";
+"faq.q5" = "Wie funktionieren Voreinstellungen?";
+"faq.a5" = "Voreinstellungen sind integrierte Timer für gängige Übungen. Du kannst sie nicht direkt bearbeiten, aber jede Voreinstellung duplizieren, um deine eigene Version zu erstellen.";
+"faq.q6" = "Was bewirkt \"Lauter als Musik\"?";
+"faq.a6" = "Wenn aktiviert, wird die Musik- oder Podcast-Lautstärke kurz reduziert, wenn ein Intervallsignal ertönt, damit du keinen Übergang verpasst.";
+"faq.q7" = "Warum funktioniert das Taschenlampen-Signal nicht auf dem Sperrbildschirm?";
+"faq.a7" = "iOS beschränkt den Kamera- und Taschenlampenzugriff für alle Drittanbieter-Apps, wenn der Bildschirm gesperrt ist – das ist ein iOS-Datenschutzmechanismus, der nicht umgangen werden kann. Das Taschenlampen-Signal funktioniert normal, wenn der Bildschirm eingeschaltet ist.";
+"faq.q8" = "Wie kündige ich mein Abonnement?";
+"faq.a8" = "Gehe zu Einstellungen → Abonnement, um dein Abonnement über Apple zu verwalten. Du kannst jederzeit über die App-Store-Abonnementeinstellungen kündigen.";
 
 /* No comment provided by engineer. */
 "Legal" = "Rechtliches";

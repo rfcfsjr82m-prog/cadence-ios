@@ -51,8 +51,12 @@ private struct KeyboardDismissInstaller: UIViewRepresentable {
         }
 
         deinit {
-            if let recognizer {
-                window?.removeGestureRecognizer(recognizer)
+            if let recognizer, let window {
+                let r = recognizer
+                let w = window
+                DispatchQueue.main.async {
+                    w.removeGestureRecognizer(r)
+                }
             }
         }
 

@@ -111,7 +111,7 @@ struct ActiveTimerView: View {
                 let topPadding: CGFloat = 150
                 let ringRadius: CGFloat = 110
                 let circleTop = geo.size.height / 2 - ringRadius
-                let availableHeight = circleTop - topPadding - 4
+                let _ = circleTop - topPadding - 4  // availableHeight reserved for future use
                 let availableWidth = geo.size.width - 40
                 // Font scales with screen width, clamped between 34 and 52pt
                 let fontSize = min(44, max(28, geo.size.width * 0.11))
