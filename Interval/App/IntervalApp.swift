@@ -116,9 +116,16 @@ struct RootView: View {
             }
         }
         .onOpenURL { url in
-            // Handle deep links from the widget: cadence://start/<UUID>
-            guard url.scheme == "cadence",
-                  url.host == "start",
+            guard url.scheme == "cadence" else { return }
+
+            if url.host == "widget-setup" {
+                // Deep link from widget empty state → open widget timer picker
+                appState.showWidgetPicker = true
+                return
+            }
+
+            // cadence://start/<UUID>
+            guard url.host == "start",
                   let idString = url.pathComponents.last,
                   let id = UUID(uuidString: idString)
             else { return }
@@ -127,6 +134,12 @@ struct RootView: View {
             if let config = allConfigs.first(where: { $0.id == id }) {
                 appState.startSession(config)
             }
+        }
+        .sheet(isPresented: Binding(
+            get: { appState.showWidgetPicker },
+            set: { appState.showWidgetPicker = $0 }
+        )) {
+            WidgetTimerPickerView()
         }
     }
 }

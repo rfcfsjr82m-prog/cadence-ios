@@ -197,20 +197,22 @@ private struct MediumTimerCard: View {
 
 private struct EmptyWidgetView: View {
     var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "rectangle.badge.plus")
-                .font(.system(size: 20))
-                .foregroundStyle(Color(hex: "56565E"))
-            Text("No timers selected")
-                .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(Color(hex: "56565E"))
-            Text("Open Cadence to choose which timers appear here.")
-                .font(.system(size: 10))
-                .foregroundStyle(Color(hex: "3A3A44"))
-                .multilineTextAlignment(.center)
+        Link(destination: URL(string: "cadence://widget-setup")!) {
+            VStack(spacing: 8) {
+                Image(systemName: "hand.tap")
+                    .font(.system(size: 22))
+                    .foregroundStyle(Color(hex: "7C6FFF"))
+                Text("Set Up Widget")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(Color(hex: "F0F0F2"))
+                Text("Tap to choose timers in Cadence")
+                    .font(.system(size: 10))
+                    .foregroundStyle(Color(hex: "56565E"))
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(16)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(16)
     }
 }
 

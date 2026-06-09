@@ -17,6 +17,9 @@ class AppState {
     // A unit is "complete" when its session reaches a natural end (not stopped).
     private(set) var completedUnitIDs: Set<UUID>
 
+    // ── Widget picker sheet ──────────────────────────────────────────────────
+    var showWidgetPicker: Bool = false
+
     // ── Pinned timers ────────────────────────────────────────────────────────
     // Sorted to top in the Presets and Personal tabs.
     private(set) var pinnedTimerIDs: Set<UUID>
