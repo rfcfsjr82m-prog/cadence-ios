@@ -18,6 +18,8 @@ struct LibraryView: View {
     // Programs
     @State private var selectedProtocol: TrainingProtocol? = nil
 
+    @State private var showPaywall = false
+
     private var tabBinding: Binding<LibraryTab> {
         Binding(get: { appState.selectedTab },
                 set: { appState.setSelectedTab($0) })
@@ -158,6 +160,9 @@ struct LibraryView: View {
         .sheet(item: $selectedProtocol) { proto in
             ProtocolDetailView(proto: proto)
         }
+        .sheet(isPresented: $showPaywall) {
+            PaywallSheet()
+        }
         .confirmationDialog("Delete \"\(deleteTarget?.name ?? "")\"?",
                             isPresented: $showDeleteConfirm,
                             titleVisibility: .visible) {
@@ -202,7 +207,14 @@ struct LibraryView: View {
         } else if appState.selectedTab == .personal {
             TimerCard(
                 config: config,
-                onStart: { appState.startSession(config) },
+                onStart: {
+                    guard StoreManager.shared.canRunPersonalTimer() else {
+                        showPaywall = true
+                        return
+                    }
+                    StoreManager.shared.recordPersonalRun()
+                    appState.startSession(config)
+                },
                 onEdit: { appState.startWizard(editing: config) },
                 onDuplicate: { duplicate(config) },
                 onDelete: { deleteTarget = config; showDeleteConfirm = true },

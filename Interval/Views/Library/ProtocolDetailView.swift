@@ -6,6 +6,7 @@ struct ProtocolDetailView: View {
     let proto: TrainingProtocol
     @Environment(\.dismiss) private var dismiss
     @Environment(AppState.self) private var appState
+    @State private var showPaywall = false
 
     var body: some View {
         NavigationStack {
@@ -30,8 +31,12 @@ struct ProtocolDetailView: View {
                                     unit: unit,
                                     isCompleted: appState.completedUnitIDs.contains(unit.id),
                                     onStart: {
+                                        guard StoreManager.shared.canRunProgramUnit() else {
+                                            showPaywall = true
+                                            return
+                                        }
+                                        StoreManager.shared.recordProgramRun()
                                         dismiss()
-                                        // Return to Programs tab after the session
                                         appState.startSession(unit, returnTab: .programs)
                                     }
                                 )
@@ -57,6 +62,9 @@ struct ProtocolDetailView: View {
         .presentationDetents([.large])
         .presentationBackground(Color.bg)
         .presentationDragIndicator(.visible)
+        .sheet(isPresented: $showPaywall) {
+            PaywallSheet()
+        }
     }
 }
 

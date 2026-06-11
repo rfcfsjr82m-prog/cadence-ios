@@ -144,7 +144,7 @@ enum Presets {
         createdAt: Date(timeIntervalSince1970: 5)
     )
 
-    // MARK: Pre-Sleep Breathing — 4s inhale / 6s exhale / 2s hold × 20 rounds
+    // MARK: Pre-Sleep Breathing — 4s inhale / 6s exhale / 3s hold × 20 rounds
     static let preSleepBreathing = TimerConfig(
         id: UUID(uuidString: "00000007-0000-0000-0000-000000000007")!,
         name: "Pre-Sleep Breathing",
@@ -153,15 +153,15 @@ enum Presets {
             BlockConfig(id: UUID(uuidString: "00000007-0001-0000-0000-000000000007")!,
                         label: "Inhale", durationSeconds: 4,
                         color: .sage, soundCue: .sonarHigh,
-                        hapticCue: .off, visualFlash: .blockColor),
+                        hapticCue: .off, visualFlash: .flashlight),
             BlockConfig(id: UUID(uuidString: "00000007-0002-0000-0000-000000000007")!,
                         label: "Exhale", durationSeconds: 6,
                         color: .lavender, soundCue: .sonarLow,
-                        hapticCue: .off, visualFlash: .blockColor),
+                        hapticCue: .off, visualFlash: .flashlight),
             BlockConfig(id: UUID(uuidString: "00000007-0003-0000-0000-000000000007")!,
-                        label: "Hold", durationSeconds: 2,
+                        label: "Hold", durationSeconds: 3,
                         color: .amber, soundCue: .sonarPing,
-                        hapticCue: .off, visualFlash: .blockColor),
+                        hapticCue: .off, visualFlash: .flashlight),
         ],
         repeatMode: .rounds(20),
         openingCountdownSecs: 5,

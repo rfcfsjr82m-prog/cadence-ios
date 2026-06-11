@@ -4,7 +4,8 @@ import SwiftData
 struct SettingsView: View {
     @Environment(AppState.self) private var appState
     @State private var audioSettings = AudioSettings.shared
-    @AppStorage("isPremium") private var isPremium = false
+    @State private var store = StoreManager.shared
+    @State private var showPaywall = false
     @State private var previewTask: Task<Void, Never>? = nil
 
     var body: some View {
@@ -142,7 +143,11 @@ struct SettingsView: View {
                     }
 
                     // MARK: - Subscription badge
-                    SubscriptionBadge(isPremium: isPremium)
+                    Button { if !store.isPro { showPaywall = true } } label: {
+                        SubscriptionBadge(isPro: store.isPro)
+                    }
+                    .buttonStyle(.plain)
+                    .sheet(isPresented: $showPaywall) { PaywallSheet() }
 
                     // App version
                     Text("Interval · Version \(appVersion)")
@@ -256,67 +261,37 @@ private struct LinkSettingsRow: View {
 // MARK: - Subscription badge
 
 private struct SubscriptionBadge: View {
-    let isPremium: Bool
-
-    private var daysRemaining: Int {
-        guard let first = UserDefaults.standard.object(forKey: "firstLaunchDate") as? Date else {
-            return 7
-        }
-        let days = Calendar.current.dateComponents([.day], from: first, to: Date()).day ?? 0
-        return max(0, 7 - days)
-    }
-
-    private var pillLabel: String {
-        if isPremium { return NSLocalizedString("ACTIVE", comment: "") }
-        if daysRemaining > 0 {
-            return String(format: NSLocalizedString("%lldD LEFT", comment: ""), daysRemaining)
-        }
-        return NSLocalizedString("EXPIRED", comment: "")
-    }
-
-    private var subtitle: String {
-        if isPremium { return NSLocalizedString("You have access to all features.", comment: "") }
-        if daysRemaining > 0 {
-            if daysRemaining == 1 {
-                return NSLocalizedString("1 day remaining in your free trial.", comment: "")
-            }
-            return String(format: NSLocalizedString("%lld days remaining in your free trial.", comment: ""), daysRemaining)
-        }
-        return NSLocalizedString("Your free trial has expired.", comment: "")
-    }
-
-    private var pillColor: Color {
-        if isPremium { return Color(hex: "F5A623") }
-        return daysRemaining > 0 ? Color.accent : Color(hex: "FF6B6B")
-    }
+    let isPro: Bool
 
     var body: some View {
         HStack(spacing: 14) {
             ZStack {
                 Circle()
-                    .fill(isPremium
+                    .fill(isPro
                           ? Color(hex: "F5A623").opacity(0.18)
                           : Color.accent.opacity(0.12))
                     .frame(width: 44, height: 44)
-                Image(systemName: isPremium ? "crown.fill" : "sparkles")
+                Image(systemName: isPro ? "crown.fill" : "sparkles")
                     .font(.system(size: 18))
-                    .foregroundStyle(isPremium ? Color(hex: "F5A623") : Color.accent)
+                    .foregroundStyle(isPro ? Color(hex: "F5A623") : Color.accent)
             }
 
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
-                    Text(isPremium ? "Interval Pro" : "Free Trial")
+                    Text(isPro ? "Cadence Pro" : "Free")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(Color.textPrimary)
-                    Text(verbatim: pillLabel)
+                    Text(isPro ? NSLocalizedString("ACTIVE", comment: "") : NSLocalizedString("LIMITED", comment: ""))
                         .font(.system(size: 9, weight: .bold))
-                        .foregroundStyle(pillColor)
+                        .foregroundStyle(isPro ? Color(hex: "F5A623") : Color.accent)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
-                        .background(pillColor.opacity(0.15))
+                        .background((isPro ? Color(hex: "F5A623") : Color.accent).opacity(0.15))
                         .clipShape(Capsule())
                 }
-                Text(verbatim: subtitle)
+                Text(isPro
+                     ? NSLocalizedString("You have access to all features.", comment: "")
+                     : NSLocalizedString("2 free runs per timer type. Upgrade for unlimited.", comment: ""))
                     .font(.system(size: 12))
                     .foregroundStyle(Color.textSecondary)
             }
@@ -329,7 +304,7 @@ private struct SubscriptionBadge: View {
         .overlay(
             RoundedRectangle(cornerRadius: 14)
                 .strokeBorder(
-                    isPremium
+                    isPro
                     ? Color(hex: "F5A623").opacity(0.3)
                     : Color.accent.opacity(0.3),
                     lineWidth: 0.5)

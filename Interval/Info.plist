@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Cadence</string>
 	<key>CFBundleExecutable</key>
@@ -33,6 +35,8 @@
 	<array>
 		<string>instagram-stories</string>
 	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Cadence reads your health data to display relevant stats alongside your sessions.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Cadence saves your completed sessions to Apple Health.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

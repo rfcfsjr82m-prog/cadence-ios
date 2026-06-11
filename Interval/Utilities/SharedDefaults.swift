@@ -18,7 +18,7 @@ struct PinnedTimerSnapshot: Codable, Identifiable {
 // MARK: - Shared storage bridge (App Group container file + UserDefaults fallback)
 
 enum SharedDefaults {
-    static let suiteName        = "group.com.christiankasper.cadence"
+    static let suiteName        = "group.com.christiankasper.cadenceapp"
     static let pinnedDataKey    = "pinnedTimerData"
     static let allTimersKey     = "allTimerData"
     static let allSnapshotsKey  = "allTimerSnapshots"

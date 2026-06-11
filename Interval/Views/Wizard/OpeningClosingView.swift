@@ -8,6 +8,7 @@ struct OpeningClosingView: View {
 
     @State private var showOpeningCuePicker = false
     @State private var showClosingCuePicker = false
+    @State private var showPaywall = false
 
     private var session: Binding<TimerConfig> {
         Binding(
@@ -52,6 +53,12 @@ struct OpeningClosingView: View {
             }
         }
         .safeAreaInset(edge: .bottom) { bottomBar }
+        .sheet(isPresented: $showPaywall) {
+            PaywallSheet(onPurchased: {
+                StoreManager.shared.recordPersonalRun()
+                appState.startSession(appState.wizardSession)
+            })
+        }
     }
 
     // MARK: - Opening card
@@ -203,7 +210,7 @@ struct OpeningClosingView: View {
                     Text("Save")
                         .font(.system(size: 15, weight: .semibold))
                         .foregroundStyle(.accent)
-                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 20)
                         .padding(.vertical, 13)
                         .background(Color.accentDim)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -216,6 +223,8 @@ struct OpeningClosingView: View {
                 Button { saveAndStart() } label: {
                     Text("Save & Start Now")
                         .font(.system(size: 15, weight: .semibold))
+                        .minimumScaleFactor(0.75)
+                        .lineLimit(1)
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 13)
@@ -247,16 +256,21 @@ struct OpeningClosingView: View {
     // MARK: - Persistence
 
     private func saveAndExit() {
-        saveSession()
+        performSave()
         appState.navigate(to: .library)
     }
 
     private func saveAndStart() {
-        saveSession()
+        performSave()
+        guard StoreManager.shared.canRunPersonalTimer() else {
+            showPaywall = true
+            return
+        }
+        StoreManager.shared.recordPersonalRun()
         appState.startSession(appState.wizardSession)
     }
 
-    private func saveSession() {
+    private func performSave() {
         var config = appState.wizardSession
         config.createdAt = Date()
 

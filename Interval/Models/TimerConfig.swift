@@ -409,11 +409,37 @@ enum VoiceAnnouncement {
 
     /// Filename for the pre-recorded MP3 fallback (used when useSpeechSynthesizer = false).
     var filename: String {
-        switch self {
-        case .start(.female):  return "Voice_Female_Start"
-        case .start(.male):    return "Voice_Male_Start"
-        case .finish(.female): return "Voice_Female_Finsih"   // original filename preserved
-        case .finish(.male):   return "Voice_Male_Finish"
+        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        switch lang {
+        case "de":
+            switch self {
+            case .start(.female):  return "DE_Voice_Female_Start"
+            case .start(.male):    return "DE_Voice_Male_Start"
+            case .finish(.female): return "DE_Voice_Female_Finish"
+            case .finish(.male):   return "DE_Voice_Male_Finish"
+            }
+        case "es":
+            switch self {
+            case .start(.female):  return "ES_Voice_Female_Start"
+            case .start(.male):    return "ES_Voice_Male_Start"
+            case .finish(.female): return "ES_Voice_Female_Finish"
+            case .finish(.male):   return "ES_Voice_Male_Finish"
+            }
+        case "fr":
+            switch self {
+            case .start(.female):  return "FR_Voice_Female_Start"
+            case .start(.male):    return "FR_Voice_Male_Start"
+            case .finish(.female): return "FR_Voice_Female_Finish"
+            case .finish(.male):   return "FR_Voice_Male_Finish"
+            }
+        default:
+            let n = Int.random(in: 1...6)
+            switch self {
+            case .start(.female):  return "Voice_Female_Start_\(n)"
+            case .start(.male):    return "Voice_Male_Start_\(n)"
+            case .finish(.female): return "Voice_Female_Finish_\(n)"
+            case .finish(.male):   return "Voice_Male_Finish_\(n)"
+            }
         }
     }
 }

@@ -104,6 +104,7 @@ final class WatchTimerEngine {
         accumulatedPause = 0
         beginExtendedSession()
         scheduleTimer()
+        soundEngine.playAnnouncement(config.openingAnnouncementCue)
     }
 
     func togglePause() {
@@ -143,6 +144,7 @@ final class WatchTimerEngine {
             isFinished = true
             stop()
             WKInterfaceDevice.current().play(.success)
+            soundEngine.playFinishAnnouncement(config.closingAnnouncementCue)
         } else {
             jumpTo(nextRoundStart)
         }
@@ -187,12 +189,11 @@ final class WatchTimerEngine {
         let newElapsed = Int(realElapsed)
 
         if newElapsed >= totalSecs {
-            let prev = elapsed
             elapsed = totalSecs
             isFinished = true
             stop()
             WKInterfaceDevice.current().play(.success)
-            _ = prev
+            soundEngine.playFinishAnnouncement(config.closingAnnouncementCue)
             return
         }
 

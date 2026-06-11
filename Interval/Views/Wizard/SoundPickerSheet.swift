@@ -21,6 +21,39 @@ struct SoundPickerSheet: View {
                 ScrollView {
                     VStack(spacing: 16) {
 
+                        // ── Audio cues section ───────────────────────────────
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Sounds")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(.textTertiary)
+                                .padding(.horizontal, 4)
+
+                            VStack(spacing: 0) {
+                                ForEach(audioCues, id: \.self) { cue in
+                                    SoundRow(
+                                        label: cue.displayName,
+                                        isSelected: selected == cue,
+                                        onSelect: {
+                                            selected = cue
+                                            dismiss()
+                                        },
+                                        onPreview: cue != .silent ? {
+                                            soundEngine.play(cue)
+                                        } : nil,
+                                        previewIcon: "play.circle"
+                                    )
+                                    if cue != audioCues.last {
+                                        Divider().background(Color.borderDefault)
+                                            .padding(.leading, 52)
+                                    }
+                                }
+                            }
+                            .background(Color.surface)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                            .overlay(RoundedRectangle(cornerRadius: 14)
+                                .strokeBorder(Color.borderDefault, lineWidth: 0.5))
+                        }
+
                         // ── Voice label section ──────────────────────────────
                         if showVoiceCues {
                         VStack(alignment: .leading, spacing: 8) {
@@ -65,38 +98,6 @@ struct SoundPickerSheet: View {
                         }
                         } // end if showVoiceCues
 
-                        // ── Audio cues section ───────────────────────────────
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Sounds")
-                                .font(.system(size: 12, weight: .medium))
-                                .foregroundStyle(.textTertiary)
-                                .padding(.horizontal, 4)
-
-                            VStack(spacing: 0) {
-                                ForEach(audioCues, id: \.self) { cue in
-                                    SoundRow(
-                                        label: cue.displayName,
-                                        isSelected: selected == cue,
-                                        onSelect: {
-                                            selected = cue
-                                            dismiss()
-                                        },
-                                        onPreview: cue != .silent ? {
-                                            soundEngine.play(cue)
-                                        } : nil,
-                                        previewIcon: "play.circle"
-                                    )
-                                    if cue != audioCues.last {
-                                        Divider().background(Color.borderDefault)
-                                            .padding(.leading, 52)
-                                    }
-                                }
-                            }
-                            .background(Color.surface)
-                            .clipShape(RoundedRectangle(cornerRadius: 14))
-                            .overlay(RoundedRectangle(cornerRadius: 14)
-                                .strokeBorder(Color.borderDefault, lineWidth: 0.5))
-                        }
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 16)
