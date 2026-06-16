@@ -16,12 +16,24 @@ final class HealthKitManager {
     // MARK: - Authorization
 
     func requestAuthorization() async {
-        guard isAvailable else { return }
+        guard isAvailable else {
+            print("[HealthKit] Health data not available on this device.")
+            return
+        }
         let writeTypes: Set<HKSampleType> = [
             HKObjectType.workoutType(),
             HKObjectType.categoryType(forIdentifier: .mindfulSession)!
         ]
-        try? await store.requestAuthorization(toShare: writeTypes, read: [])
+        do {
+            try await store.requestAuthorization(toShare: writeTypes, read: [])
+            let status = store.authorizationStatus(for: HKObjectType.workoutType())
+            print("[HealthKit] Authorization request completed. Workout share status: \(status.rawValue)")
+        } catch {
+            // A thrown error here usually means the HealthKit entitlement is
+            // missing from the build's provisioning profile (e.g. signed with
+            // a team that doesn't have the HealthKit capability).
+            print("[HealthKit] Authorization request failed: \(error.localizedDescription)")
+        }
     }
 
     // MARK: - Save session
