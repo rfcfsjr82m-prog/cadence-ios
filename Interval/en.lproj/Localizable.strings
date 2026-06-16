@@ -311,33 +311,9 @@
 
 /* No comment provided by engineer. */
 "Terms of Service" = "Terms of Service";
-"Terms and Conditions" = "Terms and Conditions";
 
 /* No comment provided by engineer. */
 "FAQ" = "FAQ";
-
-/* Widget section */
-"Choose Widget Timers" = "Choose Widget Timers";
-"Widget Timers" = "Widget Timers";
-"Choose up to 3 timers to show in the widget. Tap to add or remove." = "Choose up to 3 timers to show in the widget. Tap to add or remove.";
-
-/* FAQ questions and answers */
-"faq.q1" = "How do I create a custom timer?";
-"faq.a1" = "Tap \"Create new timer\" in the Library. Use the sequence editor to add interval blocks, set durations, choose sound and haptic cues, then configure how your session starts and ends.";
-"faq.q2" = "Can I reorder interval blocks?";
-"faq.a2" = "Tap the slider icon on any block to edit it. To delete multiple blocks at once, tap Select in the sequence editor and check the ones you want to remove.";
-"faq.q3" = "How do I save a session to Apple Health?";
-"faq.a3" = "After completing a session, tap \"Save to Health\" on the summary screen. Mind and Productivity timers save as Mindful Sessions; Body timers save as HIIT Workouts.";
-"faq.q4" = "Why isn't the voice announcement playing?";
-"faq.a4" = "Make sure your device is not on silent mode and that the volume is turned up. Voice announcements require the audio cue volume to be above 0% in Settings.";
-"faq.q5" = "How do presets work?";
-"faq.a5" = "Presets are built-in timers curated for common practices. You can't edit them directly, but you can duplicate any preset to create your own version.";
-"faq.q6" = "What does \"Louder than music\" do?";
-"faq.a6" = "When enabled, your music or podcast volume is temporarily reduced while an interval cue plays, so you never miss a transition.";
-"faq.q7" = "Why doesn't the flashlight cue work on the lock screen?";
-"faq.a7" = "iOS restricts camera and torch access for all third-party apps when the screen is locked — this is an iOS privacy protection that cannot be worked around. The flashlight cue works normally when the screen is on.";
-"faq.q8" = "How do I cancel my subscription?";
-"faq.a8" = "Go to Settings → Subscription to manage your subscription through Apple. You can cancel at any time from your App Store subscription settings.";
 
 /* No comment provided by engineer. */
 "Legal" = "Legal";
@@ -618,27 +594,57 @@
 /* No comment provided by engineer. */
 "Photo Library" = "Photo Library";
 
+/* No comment provided by engineer. */
+"2 free runs total. Upgrade for unlimited." = "2 free runs total. Upgrade for unlimited.";
 
-/* Review prompt */
-"I need your help." = "I need your help.";
-"If Cadence is useful to you, a quick App Store review would mean a lot and help others discover the app." = "If Cadence is useful to you, a quick App Store review would mean a lot and help others discover the app.";
-"Maybe later" = "Maybe later";
-"No, I don't want to help" = "No, I don't want to help";
-"Send feedback" = "Send feedback";
+/* No comment provided by engineer. */
+"Couldn’t load subscription options." = "Couldn’t load subscription options.";
 
-/* Round prep signal */
-"Round Prep Signal" = "Round Prep Signal";
-"Round prep signal" = "Round prep signal";
-"ROUND prep signal" = "ROUND prep signal";
-"Beeps at the end of each round to signal the next" = "Beeps at the end of each round to signal the next";
-"Duration" = "Duration";
+/* No comment provided by engineer. */
+"Please check your internet connection and try again." = "Please check your internet connection and try again.";
 
-/* Block prep signal */
-"Phase Prep Signal" = "Block Prep Signal";
-"Phase prep signal" = "Block prep signal";
-"BLOCK prep signal" = "BLOCK prep signal";
-"Beeps at the end of each block to signal the next phase" = "Beeps at the end of each block to signal the next";
-"Beeps at the end of each block to signal the next" = "Beeps at the end of each block to signal the next";
+/* No comment provided by engineer. */
+"Retry" = "Retry";
 
-/* Prep signals combined */
-"Prep Signals" = "Prep Signals";
+/* No comment provided by engineer. */
+"Apple Health" = "Apple Health";
+
+/* No comment provided by engineer. */
+"Save sessions to Apple Health" = "Save sessions to Apple Health";
+
+/* No comment provided by engineer. */
+"Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session." = "Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session.";
+
+/* No comment provided by engineer. */
+"Run your timers as much as you want — no limits." = "Run your timers as much as you want — no limits.";
+
+/* No comment provided by engineer. */
+"Restore purchases" = "Restore purchases";
+
+/* No comment provided by engineer. */
+"Subscription renews automatically. Cancel anytime in Settings." = "Subscription renews automatically. Cancel anytime in Settings.";
+
+/* No comment provided by engineer. */
+"Terms of Use (EULA)" = "Terms of Use (EULA)";
+
+/* No comment provided by engineer. */
+"Annual" = "Annual";
+
+/* No comment provided by engineer. */
+"Monthly" = "Monthly";
+
+/* No comment provided by engineer. */
+"Lifetime" = "Lifetime";
+
+/* No comment provided by engineer. */
+"7-day free trial" = "7-day free trial";
+
+/* No comment provided by engineer. */
+"One-time" = "One-time";
+
+/* No comment provided by engineer. */
+"Pay once, keep forever" = "Pay once, keep forever";
+
+/* No comment provided by engineer. */
+"%@ / month" = "%@ / month";
+

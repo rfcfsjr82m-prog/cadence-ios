@@ -114,8 +114,8 @@ struct PaywallSheet: View {
             if let annual = store.annual {
                 PlanRow(
                     product: annual,
-                    label: "Annual",
-                    badge: "7-day free trial",
+                    label: NSLocalizedString("Annual", comment: ""),
+                    badge: NSLocalizedString("7-day free trial", comment: ""),
                     detail: perMonthString(annual),
                     isHighlighted: true,
                     isLoading: store.isLoading
@@ -127,7 +127,7 @@ struct PaywallSheet: View {
             if let monthly = store.monthly {
                 PlanRow(
                     product: monthly,
-                    label: "Monthly",
+                    label: NSLocalizedString("Monthly", comment: ""),
                     badge: nil,
                     detail: nil,
                     isHighlighted: false,
@@ -140,9 +140,9 @@ struct PaywallSheet: View {
             if let lifetime = store.lifetime {
                 PlanRow(
                     product: lifetime,
-                    label: "Lifetime",
-                    badge: "One-time",
-                    detail: "Pay once, keep forever",
+                    label: NSLocalizedString("Lifetime", comment: ""),
+                    badge: NSLocalizedString("One-time", comment: ""),
+                    detail: NSLocalizedString("Pay once, keep forever", comment: ""),
                     isHighlighted: false,
                     isLoading: store.isLoading
                 ) {
@@ -203,7 +203,7 @@ struct PaywallSheet: View {
         let monthly = (product.price / 12).formatted(
             .currency(code: product.priceFormatStyle.currencyCode)
         )
-        return "\(monthly) / month"
+        return String(format: NSLocalizedString("%@ / month", comment: "Price per month, e.g. 3,99 € / month"), monthly)
     }
 }
 

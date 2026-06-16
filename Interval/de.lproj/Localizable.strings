@@ -311,33 +311,9 @@
 
 /* No comment provided by engineer. */
 "Terms of Service" = "Nutzungsbedingungen";
-"Terms and Conditions" = "AGB";
 
 /* No comment provided by engineer. */
 "FAQ" = "FAQ";
-
-/* Widget section */
-"Choose Widget Timers" = "Widget-Timer auswählen";
-"Widget Timers" = "Widget-Timer";
-"Choose up to 3 timers to show in the widget. Tap to add or remove." = "Wähle bis zu 3 Timer für das Widget. Tippe zum Hinzufügen oder Entfernen.";
-
-/* FAQ questions and answers */
-"faq.q1" = "Wie erstelle ich einen eigenen Timer?";
-"faq.a1" = "Tippe in der Bibliothek auf \"Neuen Timer erstellen\". Füge im Sequenzeditor Intervallblöcke hinzu, lege Dauern fest, wähle Ton- und Haptik-Signale und konfiguriere Start und Ende deiner Einheit.";
-"faq.q2" = "Kann ich Intervallblöcke neu anordnen?";
-"faq.a2" = "Tippe auf das Schieberegler-Symbol eines Blocks, um ihn zu bearbeiten. Um mehrere Blöcke gleichzeitig zu löschen, tippe im Sequenzeditor auf \"Auswählen\" und markiere die gewünschten Blöcke.";
-"faq.q3" = "Wie speichere ich eine Einheit in Apple Health?";
-"faq.a3" = "Tippe nach Abschluss einer Einheit auf dem Übersichtsbildschirm auf \"In Health speichern\". Mind- und Produktivitäts-Timer werden als Achtsamkeitseinheiten gespeichert; Körper-Timer als HIIT-Trainings.";
-"faq.q4" = "Warum wird die Sprachansage nicht abgespielt?";
-"faq.a4" = "Stelle sicher, dass dein Gerät nicht im Lautlosmodus ist und die Lautstärke aufgedreht ist. Sprachansagen erfordern eine Signallautstärke von mehr als 0 % in den Einstellungen.";
-"faq.q5" = "Wie funktionieren Voreinstellungen?";
-"faq.a5" = "Voreinstellungen sind integrierte Timer für gängige Übungen. Du kannst sie nicht direkt bearbeiten, aber jede Voreinstellung duplizieren, um deine eigene Version zu erstellen.";
-"faq.q6" = "Was bewirkt \"Lauter als Musik\"?";
-"faq.a6" = "Wenn aktiviert, wird die Musik- oder Podcast-Lautstärke kurz reduziert, wenn ein Intervallsignal ertönt, damit du keinen Übergang verpasst.";
-"faq.q7" = "Warum funktioniert das Taschenlampen-Signal nicht auf dem Sperrbildschirm?";
-"faq.a7" = "iOS beschränkt den Kamera- und Taschenlampenzugriff für alle Drittanbieter-Apps, wenn der Bildschirm gesperrt ist – das ist ein iOS-Datenschutzmechanismus, der nicht umgangen werden kann. Das Taschenlampen-Signal funktioniert normal, wenn der Bildschirm eingeschaltet ist.";
-"faq.q8" = "Wie kündige ich mein Abonnement?";
-"faq.a8" = "Gehe zu Einstellungen → Abonnement, um dein Abonnement über Apple zu verwalten. Du kannst jederzeit über die App-Store-Abonnementeinstellungen kündigen.";
 
 /* No comment provided by engineer. */
 "Legal" = "Rechtliches";
@@ -359,18 +335,6 @@
 
 /* No comment provided by engineer. */
 "You have access to all features." = "Du hast Zugang zu allen Funktionen.";
-
-/* No comment provided by engineer. */
-"2 free runs total. Upgrade for unlimited." = "2 kostenlose Durchläufe insgesamt. Upgrade für unbegrenzte Nutzung.";
-
-/* No comment provided by engineer. */
-"Couldn’t load subscription options." = "Abo-Optionen konnten nicht geladen werden.";
-
-/* No comment provided by engineer. */
-"Please check your internet connection and try again." = "Bitte überprüfe deine Internetverbindung und versuche es erneut.";
-
-/* No comment provided by engineer. */
-"Retry" = "Erneut versuchen";
 
 /* No comment provided by engineer. */
 "Your free trial has expired." = "Deine kostenlose Testphase ist abgelaufen.";
@@ -601,15 +565,6 @@
 "Save to Health" = "In Health speichern";
 
 /* No comment provided by engineer. */
-"Apple Health" = "Apple Health";
-
-/* No comment provided by engineer. */
-"Save sessions to Apple Health" = "Einheiten in Apple Health speichern";
-
-/* No comment provided by engineer. */
-"Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session." = "Abgeschlossene Einheiten werden als Workouts oder Achtsamkeitsminuten in Apple Health gespeichert. Du kannst sie auch nach jeder Einheit einzeln speichern.";
-
-/* No comment provided by engineer. */
 "Saved to Health" = "In Health gespeichert";
 
 /* No comment provided by engineer. */
@@ -639,27 +594,57 @@
 /* No comment provided by engineer. */
 "Photo Library" = "Fotomediathek";
 
+/* No comment provided by engineer. */
+"2 free runs total. Upgrade for unlimited." = "2 kostenlose Durchläufe insgesamt. Upgrade für unbegrenzte Nutzung.";
 
-/* Review prompt */
-"I need your help." = "Ich brauche deine Hilfe.";
-"If Cadence is useful to you, a quick App Store review would mean a lot and help others discover the app." = "Wenn Cadence dir nützlich ist, würde eine kurze App Store Bewertung viel bedeuten und anderen helfen, die App zu entdecken.";
-"Maybe later" = "Vielleicht später";
-"No, I don't want to help" = "Nein, ich möchte nicht helfen";
-"Send feedback" = "Feedback senden";
+/* No comment provided by engineer. */
+"Couldn’t load subscription options." = "Abo-Optionen konnten nicht geladen werden.";
 
-/* Round prep signal */
-"Round Prep Signal" = "Runden-Vorbereitungssignal";
-"Round prep signal" = "Runden-Vorbereitungssignal";
-"ROUND prep signal" = "RUNDEN-Vorbereitungssignal";
-"Beeps at the end of each round to signal the next" = "Piept am Ende jeder Runde, um die nächste anzukündigen";
-"Duration" = "Dauer";
+/* No comment provided by engineer. */
+"Please check your internet connection and try again." = "Bitte überprüfe deine Internetverbindung und versuche es erneut.";
 
-/* Block prep signal */
-"Phase Prep Signal" = "Block-Vorbereitungssignal";
-"Phase prep signal" = "Block-Vorbereitungssignal";
-"BLOCK prep signal" = "BLOCK-Vorbereitungssignal";
-"Beeps at the end of each block to signal the next phase" = "Piept am Ende jedes Blocks, um den nächsten anzukündigen";
-"Beeps at the end of each block to signal the next" = "Piept am Ende jedes Blocks, um den nächsten anzukündigen";
+/* No comment provided by engineer. */
+"Retry" = "Erneut versuchen";
 
-/* Prep signals combined */
-"Prep Signals" = "Vorbereitungssignale";
+/* No comment provided by engineer. */
+"Apple Health" = "Apple Health";
+
+/* No comment provided by engineer. */
+"Save sessions to Apple Health" = "Einheiten in Apple Health speichern";
+
+/* No comment provided by engineer. */
+"Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session." = "Abgeschlossene Einheiten werden als Workouts oder Achtsamkeitsminuten in Apple Health gespeichert. Du kannst sie auch nach jeder Einheit einzeln speichern.";
+
+/* No comment provided by engineer. */
+"Run your timers as much as you want — no limits." = "Nutze deine Timer so oft du willst – ganz ohne Limit.";
+
+/* No comment provided by engineer. */
+"Restore purchases" = "Käufe wiederherstellen";
+
+/* No comment provided by engineer. */
+"Subscription renews automatically. Cancel anytime in Settings." = "Das Abo verlängert sich automatisch. Jederzeit in den Einstellungen kündbar.";
+
+/* No comment provided by engineer. */
+"Terms of Use (EULA)" = "Nutzungsbedingungen (EULA)";
+
+/* No comment provided by engineer. */
+"Annual" = "Jährlich";
+
+/* No comment provided by engineer. */
+"Monthly" = "Monatlich";
+
+/* No comment provided by engineer. */
+"Lifetime" = "Lebenslang";
+
+/* No comment provided by engineer. */
+"7-day free trial" = "7 Tage kostenlos testen";
+
+/* No comment provided by engineer. */
+"One-time" = "Einmalig";
+
+/* No comment provided by engineer. */
+"Pay once, keep forever" = "Einmal zahlen, für immer behalten";
+
+/* No comment provided by engineer. */
+"%@ / month" = "%@ / Monat";
+

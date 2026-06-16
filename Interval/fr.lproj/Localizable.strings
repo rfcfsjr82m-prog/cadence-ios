@@ -311,33 +311,9 @@
 
 /* No comment provided by engineer. */
 "Terms of Service" = "Conditions d'utilisation";
-"Terms and Conditions" = "Conditions générales";
 
 /* No comment provided by engineer. */
 "FAQ" = "FAQ";
-
-/* Widget section */
-"Choose Widget Timers" = "Choisir les minuteries du widget";
-"Widget Timers" = "Minuteries du widget";
-"Choose up to 3 timers to show in the widget. Tap to add or remove." = "Choisissez jusqu'à 3 minuteries à afficher dans le widget. Appuyez pour ajouter ou supprimer.";
-
-/* FAQ questions and answers */
-"faq.q1" = "Comment créer une minuterie personnalisée ?";
-"faq.a1" = "Appuyez sur « Créer une nouvelle minuterie » dans la Bibliothèque. Utilisez l'éditeur de séquences pour ajouter des blocs d'intervalle, définir des durées, choisir des signaux sonores et haptiques, puis configurer le début et la fin de votre séance.";
-"faq.q2" = "Puis-je réorganiser les blocs d'intervalle ?";
-"faq.a2" = "Appuyez sur l'icône du curseur d'un bloc pour le modifier. Pour supprimer plusieurs blocs à la fois, appuyez sur Sélectionner dans l'éditeur de séquences et cochez ceux à supprimer.";
-"faq.q3" = "Comment enregistrer une séance dans Apple Santé ?";
-"faq.a3" = "Après avoir terminé une séance, appuyez sur « Enregistrer dans Santé » sur l'écran récapitulatif. Les minuteries Esprit et Productivité sont enregistrées comme Sessions de pleine conscience ; les minuteries Corps comme Entraînements HIIT.";
-"faq.q4" = "Pourquoi l'annonce vocale ne se déclenche-t-elle pas ?";
-"faq.a4" = "Assurez-vous que votre appareil n'est pas en mode silencieux et que le volume est suffisant. Les annonces vocales nécessitent que le volume des signaux audio soit supérieur à 0 % dans les Réglages.";
-"faq.q5" = "Comment fonctionnent les préréglages ?";
-"faq.a5" = "Les préréglages sont des minuteries intégrées conçues pour les pratiques courantes. Vous ne pouvez pas les modifier directement, mais vous pouvez dupliquer n'importe quel préréglage pour créer votre propre version.";
-"faq.q6" = "À quoi sert « Plus fort que la musique » ?";
-"faq.a6" = "Lorsque cette option est activée, le volume de votre musique ou podcast est temporairement réduit lors d'un signal d'intervalle, pour ne jamais manquer une transition.";
-"faq.q7" = "Pourquoi le signal de lampe de poche ne fonctionne-t-il pas sur l'écran verrouillé ?";
-"faq.a7" = "iOS restreint l'accès à la caméra et à la torche pour toutes les apps tierces lorsque l'écran est verrouillé — il s'agit d'une protection de confidentialité iOS qui ne peut pas être contournée. Le signal de lampe de poche fonctionne normalement lorsque l'écran est allumé.";
-"faq.q8" = "Comment annuler mon abonnement ?";
-"faq.a8" = "Allez dans Réglages → Abonnement pour gérer votre abonnement via Apple. Vous pouvez annuler à tout moment depuis les réglages d'abonnement de l'App Store.";
 
 /* No comment provided by engineer. */
 "Legal" = "Mentions légales";
@@ -359,18 +335,6 @@
 
 /* No comment provided by engineer. */
 "You have access to all features." = "Vous avez accès à toutes les fonctionnalités.";
-
-/* No comment provided by engineer. */
-"2 free runs total. Upgrade for unlimited." = "2 sessions gratuites au total. Passez à l'illimité.";
-
-/* No comment provided by engineer. */
-"Couldn’t load subscription options." = "Impossible de charger les options d’abonnement.";
-
-/* No comment provided by engineer. */
-"Please check your internet connection and try again." = "Veuillez vérifier votre connexion internet et réessayer.";
-
-/* No comment provided by engineer. */
-"Retry" = "Réessayer";
 
 /* No comment provided by engineer. */
 "Your free trial has expired." = "Votre essai gratuit a expiré.";
@@ -601,15 +565,6 @@
 "Save to Health" = "Enregistrer dans Santé";
 
 /* No comment provided by engineer. */
-"Apple Health" = "Apple Santé";
-
-/* No comment provided by engineer. */
-"Save sessions to Apple Health" = "Enregistrer les séances dans Apple Santé";
-
-/* No comment provided by engineer. */
-"Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session." = "Les séances terminées sont enregistrées dans Apple Santé comme entraînements ou minutes de pleine conscience. Vous pouvez aussi les enregistrer individuellement après chaque séance.";
-
-/* No comment provided by engineer. */
 "Saved to Health" = "Enregistré dans Santé";
 
 /* No comment provided by engineer. */
@@ -639,27 +594,57 @@
 /* No comment provided by engineer. */
 "Photo Library" = "Photothèque";
 
+/* No comment provided by engineer. */
+"2 free runs total. Upgrade for unlimited." = "2 sessions gratuites au total. Passez à l'illimité.";
 
-/* Review prompt */
-"I need your help." = "J'ai besoin de ton aide.";
-"If Cadence is useful to you, a quick App Store review would mean a lot and help others discover the app." = "Si Cadence t'est utile, un avis rapide sur l'App Store compterait beaucoup et aiderait d'autres personnes à découvrir l'app.";
-"Maybe later" = "Peut-être plus tard";
-"No, I don't want to help" = "Non, je ne veux pas aider";
-"Send feedback" = "Envoyer un avis";
+/* No comment provided by engineer. */
+"Couldn’t load subscription options." = "Impossible de charger les options d’abonnement.";
 
-/* Round prep signal */
-"Round Prep Signal" = "Signal de préparation de tour";
-"Round prep signal" = "Signal de préparation de tour";
-"ROUND prep signal" = "Signal de préparation de TOUR";
-"Beeps at the end of each round to signal the next" = "Bipe à la fin de chaque tour pour signaler le suivant";
-"Duration" = "Durée";
+/* No comment provided by engineer. */
+"Please check your internet connection and try again." = "Veuillez vérifier votre connexion internet et réessayer.";
 
-/* Block prep signal */
-"Phase Prep Signal" = "Signal de préparation de bloc";
-"Phase prep signal" = "Signal de préparation de bloc";
-"BLOCK prep signal" = "Signal de préparation de BLOC";
-"Beeps at the end of each block to signal the next phase" = "Bipe à la fin de chaque bloc pour signaler le suivant";
-"Beeps at the end of each block to signal the next" = "Bipe à la fin de chaque bloc pour signaler le suivant";
+/* No comment provided by engineer. */
+"Retry" = "Réessayer";
 
-/* Prep signals combined */
-"Prep Signals" = "Signaux de préparation";
+/* No comment provided by engineer. */
+"Apple Health" = "Apple Santé";
+
+/* No comment provided by engineer. */
+"Save sessions to Apple Health" = "Enregistrer les séances dans Apple Santé";
+
+/* No comment provided by engineer. */
+"Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session." = "Les séances terminées sont enregistrées dans Apple Santé comme entraînements ou minutes de pleine conscience. Vous pouvez aussi les enregistrer individuellement après chaque séance.";
+
+/* No comment provided by engineer. */
+"Run your timers as much as you want — no limits." = "Utilisez vos minuteurs autant que vous voulez, sans limites.";
+
+/* No comment provided by engineer. */
+"Restore purchases" = "Restaurer les achats";
+
+/* No comment provided by engineer. */
+"Subscription renews automatically. Cancel anytime in Settings." = "L'abonnement se renouvelle automatiquement. Annulez à tout moment dans les Réglages.";
+
+/* No comment provided by engineer. */
+"Terms of Use (EULA)" = "Conditions d'utilisation (EULA)";
+
+/* No comment provided by engineer. */
+"Annual" = "Annuel";
+
+/* No comment provided by engineer. */
+"Monthly" = "Mensuel";
+
+/* No comment provided by engineer. */
+"Lifetime" = "À vie";
+
+/* No comment provided by engineer. */
+"7-day free trial" = "7 jours d'essai gratuit";
+
+/* No comment provided by engineer. */
+"One-time" = "Paiement unique";
+
+/* No comment provided by engineer. */
+"Pay once, keep forever" = "Payez une fois, gardez à vie";
+
+/* No comment provided by engineer. */
+"%@ / month" = "%@ / mois";
+

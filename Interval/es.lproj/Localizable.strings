@@ -311,33 +311,9 @@
 
 /* No comment provided by engineer. */
 "Terms of Service" = "Términos de servicio";
-"Terms and Conditions" = "Términos y condiciones";
 
 /* No comment provided by engineer. */
 "FAQ" = "FAQ";
-
-/* Widget section */
-"Choose Widget Timers" = "Elegir temporizadores del widget";
-"Widget Timers" = "Temporizadores del widget";
-"Choose up to 3 timers to show in the widget. Tap to add or remove." = "Elige hasta 3 temporizadores para mostrar en el widget. Toca para añadir o eliminar.";
-
-/* FAQ questions and answers */
-"faq.q1" = "¿Cómo creo un temporizador personalizado?";
-"faq.a1" = "Toca \"Crear nuevo temporizador\" en la Biblioteca. Usa el editor de secuencias para añadir bloques de intervalo, establecer duraciones, elegir señales de sonido y hápticas, y configurar el inicio y el final de tu sesión.";
-"faq.q2" = "¿Puedo reordenar los bloques de intervalo?";
-"faq.a2" = "Toca el icono del deslizador en cualquier bloque para editarlo. Para eliminar varios bloques a la vez, toca Seleccionar en el editor de secuencias y marca los que quieras eliminar.";
-"faq.q3" = "¿Cómo guardo una sesión en Apple Health?";
-"faq.a3" = "Al completar una sesión, toca \"Guardar en Health\" en la pantalla de resumen. Los temporizadores de Mente y Productividad se guardan como Sesiones de atención plena; los de Cuerpo como Entrenamientos HIIT.";
-"faq.q4" = "¿Por qué no se reproduce el anuncio de voz?";
-"faq.a4" = "Asegúrate de que el dispositivo no esté en modo silencio y de que el volumen esté subido. Los anuncios de voz requieren que el volumen de señales de audio sea superior al 0 % en Ajustes.";
-"faq.q5" = "¿Cómo funcionan los preajustes?";
-"faq.a5" = "Los preajustes son temporizadores integrados diseñados para prácticas comunes. No puedes editarlos directamente, pero puedes duplicar cualquiera para crear tu propia versión.";
-"faq.q6" = "¿Qué hace \"Más alto que la música\"?";
-"faq.a6" = "Cuando está activado, el volumen de tu música o pódcast se reduce temporalmente mientras suena una señal de intervalo, para que no te pierdas ninguna transición.";
-"faq.q7" = "¿Por qué la señal de linterna no funciona en la pantalla de bloqueo?";
-"faq.a7" = "iOS restringe el acceso a la cámara y la linterna para todas las apps de terceros cuando la pantalla está bloqueada — es una protección de privacidad de iOS que no se puede evitar. La señal de linterna funciona con normalidad cuando la pantalla está encendida.";
-"faq.q8" = "¿Cómo cancelo mi suscripción?";
-"faq.a8" = "Ve a Ajustes → Suscripción para gestionar tu suscripción a través de Apple. Puedes cancelar en cualquier momento desde los ajustes de suscripción de la App Store.";
 
 /* No comment provided by engineer. */
 "Legal" = "Legal";
@@ -359,18 +335,6 @@
 
 /* No comment provided by engineer. */
 "You have access to all features." = "Tienes acceso a todas las funciones.";
-
-/* No comment provided by engineer. */
-"2 free runs total. Upgrade for unlimited." = "2 sesiones gratis en total. Actualiza para uso ilimitado.";
-
-/* No comment provided by engineer. */
-"Couldn’t load subscription options." = "No se pudieron cargar las opciones de suscripción.";
-
-/* No comment provided by engineer. */
-"Please check your internet connection and try again." = "Comprueba tu conexión a internet e inténtalo de nuevo.";
-
-/* No comment provided by engineer. */
-"Retry" = "Reintentar";
 
 /* No comment provided by engineer. */
 "Your free trial has expired." = "Tu prueba gratuita ha expirado.";
@@ -601,15 +565,6 @@
 "Save to Health" = "Guardar en Salud";
 
 /* No comment provided by engineer. */
-"Apple Health" = "Apple Salud";
-
-/* No comment provided by engineer. */
-"Save sessions to Apple Health" = "Guardar sesiones en Apple Salud";
-
-/* No comment provided by engineer. */
-"Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session." = "Las sesiones completadas se guardan en Apple Salud como entrenamientos o minutos de conciencia plena. También puedes guardarlas individualmente después de cada sesión.";
-
-/* No comment provided by engineer. */
 "Saved to Health" = "Guardado en Salud";
 
 /* No comment provided by engineer. */
@@ -639,27 +594,57 @@
 /* No comment provided by engineer. */
 "Photo Library" = "Fototeca";
 
+/* No comment provided by engineer. */
+"2 free runs total. Upgrade for unlimited." = "2 sesiones gratis en total. Actualiza para uso ilimitado.";
 
-/* Review prompt */
-"I need your help." = "Necesito tu ayuda.";
-"If Cadence is useful to you, a quick App Store review would mean a lot and help others discover the app." = "Si Cadence te resulta útil, una reseña rápida en el App Store significaría mucho y ayudaría a otros a descubrir la app.";
-"Maybe later" = "Quizás más tarde";
-"No, I don't want to help" = "No, no quiero ayudar";
-"Send feedback" = "Enviar opinión";
+/* No comment provided by engineer. */
+"Couldn’t load subscription options." = "No se pudieron cargar las opciones de suscripción.";
 
-/* Round prep signal */
-"Round Prep Signal" = "Señal de preparación de ronda";
-"Round prep signal" = "Señal de preparación de ronda";
-"ROUND prep signal" = "Señal de preparación de RONDA";
-"Beeps at the end of each round to signal the next" = "Emite un pitido al final de cada ronda para señalar la siguiente";
-"Duration" = "Duración";
+/* No comment provided by engineer. */
+"Please check your internet connection and try again." = "Comprueba tu conexión a internet e inténtalo de nuevo.";
 
-/* Block prep signal */
-"Phase Prep Signal" = "Señal de preparación de bloque";
-"Phase prep signal" = "Señal de preparación de bloque";
-"BLOCK prep signal" = "Señal de preparación de BLOQUE";
-"Beeps at the end of each block to signal the next phase" = "Emite un pitido al final de cada bloque para señalar el siguiente";
-"Beeps at the end of each block to signal the next" = "Emite un pitido al final de cada bloque para señalar el siguiente";
+/* No comment provided by engineer. */
+"Retry" = "Reintentar";
 
-/* Prep signals combined */
-"Prep Signals" = "Señales de preparación";
+/* No comment provided by engineer. */
+"Apple Health" = "Apple Salud";
+
+/* No comment provided by engineer. */
+"Save sessions to Apple Health" = "Guardar sesiones en Apple Salud";
+
+/* No comment provided by engineer. */
+"Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session." = "Las sesiones completadas se guardan en Apple Salud como entrenamientos o minutos de conciencia plena. También puedes guardarlas individualmente después de cada sesión.";
+
+/* No comment provided by engineer. */
+"Run your timers as much as you want — no limits." = "Usa tus temporizadores tanto como quieras, sin límites.";
+
+/* No comment provided by engineer. */
+"Restore purchases" = "Restaurar compras";
+
+/* No comment provided by engineer. */
+"Subscription renews automatically. Cancel anytime in Settings." = "La suscripción se renueva automáticamente. Cancela cuando quieras en Ajustes.";
+
+/* No comment provided by engineer. */
+"Terms of Use (EULA)" = "Términos de uso (EULA)";
+
+/* No comment provided by engineer. */
+"Annual" = "Anual";
+
+/* No comment provided by engineer. */
+"Monthly" = "Mensual";
+
+/* No comment provided by engineer. */
+"Lifetime" = "De por vida";
+
+/* No comment provided by engineer. */
+"7-day free trial" = "7 días de prueba gratis";
+
+/* No comment provided by engineer. */
+"One-time" = "Pago único";
+
+/* No comment provided by engineer. */
+"Pay once, keep forever" = "Paga una vez, tuyo para siempre";
+
+/* No comment provided by engineer. */
+"%@ / month" = "%@ / mes";
+
