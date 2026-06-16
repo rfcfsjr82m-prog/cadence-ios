@@ -18,8 +18,6 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -31,10 +29,14 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram-stories</string>
 	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Cadence only writes your completed sessions to Apple Health and does not read your health data.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Cadence saves your completed sessions to Apple Health.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

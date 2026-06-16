@@ -4,6 +4,9 @@
 /* Bundle name */
 "CFBundleName" = "Interval";
 
+/* Privacy - Health Share Usage Description */
+"NSHealthShareUsageDescription" = "Cadence only writes your completed sessions to Apple Health and does not read your health data.";
+
 /* Privacy - Health Update Usage Description */
 "NSHealthUpdateUsageDescription" = "Cadence saves your completed sessions to Apple Health.";
 

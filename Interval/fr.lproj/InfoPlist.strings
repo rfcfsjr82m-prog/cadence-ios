@@ -6,6 +6,9 @@
 /* Bundle name */
 "CFBundleName" = "Interval";
 
+/* Privacy - Health Share Usage Description */
+"NSHealthShareUsageDescription" = "Cadence enregistre uniquement vos séances terminées dans Apple Santé et ne lit aucune donnée de santé.";
+
 /* Privacy - Health Update Usage Description */
 "NSHealthUpdateUsageDescription" = "Cadence enregistre vos séances terminées dans Apple Santé.";
 
