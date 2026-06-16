@@ -17,6 +17,7 @@ struct SessionDoneOverlay: View {
 
     @State private var healthState: HealthState = .idle
     @State private var showShareSheet = false
+    @AppStorage("saveToAppleHealth") private var saveToAppleHealth = false
 
     private enum HealthState { case idle, saving, saved, unavailable }
 
@@ -132,6 +133,15 @@ struct SessionDoneOverlay: View {
         .transition(.opacity)
         .sheet(isPresented: $showShareSheet) {
             ShareSheetView(config: config, startDate: startDate, endDate: endDate)
+        }
+        .task {
+            // Auto-save to Apple Health when the user enabled it in Settings.
+            if case .complete = reason,
+               saveToAppleHealth,
+               healthState == .idle,
+               HealthKitManager.shared.isAvailable {
+                saveToHealth()
+            }
         }
     }
 

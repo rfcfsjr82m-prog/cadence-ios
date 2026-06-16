@@ -36,44 +36,17 @@ struct PaywallSheet: View {
                     .padding(.bottom, 32)
 
                     // ── Plans ────────────────────────────────────────────────
-                    VStack(spacing: 12) {
-                        if let annual = store.annual {
-                            PlanRow(
-                                product: annual,
-                                label: "Annual",
-                                badge: "7-day free trial",
-                                detail: perMonthString(annual),
-                                isHighlighted: true,
-                                isLoading: store.isLoading
-                            ) {
-                                Task { await purchase(annual) }
-                            }
-                        }
-
-                        if let monthly = store.monthly {
-                            PlanRow(
-                                product: monthly,
-                                label: "Monthly",
-                                badge: nil,
-                                detail: nil,
-                                isHighlighted: false,
-                                isLoading: store.isLoading
-                            ) {
-                                Task { await purchase(monthly) }
-                            }
-                        }
-
-                        if let lifetime = store.lifetime {
-                            PlanRow(
-                                product: lifetime,
-                                label: "Lifetime",
-                                badge: "One-time",
-                                detail: "Pay once, keep forever",
-                                isHighlighted: false,
-                                isLoading: store.isLoading
-                            ) {
-                                Task { await purchase(lifetime) }
-                            }
+                    Group {
+                        if store.isLoadingProducts && !store.hasProducts {
+                            ProgressView()
+                                .controlSize(.large)
+                                .tint(Color.accent)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 48)
+                        } else if !store.hasProducts {
+                            productLoadErrorView
+                        } else {
+                            plansView
                         }
                     }
                     .padding(.horizontal, 20)
@@ -108,7 +81,18 @@ struct PaywallSheet: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 40)
                         .padding(.top, 10)
-                        .padding(.bottom, 32)
+
+                    HStack(spacing: 16) {
+                        Link("Privacy Policy",
+                             destination: URL(string: "https://cadence-interval-timer.app/app-privacy.html")!)
+                        Text("·")
+                        Link("Terms of Use (EULA)",
+                             destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
+                    }
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(Color.textSecondary)
+                    .padding(.top, 12)
+                    .padding(.bottom, 32)
                 }
             }
         }
@@ -121,6 +105,84 @@ struct PaywallSheet: View {
             }
         }
         .task { await store.loadProducts() }
+    }
+
+    // MARK: - Plans
+
+    private var plansView: some View {
+        VStack(spacing: 12) {
+            if let annual = store.annual {
+                PlanRow(
+                    product: annual,
+                    label: "Annual",
+                    badge: "7-day free trial",
+                    detail: perMonthString(annual),
+                    isHighlighted: true,
+                    isLoading: store.isLoading
+                ) {
+                    Task { await purchase(annual) }
+                }
+            }
+
+            if let monthly = store.monthly {
+                PlanRow(
+                    product: monthly,
+                    label: "Monthly",
+                    badge: nil,
+                    detail: nil,
+                    isHighlighted: false,
+                    isLoading: store.isLoading
+                ) {
+                    Task { await purchase(monthly) }
+                }
+            }
+
+            if let lifetime = store.lifetime {
+                PlanRow(
+                    product: lifetime,
+                    label: "Lifetime",
+                    badge: "One-time",
+                    detail: "Pay once, keep forever",
+                    isHighlighted: false,
+                    isLoading: store.isLoading
+                ) {
+                    Task { await purchase(lifetime) }
+                }
+            }
+        }
+    }
+
+    private var productLoadErrorView: some View {
+        VStack(spacing: 10) {
+            Image(systemName: "wifi.exclamationmark")
+                .font(.system(size: 30))
+                .foregroundStyle(Color.textTertiary)
+
+            Text("Couldn’t load subscription options.")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(Color.textPrimary)
+                .multilineTextAlignment(.center)
+
+            Text("Please check your internet connection and try again.")
+                .font(.system(size: 13))
+                .foregroundStyle(Color.textSecondary)
+                .multilineTextAlignment(.center)
+
+            Button {
+                Task { await store.loadProducts() }
+            } label: {
+                Text("Retry")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(Color.white)
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 12)
+                    .background(Color.accent, in: Capsule())
+            }
+            .disabled(store.isLoadingProducts)
+            .padding(.top, 6)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 28)
     }
 
     // MARK: - Helpers

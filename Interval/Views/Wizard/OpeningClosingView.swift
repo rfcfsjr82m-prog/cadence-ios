@@ -55,7 +55,7 @@ struct OpeningClosingView: View {
         .safeAreaInset(edge: .bottom) { bottomBar }
         .sheet(isPresented: $showPaywall) {
             PaywallSheet(onPurchased: {
-                StoreManager.shared.recordPersonalRun()
+                StoreManager.shared.recordFreeRun()
                 appState.startSession(appState.wizardSession)
             })
         }
@@ -262,11 +262,11 @@ struct OpeningClosingView: View {
 
     private func saveAndStart() {
         performSave()
-        guard StoreManager.shared.canRunPersonalTimer() else {
+        guard StoreManager.shared.canRunFreeTimer() else {
             showPaywall = true
             return
         }
-        StoreManager.shared.recordPersonalRun()
+        StoreManager.shared.recordFreeRun()
         appState.startSession(appState.wizardSession)
     }
 

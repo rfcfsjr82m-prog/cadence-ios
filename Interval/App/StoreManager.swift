@@ -19,28 +19,48 @@ final class StoreManager {
     private(set) var isLoading: Bool = false
     private(set) var purchaseError: String? = nil
 
-    private static let runsKey = "personalRunsUsed"
-    private static let programRunsKey = "programRunsUsed"
+    /// True while products are being fetched from the App Store.
+    private(set) var isLoadingProducts: Bool = false
+    /// True if the last product fetch returned nothing (no network, products
+    /// not configured, Paid Apps Agreement not in effect, etc.).
+    private(set) var productLoadFailed: Bool = false
+
+    /// Whether any subscription product is available to display.
+    var hasProducts: Bool { annual != nil || monthly != nil || lifetime != nil }
+
+    // Single shared free-run pool across personal timers AND program units.
+    private static let freeRunsKey = "freeRunsUsed"
+    // Legacy per-category keys, migrated once into the shared pool below.
+    private static let legacyPersonalRunsKey = "personalRunsUsed"
+    private static let legacyProgramRunsKey = "programRunsUsed"
     static let freeRunLimit = 2
-    private(set) var personalRunsUsed: Int = UserDefaults.standard.integer(forKey: runsKey)
-    private(set) var programRunsUsed: Int = UserDefaults.standard.integer(forKey: programRunsKey)
+    private(set) var freeRunsUsed: Int = StoreManager.migratedFreeRunsUsed()
 
-    func canRunPersonalTimer() -> Bool {
-        isPro || personalRunsUsed < Self.freeRunLimit
+    /// Reads the shared counter, migrating the two legacy per-category counters
+    /// into it the first time (so existing free users aren't given extra runs).
+    private static func migratedFreeRunsUsed() -> Int {
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: freeRunsKey) != nil {
+            return defaults.integer(forKey: freeRunsKey)
+        }
+        let legacyTotal = defaults.integer(forKey: legacyPersonalRunsKey)
+            + defaults.integer(forKey: legacyProgramRunsKey)
+        let migrated = min(legacyTotal, freeRunLimit)
+        defaults.set(migrated, forKey: freeRunsKey)
+        defaults.removeObject(forKey: legacyPersonalRunsKey)
+        defaults.removeObject(forKey: legacyProgramRunsKey)
+        return migrated
     }
 
-    func recordPersonalRun() {
-        personalRunsUsed += 1
-        UserDefaults.standard.set(personalRunsUsed, forKey: Self.runsKey)
+    /// Whether a free user may start any timer (personal or program unit).
+    func canRunFreeTimer() -> Bool {
+        isPro || freeRunsUsed < Self.freeRunLimit
     }
 
-    func canRunProgramUnit() -> Bool {
-        isPro || programRunsUsed < Self.freeRunLimit
-    }
-
-    func recordProgramRun() {
-        programRunsUsed += 1
-        UserDefaults.standard.set(programRunsUsed, forKey: Self.programRunsKey)
+    /// Records one free run against the shared pool.
+    func recordFreeRun() {
+        freeRunsUsed += 1
+        UserDefaults.standard.set(freeRunsUsed, forKey: Self.freeRunsKey)
     }
 
     private var transactionListener: Task<Void, Never>?
@@ -58,6 +78,13 @@ final class StoreManager {
     // MARK: - Load products
 
     func loadProducts() async {
+        isLoadingProducts = true
+        defer {
+            isLoadingProducts = false
+            // An empty fetch (no agreement / no config) or a thrown error both
+            // leave us with no products to show — surface that to the UI.
+            productLoadFailed = !hasProducts
+        }
         let ids: Set<String> = [Self.annualID, Self.monthlyID, Self.lifetimeID]
         do {
             let fetched = try await Product.products(for: ids)
@@ -70,7 +97,7 @@ final class StoreManager {
                 }
             }
         } catch {
-            // Products unavailable (e.g. no StoreKit config in simulator) — fail silently
+            // Network or StoreKit failure — productLoadFailed is set in defer.
         }
     }
 

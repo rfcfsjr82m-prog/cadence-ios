@@ -208,11 +208,11 @@ struct LibraryView: View {
             TimerCard(
                 config: config,
                 onStart: {
-                    guard StoreManager.shared.canRunPersonalTimer() else {
+                    guard StoreManager.shared.canRunFreeTimer() else {
                         showPaywall = true
                         return
                     }
-                    StoreManager.shared.recordPersonalRun()
+                    StoreManager.shared.recordFreeRun()
                     appState.startSession(config)
                 },
                 onEdit: { appState.startWizard(editing: config) },

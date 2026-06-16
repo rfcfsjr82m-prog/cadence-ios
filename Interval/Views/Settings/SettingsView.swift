@@ -7,6 +7,7 @@ struct SettingsView: View {
     @State private var store = StoreManager.shared
     @State private var showPaywall = false
     @State private var previewTask: Task<Void, Never>? = nil
+    @AppStorage("saveToAppleHealth") private var saveToAppleHealth = false
 
     var body: some View {
         ZStack {
@@ -102,6 +103,39 @@ struct SettingsView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .overlay(RoundedRectangle(cornerRadius: 12)
                             .strokeBorder(Color.borderDefault, lineWidth: 0.5))
+                    }
+
+                    // MARK: - Apple Health
+                    if HealthKitManager.shared.isAvailable {
+                        settingsSection(title: "Apple Health") {
+                            VStack(spacing: 0) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 3) {
+                                        Text("Save sessions to Apple Health")
+                                            .font(.system(size: 14))
+                                            .foregroundStyle(Color.textPrimary)
+                                        Text("Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session.")
+                                            .font(.system(size: 12))
+                                            .foregroundStyle(Color.textTertiary)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+                                    Spacer()
+                                    Toggle("", isOn: $saveToAppleHealth)
+                                        .labelsHidden()
+                                        .tint(Color.accent)
+                                        .onChange(of: saveToAppleHealth) { _, newValue in
+                                            if newValue {
+                                                Task { await HealthKitManager.shared.requestAuthorization() }
+                                            }
+                                        }
+                                }
+                                .padding(14)
+                                .background(Color.surface)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .overlay(RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(Color.borderDefault, lineWidth: 0.5))
+                            }
+                        }
                     }
 
                     // MARK: - Support
@@ -291,7 +325,7 @@ private struct SubscriptionBadge: View {
                 }
                 Text(isPro
                      ? NSLocalizedString("You have access to all features.", comment: "")
-                     : NSLocalizedString("2 free runs per timer type. Upgrade for unlimited.", comment: ""))
+                     : NSLocalizedString("2 free runs total. Upgrade for unlimited.", comment: ""))
                     .font(.system(size: 12))
                     .foregroundStyle(Color.textSecondary)
             }

@@ -361,6 +361,18 @@
 "You have access to all features." = "Tienes acceso a todas las funciones.";
 
 /* No comment provided by engineer. */
+"2 free runs total. Upgrade for unlimited." = "2 sesiones gratis en total. Actualiza para uso ilimitado.";
+
+/* No comment provided by engineer. */
+"Couldn’t load subscription options." = "No se pudieron cargar las opciones de suscripción.";
+
+/* No comment provided by engineer. */
+"Please check your internet connection and try again." = "Comprueba tu conexión a internet e inténtalo de nuevo.";
+
+/* No comment provided by engineer. */
+"Retry" = "Reintentar";
+
+/* No comment provided by engineer. */
 "Your free trial has expired." = "Tu prueba gratuita ha expirado.";
 
 /* No comment provided by engineer. */
@@ -587,6 +599,15 @@
 
 /* No comment provided by engineer. */
 "Save to Health" = "Guardar en Salud";
+
+/* No comment provided by engineer. */
+"Apple Health" = "Apple Salud";
+
+/* No comment provided by engineer. */
+"Save sessions to Apple Health" = "Guardar sesiones en Apple Salud";
+
+/* No comment provided by engineer. */
+"Completed sessions are saved to Apple Health as workouts or mindful minutes. You can also save individually after each session." = "Las sesiones completadas se guardan en Apple Salud como entrenamientos o minutos de conciencia plena. También puedes guardarlas individualmente después de cada sesión.";
 
 /* No comment provided by engineer. */
 "Saved to Health" = "Guardado en Salud";

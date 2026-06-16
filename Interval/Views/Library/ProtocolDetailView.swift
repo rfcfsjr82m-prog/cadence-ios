@@ -31,11 +31,11 @@ struct ProtocolDetailView: View {
                                     unit: unit,
                                     isCompleted: appState.completedUnitIDs.contains(unit.id),
                                     onStart: {
-                                        guard StoreManager.shared.canRunProgramUnit() else {
+                                        guard StoreManager.shared.canRunFreeTimer() else {
                                             showPaywall = true
                                             return
                                         }
-                                        StoreManager.shared.recordProgramRun()
+                                        StoreManager.shared.recordFreeRun()
                                         dismiss()
                                         appState.startSession(unit, returnTab: .programs)
                                     }
