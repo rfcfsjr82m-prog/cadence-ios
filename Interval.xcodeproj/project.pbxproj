@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF0000000000000000000003 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = AF0000000000000000000002 /* AppsFlyerLib */; };
 		0002ED985C1D44B4878C79A191817A84 /* Voice_Female_Finish_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A56F264A16446DEA2E3BB9BDFA99AEE /* Voice_Female_Finish_3.mp3 */; };
 		030D32F0A0F070ECF71044F8 /* CadenceActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AF2A15B124D8F1FC0AE4B9 /* CadenceActivityAttributes.swift */; };
 		03D6F9491BA40BFD6A5EA7D4 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB0F5EDF396514584BD03D0 /* ActivityKit.framework */; };
@@ -416,6 +417,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF0000000000000000000003 /* AppsFlyerLib in Frameworks */,
 				1FF759B492226324D6E2BD47 /* HealthKit.framework in Frameworks */,
 				03D6F9491BA40BFD6A5EA7D4 /* ActivityKit.framework in Frameworks */,
 				D0131781D71DD3B35A850DE4 /* WatchConnectivity.framework in Frameworks */,
@@ -779,6 +781,9 @@
 				D1142FB9EF182365515C6E13 /* PBXTargetDependency */,
 			);
 			name = Interval;
+			packageProductDependencies = (
+				AF0000000000000000000002 /* AppsFlyerLib */,
+			);
 			productName = Interval;
 			productReference = 5141EFFF35ACD6C51F274E4D /* Interval.app */;
 			productType = "com.apple.product-type.application";
@@ -822,6 +827,9 @@
 			};
 			buildConfigurationList = C1B0D475F7746409ADBE8D6F /* Build configuration list for PBXProject "Interval" */;
 			developmentRegion = en;
+			packageReferences = (
+				AF0000000000000000000001 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+			);
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -1149,7 +1157,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Interval/Interval.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = Interval/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1157,7 +1165,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.christiankasper.cadence;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1171,7 +1179,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CadenceWidget/CadenceWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = CadenceWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1180,7 +1188,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.christiankasper.cadence.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1196,14 +1204,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CadenceWatch/CadenceWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = CadenceWatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.christiankasper.cadence.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1243,7 +1251,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Interval/Interval.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = Interval/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1251,7 +1259,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.christiankasper.cadence;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1283,7 +1291,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CadenceWidget/CadenceWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = CadenceWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1292,7 +1300,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.christiankasper.cadence.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1308,14 +1316,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CadenceWatch/CadenceWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = CadenceWatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.christiankasper.cadence.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1367,6 +1375,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AF0000000000000000000001 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AF0000000000000000000002 /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF0000000000000000000001 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1781F676DEDF5767F3243DB0 /* Project object */;
 }

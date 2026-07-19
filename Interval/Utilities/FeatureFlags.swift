@@ -11,6 +11,6 @@ enum FeatureFlags {
 
     /// TESTING ONLY — shows the onboarding on every app launch, ignoring the
     /// `hasSeenOnboarding` flag. MUST be false for release builds.
-    static let alwaysShowOnboarding = true
+    static let alwaysShowOnboarding = false
 
 }

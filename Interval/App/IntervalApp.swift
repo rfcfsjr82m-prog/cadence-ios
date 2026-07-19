@@ -1,9 +1,103 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+import AppsFlyerLib
+
+// MARK: - AppsFlyer attribution
+//
+// AppsFlyer ties Apple Search Ads installs through to trial-starts and
+// subscription purchases. Configuration lives here (app entry point); the
+// two conversion events are logged from `StoreManager.purchase(_:)`.
+//
+// ATT: we deliberately never set `waitForATTUserAuthorization` and never touch
+// AppTrackingTransparency — AppsFlyer attribution for ASA does not require ATT,
+// so no tracking prompt is shown.
+
+enum Attribution {
+    /// AppsFlyer dev key (App Settings → Dev Key). Confirmed against the
+    /// dashboard 2026-07-19.
+    static let devKey = "cxSKhNTjZpEdkSDbBCPgC4"
+    static let appleAppID = "6778636283"
+
+    enum Tier: String { case monthly, annual, lifetime }
+
+    /// Configure the SDK. Called once from `AppDelegate`.
+    static func configure() {
+        let af = AppsFlyerLib.shared()
+        af.appsFlyerDevKey = devKey
+        af.appleAppID = appleAppID
+        #if DEBUG
+        af.isDebug = true
+        // Printed so you can register this device in AppsFlyer → Test devices.
+        print("📊 AppsFlyer IDFV:", UIDevice.current.identifierForVendor?.uuidString ?? "nil")
+        print("📊 AppsFlyer UID:", af.getAppsFlyerUID())
+        #endif
+    }
+
+    /// Start reporting. Must run while the app is in the foreground, so it is
+    /// driven off `scenePhase == .active`.
+    static func start() {
+        AppsFlyerLib.shared().start()
+    }
+
+    /// A free trial began (annual plan, intro free-trial offer).
+    static func logTrialStart(tier: Tier, price: Double, currency: String) {
+        AppsFlyerLib.shared().logEvent(AFEventStartTrial, withValues: [
+            AFEventParamContentId: tier.rawValue,
+            AFEventParamContentType: "subscription",
+            AFEventParamPrice: price,
+            AFEventParamCurrency: currency,
+        ])
+    }
+
+    /// A paid subscription or lifetime unlock was purchased.
+    static func logPurchase(tier: Tier, revenue: Double, currency: String) {
+        AppsFlyerLib.shared().logEvent(AFEventPurchase, withValues: [
+            AFEventParamRevenue: revenue,
+            AFEventParamCurrency: currency,
+            AFEventParamContentId: tier.rawValue,
+            AFEventParamContentType: tier == .lifetime ? "lifetime" : "subscription",
+        ])
+    }
+}
+
+// AppsFlyer's setup expects a UIApplicationDelegate for launch + URL callbacks.
+final class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+        Attribution.configure()
+        return true
+    }
+
+    // Forward deep links / universal links to AppsFlyer for deferred
+    // deep-link attribution. SwiftUI's own `.onOpenURL` still fires for the
+    // app's `cadence://` scheme — these callbacks coexist with it.
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+    ) -> Bool {
+        AppsFlyerLib.shared().handleOpen(url, options: options)
+        return true
+    }
+
+    func application(
+        _ application: UIApplication,
+        continue userActivity: NSUserActivity,
+        restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+    ) -> Bool {
+        AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+        return true
+    }
+}
 
 @main
 struct IntervalApp: App {
+
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @Environment(\.scenePhase) private var scenePhase
 
     @State private var appState = AppState()
 
@@ -32,6 +126,13 @@ struct IntervalApp: App {
             RootView()
                 .environment(appState)
                 .modelContainer(sharedModelContainer)
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            // AppsFlyer's start() must fire in the foreground; the SDK is
+            // already configured in AppDelegate.didFinishLaunching.
+            if newPhase == .active {
+                Attribution.start()
+            }
         }
     }
 }

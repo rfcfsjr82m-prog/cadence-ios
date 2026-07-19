@@ -129,6 +129,9 @@ final class StoreManager {
                 if isPro && startsTrial {
                     TrialReminderManager.scheduleReminder()
                 }
+                if isPro {
+                    logAttribution(for: product, startedTrial: startsTrial)
+                }
             case .userCancelled:
                 break
             case .pending:
@@ -138,6 +141,34 @@ final class StoreManager {
             }
         } catch {
             purchaseError = error.localizedDescription
+        }
+    }
+
+    // MARK: - Attribution
+
+    /// Logs the AppsFlyer conversion event for a completed purchase so Apple
+    /// Search Ads installs can be attributed through to revenue.
+    ///
+    /// - A trial start (annual intro free-trial) logs `AFEventStartTrial` with
+    ///   no revenue — money isn't due yet.
+    /// - Any direct paid purchase (monthly / annual without trial / lifetime)
+    ///   logs `af_purchase` with the product's price, currency, and tier.
+    private func logAttribution(for product: Product, startedTrial: Bool) {
+        let tier: Attribution.Tier
+        switch product.id {
+        case Self.annualID:   tier = .annual
+        case Self.monthlyID:  tier = .monthly
+        case Self.lifetimeID: tier = .lifetime
+        default: return
+        }
+
+        let price = (product.price as NSDecimalNumber).doubleValue
+        let currency = product.priceFormatStyle.currencyCode
+
+        if startedTrial {
+            Attribution.logTrialStart(tier: tier, price: price, currency: currency)
+        } else {
+            Attribution.logPurchase(tier: tier, revenue: price, currency: currency)
         }
     }
 
