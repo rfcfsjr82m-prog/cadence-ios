@@ -1,0 +1,37 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# INTERVAL — Presets definition file
+# Add new presets by appending rows. Each preset needs at least one block row.
+# The first row for a preset carries the preset-level fields; block rows below
+# it leave those columns blank and fill only the block columns.
+#
+# VALID VALUES
+# ────────────
+# preset_category     : mind | physical | productivity
+# repeat_mode         : rounds | duration
+# repeat_value        : integer  (rounds = number of rounds; duration = minutes)
+# opening_countdown   : integer seconds (0 to disable)
+# countdown_sound     : true | false
+# opening_cue         : voice_female | voice_male | sound:<SoundCue> | none
+# closing_cue         : voice_female | voice_male | sound:<SoundCue> | none
+#
+# block_color         : teal | coral | amber | sage | sky | lavender | rose | slate
+# block_sound         : Beacon | Bell Gentle | Bell Reverb | Bell | Bleep | Boxing Bell | Gong | Sonar High | Sonar Low | Sonar Ping | Tick | Tock | silent
+# block_haptic        : softPulse | doubleTap | longBuzz | off
+# block_visual_flash  : blockColor | none
+# ─────────────────────────────────────────────────────────────────────────────
+
+preset_id,preset_name,preset_category,preset_description,repeat_mode,repeat_value,opening_countdown,countdown_sound,opening_cue,closing_cue,block_order,block_label,block_duration_seconds,block_color,block_sound,block_haptic,block_visual_flash
+00000001-0000-0000-0000-000000000001,Box Breathing,mind,"Equal inhale, hold, exhale, and hold phases of 4 seconds each. Calms the nervous system and builds breath control.",rounds,15,10,true,voice_female,voice_female,1,Inhale,4,coral,Sonar High,longBuzz,blockColor
+00000001-0000-0000-0000-000000000001,,,,,,,,,,2,Hold,4,amber,Sonar Ping,softPulse,blockColor
+00000001-0000-0000-0000-000000000001,,,,,,,,,,3,Exhale,4,coral,Sonar Low,longBuzz,blockColor
+00000001-0000-0000-0000-000000000001,,,,,,,,,,4,Hold,4,amber,Sonar Ping,softPulse,blockColor
+00000002-0000-0000-0000-000000000002,4-7-8 Breathing,mind,"Inhale for 4 seconds, hold for 7, exhale for 8. Dr. Andrew Weil's technique for reducing anxiety and aiding sleep.",rounds,8,10,true,voice_female,voice_female,1,Inhale,4,sky,Sonar High,softPulse,blockColor
+00000002-0000-0000-0000-000000000002,,,,,,,,,,2,Hold,7,lavender,Sonar Ping,off,none
+00000002-0000-0000-0000-000000000002,,,,,,,,,,3,Exhale,8,teal,Sonar Low,softPulse,blockColor
+00000003-0000-0000-0000-000000000003,Tabata,physical,"20 seconds max effort, 10 seconds rest, repeated 8 times. A high-intensity protocol proven to boost aerobic and anaerobic capacity.",rounds,8,10,true,voice_female,voice_female,1,Work,20,coral,Bleep,doubleTap,blockColor
+00000003-0000-0000-0000-000000000003,,,,,,,,,,2,Rest,10,sage,Tick,softPulse,blockColor
+00000004-0000-0000-0000-000000000004,Pomodoro,productivity,"25 minutes of focused work followed by a 5-minute break. Francesco Cirillo's method for sustained deep work and preventing burnout.",rounds,4,5,true,voice_female,voice_female,1,Focus,1500,lavender,silent,off,none
+00000004-0000-0000-0000-000000000004,,,,,,,,,,2,Break,300,teal,Bell Gentle,softPulse,blockColor
+00000005-0000-0000-0000-000000000005,Mobility Drill,physical,"Mobility Drill is a simple mobility preset that guides you through a controlled movement, a steady end-range hold, and a slow return to the starting position.",rounds,8,5,true,voice_male,voice_male,1,Move,4,sage,Sonar Ping,softPulse,blockColor
+00000005-0000-0000-0000-000000000005,,,,,,,,,,2,Hold,6,lavender,Sonar High,softPulse,blockColor
+00000005-0000-0000-0000-000000000005,,,,,,,,,,3,Return,4,sage,Sonar Ping,softPulse,blockColor

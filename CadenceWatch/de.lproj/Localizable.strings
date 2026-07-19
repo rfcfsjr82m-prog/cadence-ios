@@ -1,0 +1,18 @@
+/* Watch app strings */
+"Close" = "Schließen";
+"Skip" = "Überspringen";
+"Start" = "Start";
+"Done!" = "Fertig!";
+"Create timers in Cadence on iPhone." = "Timer in Cadence auf dem iPhone erstellen.";
+"%dm · %d rounds" = "%dm · %d Runden";
+"Round %d / %d" = "Runde %d / %d";
+"%d/%d units done" = "%d/%d Einheiten abgeschlossen";
+"%dm · %d×" = "%dm · %d×";
+"Unit %d" = "Einheit %d";
+"No Personal Timers" = "Keine eigenen Timer";
+"Presets" = "Vorlagen";
+"Programs" = "Programme";
+"Personal" = "Persönlich";
+"Mind" = "Geist";
+"Body" = "Körper";
+"Productivity" = "Produktivität";

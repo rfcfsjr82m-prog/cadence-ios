@@ -1,0 +1,18 @@
+/* Bundle display name */
+"CFBundleDisplayName" = "Cadence";
+
+/* Bundle name */
+"CFBundleName" = "Interval";
+
+/* Privacy - Health Share Usage Description */
+"NSHealthShareUsageDescription" = "Cadence only writes your completed sessions to Apple Health and does not read your health data.";
+
+/* Privacy - Health Update Usage Description */
+"NSHealthUpdateUsageDescription" = "Cadence saves your completed sessions to Apple Health.";
+
+/* Privacy - Location When In Use Usage Description */
+"NSLocationWhenInUseUsageDescription" = "Cadence can add your location to the share card so you remember where you trained.";
+
+/* Privacy - Photo Library Additions Usage Description */
+"NSPhotoLibraryAddUsageDescription" = "Cadence saves your session card to Photos.";
+

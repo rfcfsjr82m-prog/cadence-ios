@@ -1,0 +1,58 @@
+[
+  {
+    "id": "00000020-0000-0000-0000-000000000020",
+    "name": "5-5-5 Breathing",
+    "category": "mind",
+    "blocks": [
+      {
+        "id": "00000020-0001-0000-0000-000000000020",
+        "label": "Inhale",
+        "durationSeconds": 5,
+        "color": "sage",
+        "soundCue": "Sonar High",
+        "hapticCue": "off",
+        "visualFlash": "blockColor"
+      },
+      {
+        "id": "00000020-0002-0000-0000-000000000020",
+        "label": "Hold",
+        "durationSeconds": 5,
+        "color": "amber",
+        "soundCue": "Sonar Ping",
+        "hapticCue": "off",
+        "visualFlash": "blockColor"
+      },
+      {
+        "id": "00000020-0003-0000-0000-000000000020",
+        "label": "Exhale",
+        "durationSeconds": 5,
+        "color": "lavender",
+        "soundCue": "Sonar Low",
+        "hapticCue": "off",
+        "visualFlash": "blockColor"
+      }
+    ],
+    "repeatMode": { "type": "rounds", "value": 10 },
+    "openingCountdownSecs": 5,
+    "openingCountdownSoundEnabled": true,
+    "openingVoiceEnabled": true,
+    "closingVoiceEnabled": true,
+    "voiceGender": "female",
+    "openingCountdownLabel": "Get Ready",
+    "openingCountdownCue": { "type": "none" },
+    "openingAnnouncementCue": { "type": "voice", "value": "female" },
+    "closingAnnouncementCue": { "type": "voice", "value": "female" },
+    "roundPrepEnabled": false,
+    "roundPrepSecs": 3,
+    "phasePrepEnabled": false,
+    "phasePrepSecs": 3,
+    "isPreset": true,
+    "description": "Equal-ratio breathing for calm focus.",
+    "createdAt": 20,
+    "backgroundImageName": "",
+    "metronomeEnabled": false,
+    "metronomeIntervalSeconds": 60,
+    "metronomeSoundCue": "Bell Gentle",
+    "metronomeHapticCue": "softPulse"
+  }
+]
