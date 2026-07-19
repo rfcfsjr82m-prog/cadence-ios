@@ -63,7 +63,7 @@ struct ProtocolDetailView: View {
         .presentationBackground(Color.bg)
         .presentationDragIndicator(.visible)
         .sheet(isPresented: $showPaywall) {
-            PaywallSheet()
+            PaywallSheet(context: .gate)
         }
     }
 }

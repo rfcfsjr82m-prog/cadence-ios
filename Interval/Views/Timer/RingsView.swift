@@ -8,27 +8,34 @@ struct RingsView: View {
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+    // Bold rings matching the share-card look: equal stroke widths,
+    // rounded caps, and a visible background track.
+    private static let strokeWidth: CGFloat = 10
+    private static let gap: CGFloat = 6.5   // strokeWidth * 0.65, like ShareRingsView
+
     var body: some View {
+        let w = Self.strokeWidth
+        let step = w + Self.gap
         ZStack {
             // Outer ring — session (33% opacity)
-            RingTrack(radius: 110, strokeWidth: 1.5)
+            RingTrack(radius: 110, strokeWidth: w)
             Ring(fraction: sessionFraction,
                  radius: 110,
-                 strokeWidth: 1.5,
+                 strokeWidth: w,
                  color: blockColor.opacity(0.33))
 
             // Middle ring — round (67% opacity)
-            RingTrack(radius: 97, strokeWidth: 2.5)
+            RingTrack(radius: 110 - step, strokeWidth: w)
             Ring(fraction: roundFraction,
-                 radius: 97,
-                 strokeWidth: 2.5,
+                 radius: 110 - step,
+                 strokeWidth: w,
                  color: blockColor.opacity(0.67))
 
             // Inner ring — block (full opacity)
-            RingTrack(radius: 82, strokeWidth: 3.5)
+            RingTrack(radius: 110 - step * 2, strokeWidth: w)
             Ring(fraction: blockFraction,
-                 radius: 82,
-                 strokeWidth: 3.5,
+                 radius: 110 - step * 2,
+                 strokeWidth: w,
                  color: blockColor)
         }
         .accessibilityElement(children: .ignore)
@@ -48,7 +55,7 @@ private struct Ring: View {
         Circle()
             .trim(from: 0, to: max(0, min(1, fraction)))
             .stroke(color,
-                    style: StrokeStyle(lineWidth: strokeWidth, lineCap: .butt))
+                    style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round))
             .frame(width: radius * 2, height: radius * 2)
             .rotationEffect(.degrees(-90))
     }
@@ -62,8 +69,8 @@ private struct RingTrack: View {
 
     var body: some View {
         Circle()
-            .stroke(Color.white.opacity(0.035),
-                    style: StrokeStyle(lineWidth: strokeWidth, lineCap: .butt))
+            .stroke(Color.white.opacity(0.07),
+                    style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round))
             .frame(width: radius * 2, height: radius * 2)
     }
 }

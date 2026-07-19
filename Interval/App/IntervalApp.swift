@@ -7,6 +7,16 @@ struct IntervalApp: App {
 
     @State private var appState = AppState()
 
+    init() {
+        // Users who installed before onboarding shipped skip it:
+        // firstLaunchDate already exists but the onboarding flag doesn't.
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: "hasSeenOnboarding") == nil,
+           defaults.object(forKey: "firstLaunchDate") != nil {
+            defaults.set(true, forKey: "hasSeenOnboarding")
+        }
+    }
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([PersistedSession.self, SessionHistoryEntry.self])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
@@ -33,6 +43,9 @@ struct RootView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var sessions: [PersistedSession]
     @AppStorage("preferredScheme") private var preferredScheme: Int = 0  // 0 system, 1 dark, 2 light
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
+    /// Dismissal for the current launch when the always-show testing flag is on.
+    @State private var onboardingDismissedThisLaunch = false
 
     var body: some View {
         ZStack {
@@ -67,6 +80,20 @@ struct RootView: View {
             }
         }
         .animation(.easeInOut(duration: 0.32), value: appState.route)
+        .overlay {
+            let shouldShow = FeatureFlags.alwaysShowOnboarding
+                ? !onboardingDismissedThisLaunch
+                : !hasSeenOnboarding
+            if shouldShow {
+                OnboardingView {
+                    withAnimation(.easeInOut(duration: 0.45)) {
+                        hasSeenOnboarding = true
+                        onboardingDismissedThisLaunch = true
+                    }
+                }
+                .transition(.opacity)
+            }
+        }
         .preferredColorScheme(preferredScheme == 1 ? .dark : preferredScheme == 2 ? .light : nil)
         .onAppear {
             // Record first launch date for trial calculation
@@ -82,6 +109,21 @@ struct RootView: View {
                     ps.update(with: config)
                 }
             })
+
+            // Fetch remote presets (new or updated) and merge into SwiftData
+            RemotePresetsManager.shared.loadAndSync(
+                insert: { config in
+                    modelContext.insert(PersistedSession(config: config))
+                },
+                update: { config in
+                    if let ps = sessions.first(where: { $0.id == config.id }) {
+                        ps.update(with: config)
+                    }
+                },
+                existingIDs: {
+                    Set(sessions.compactMap { $0.config() }.map(\.id))
+                }
+            )
 
             // Sync timer data to the shared App Group so the widget and
             // Watch app always reflect the latest state after the app launches.
@@ -132,7 +174,16 @@ struct RootView: View {
 
             let allConfigs = sessions.compactMap { $0.config() }
             if let config = allConfigs.first(where: { $0.id == id }) {
-                appState.startSession(config)
+                if config.isPreset {
+                    appState.startSession(config)
+                } else {
+                    // Custom timers are Pro-gated — don't start directly from
+                    // the widget. Land on the Start & End step, whose start
+                    // button enforces the free-run limit.
+                    appState.wizardSession = config
+                    appState.editingSessionID = config.id
+                    appState.navigate(to: .wizardStep2)
+                }
             }
         }
         .sheet(isPresented: Binding(

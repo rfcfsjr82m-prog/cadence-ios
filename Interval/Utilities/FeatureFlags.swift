@@ -9,4 +9,8 @@ enum FeatureFlags {
     /// independently of rounds and phases, for as long as the session runs.
     static let metronome = false
 
+    /// TESTING ONLY — shows the onboarding on every app launch, ignoring the
+    /// `hasSeenOnboarding` flag. MUST be false for release builds.
+    static let alwaysShowOnboarding = true
+
 }

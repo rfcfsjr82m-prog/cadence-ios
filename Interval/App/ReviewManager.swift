@@ -7,30 +7,23 @@ final class ReviewManager: @unchecked Sendable {
 
     private let completedSessionsKey = "reviewCompletedSessionsCount"
     private let nextPromptThresholdKey = "reviewNextPromptThreshold"
-    private let neverShowAgainKey = "reviewNeverShowAgain"
 
     private init() {}
 
     /// Call this every time a session completes naturally.
-    /// Returns true if the review prompt should be shown.
+    /// Returns true if the review prompt should be requested.
+    ///
+    /// Fires at the 5th completed session, then re-arms every 10 sessions
+    /// (15, 25, …). The native StoreKit dialog gives no rated/dismissed
+    /// callback, so we re-arm unconditionally — iOS itself caps display at
+    /// 3 times per year and never shows it again after the user has rated.
     func recordCompletedSession() -> Bool {
-        guard !neverShowAgain else { return false }
-
         let count = completedSessions + 1
         UserDefaults.standard.set(count, forKey: completedSessionsKey)
 
-        return count >= nextPromptThreshold
-    }
-
-    /// Call when user taps "Maybe later" — snooze for 10 more sessions.
-    func snooze() {
-        let threshold = completedSessions + 10
-        UserDefaults.standard.set(threshold, forKey: nextPromptThresholdKey)
-    }
-
-    /// Call when user rates or sends feedback — never show again.
-    func markReviewed() {
-        UserDefaults.standard.set(true, forKey: neverShowAgainKey)
+        guard count >= nextPromptThreshold else { return false }
+        UserDefaults.standard.set(count + 10, forKey: nextPromptThresholdKey)
+        return true
     }
 
     // MARK: - Private
@@ -42,9 +35,5 @@ final class ReviewManager: @unchecked Sendable {
     private var nextPromptThreshold: Int {
         let stored = UserDefaults.standard.integer(forKey: nextPromptThresholdKey)
         return stored == 0 ? 5 : stored  // show after 5th completed session
-    }
-
-    private var neverShowAgain: Bool {
-        UserDefaults.standard.bool(forKey: neverShowAgainKey)
     }
 }

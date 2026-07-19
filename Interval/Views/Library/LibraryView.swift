@@ -161,7 +161,7 @@ struct LibraryView: View {
             ProtocolDetailView(proto: proto)
         }
         .sheet(isPresented: $showPaywall) {
-            PaywallSheet()
+            PaywallSheet(context: .gate)
         }
         .confirmationDialog("Delete \"\(deleteTarget?.name ?? "")\"?",
                             isPresented: $showDeleteConfirm,

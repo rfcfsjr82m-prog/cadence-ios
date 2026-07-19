@@ -241,8 +241,8 @@ struct BlockEditorSheet: View {
                                isSelected: block.visualFlash == flash) {
                         block.visualFlash = flash
                         switch flash {
-                        case .flashlight:
-                            FlashlightEngine.shared.preview()
+                        case .flashlight, .flashlightDouble, .flashlightLong:
+                            FlashlightEngine.shared.preview(flash)
                         case .blockColor:
                             flashColorPreview()
                         default:

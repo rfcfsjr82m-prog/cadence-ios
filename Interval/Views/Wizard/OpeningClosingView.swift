@@ -54,7 +54,7 @@ struct OpeningClosingView: View {
         }
         .safeAreaInset(edge: .bottom) { bottomBar }
         .sheet(isPresented: $showPaywall) {
-            PaywallSheet(onPurchased: {
+            PaywallSheet(context: .gate, onPurchased: {
                 StoreManager.shared.recordFreeRun()
                 appState.startSession(appState.wizardSession)
             })
@@ -202,6 +202,10 @@ struct OpeningClosingView: View {
 
     // MARK: - Bottom bar
 
+    private var startIsGated: Bool {
+        !StoreManager.shared.canRunFreeTimer()
+    }
+
     private var bottomBar: some View {
         VStack(spacing: 12) {
             HStack(spacing: 12) {
@@ -219,17 +223,27 @@ struct OpeningClosingView: View {
                 }
                 .buttonStyle(.plain)
 
-                // Start now
+                // Start now — once the free runs are used up, be upfront
+                // that starting needs Pro instead of surprising with the
+                // paywall after the tap. Saving stays free either way.
                 Button { saveAndStart() } label: {
-                    Text("Save & Start Now")
-                        .font(.system(size: 15, weight: .semibold))
-                        .minimumScaleFactor(0.75)
-                        .lineLimit(1)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 13)
-                        .background(Color.accent)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    HStack(spacing: 6) {
+                        if startIsGated {
+                            Image(systemName: "lock.fill")
+                                .font(.system(size: 13, weight: .semibold))
+                        }
+                        Text(startIsGated
+                             ? NSLocalizedString("Unlock Pro to start", comment: "Start button when the free runs are used up")
+                             : NSLocalizedString("Save & Start Now", comment: ""))
+                    }
+                    .font(.system(size: 15, weight: .semibold))
+                    .minimumScaleFactor(0.75)
+                    .lineLimit(1)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 13)
+                    .background(Color.accent)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 .buttonStyle(.plain)
             }

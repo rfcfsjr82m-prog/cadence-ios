@@ -1,0 +1,23 @@
+# ElevenLabs / pipeline secrets — never commit
+scripts/secrets.local.json
+
+# Generated audio output
+scripts/audio_out/
+
+# macOS
+.DS_Store
+
+# Xcode build output
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.swiftpm/
+.build/

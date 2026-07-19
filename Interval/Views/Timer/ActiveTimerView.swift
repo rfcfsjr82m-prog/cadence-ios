@@ -1,5 +1,6 @@
 import SwiftUI
 import AVFoundation
+import StoreKit
 @preconcurrency import ActivityKit
 
 @MainActor
@@ -11,24 +12,19 @@ struct ActiveTimerView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.requestReview) private var requestReview
 
     // MARK: - Timer state
 
     @State private var elapsed: Int = 0
     @State private var isPaused: Bool = false
     @State private var endReason: SessionEndReason? = nil
+    // Primary day-0 paywall placement: shown once, right after the user's
+    // first completed session, on the way back to the library.
+    @State private var showPostSessionPaywall = false
+    @AppStorage("hasSeenPostSessionPaywall") private var hasSeenPostSessionPaywall = false
     @State private var sessionStartDate: Date = Date()
     @State private var sessionEndDate: Date = Date()   // recorded at the moment the session finishes
-
-    @State private var showReviewPrompt: Bool = false
-
-    // Phase label flash
-    @State private var phaseLabelOpacity: Double = 0
-    @State private var phaseLabelScale: Double = 1.0
-    @State private var phaseLabelGlow: Double = 0
-    @State private var phaseLabelText: String = ""
-    @State private var phaseLabelRound: String = ""
-    @State private var phaseLabelTask: Task<Void, Never>? = nil
 
     // Real-time ring interpolation — updated every frame via TimelineView
     @State private var lastTickDate: Date = Date()
@@ -106,41 +102,6 @@ struct ActiveTimerView: View {
             // Four corner indicators
             cornerIndicators
 
-            // Phase label flash — dynamically sized to fit above the circles on any device
-            GeometryReader { geo in
-                let topPadding: CGFloat = 150
-                let ringRadius: CGFloat = 110
-                let circleTop = geo.size.height / 2 - ringRadius
-                let _ = circleTop - topPadding - 4  // availableHeight reserved for future use
-                let availableWidth = geo.size.width - 40
-                // Font scales with screen width, clamped between 34 and 52pt
-                let fontSize = min(44, max(28, geo.size.width * 0.11))
-
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(phaseLabelRound)
-                        .font(.system(size: fontSize * 0.54, weight: .heavy, design: .monospaced))
-                        .foregroundStyle(.white.opacity(0.65))
-                        .tracking(3)
-                        .shadow(color: .white.opacity(0.25 * phaseLabelGlow), radius: 6 * phaseLabelGlow)
-                    TightMultilineText(
-                        text: phaseLabelText,
-                        font: .systemFont(ofSize: fontSize, weight: .heavy),
-                        color: UIColor.white.withAlphaComponent(0.65),
-                        lineHeightMultiple: 0.82,
-                        maxWidth: availableWidth,
-                        maxLines: 2
-                    )
-                    .frame(width: availableWidth, alignment: .leading)
-                    .fixedSize(horizontal: true, vertical: true)
-                    .shadow(color: .white.opacity(0.2 * phaseLabelGlow), radius: 8 * phaseLabelGlow)
-                }
-                .opacity(phaseLabelOpacity)
-                .padding(.top, topPadding)
-                .padding(.leading, 20)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .allowsHitTesting(false)
-
             // Center rings + timer
             VStack(spacing: 0) {
                 ZStack {
@@ -159,8 +120,8 @@ struct ActiveTimerView: View {
                     }
 
                     Text(TimeFormatter.timerDisplay(blockLeft))
-                        .font(.system(size: 44, design: .monospaced).weight(.thin))
-                        .foregroundStyle(Color.timerIndicator)
+                        .font(.system(size: 44, design: .monospaced).weight(.light))
+                        .foregroundStyle(.white)
                         .monospacedDigit()
                         .minimumScaleFactor(0.7)
                         .lineLimit(1)
@@ -186,7 +147,6 @@ struct ActiveTimerView: View {
                         lastTickDate = Date()   // anchor interpolation from session start
                         // Fire first block cues immediately — don't wait for the first tick
                         fireCues(for: currentBlock)
-                        flashPhaseLabel(block: currentBlock, round: currentRound)
                     },
                     onStart: {
                         // Play the countdown-start cue (e.g. "Warming up") immediately
@@ -229,15 +189,12 @@ struct ActiveTimerView: View {
                 .zIndex(10)
             }
 
-            // Review prompt — shown after session completes
-            if showReviewPrompt {
-                ReviewPromptView {
-                    showReviewPrompt = false
-                }
-                .zIndex(20)
-            }
         }
         .ignoresSafeArea()
+        .fullScreenCover(isPresented: $showPostSessionPaywall) {
+            // Dismissing lands on the session-done overlay (share, health, …).
+            PaywallSheet(context: .sessionComplete)
+        }
         .onAppear { setup() }
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { fireDate in
             guard !isPaused && endReason == nil && !showCountdown else { return }
@@ -258,28 +215,33 @@ struct ActiveTimerView: View {
 
     private var cornerIndicators: some View {
         VStack {
-            HStack {
+            HStack(alignment: .top, spacing: 16) {
                 // Top-left: Round
-                Text("RND \(currentRound + 1)/\(totalRounds)")
-                    .cornerStyle()
-                Spacer()
-                // Top-right: Block name
-                Text(currentBlock.label)
-                    .cornerStyle()
+                CornerCell(caption: "ROUND",
+                           value: "\(currentRound + 1)/\(totalRounds)",
+                           alignment: .leading)
+                Spacer(minLength: 12)
+                // Top-right: current phase (block) name, tinted with the block color
+                CornerCell(caption: "PHASE",
+                           value: currentBlock.label,
+                           alignment: .trailing,
+                           valueColor: blockColor)
             }
             .padding(.horizontal, 22)
             .padding(.top, 56)
 
             Spacer()
 
-            HStack {
+            HStack(alignment: .bottom, spacing: 16) {
                 // Bottom-left: elapsed
-                Text(elapsedDisplay)
-                    .cornerStyle()
-                Spacer()
+                CornerCell(caption: "ELAPSED",
+                           value: elapsedDisplay,
+                           alignment: .leading)
+                Spacer(minLength: 12)
                 // Bottom-right: remaining
-                Text(remainingDisplay)
-                    .cornerStyle()
+                CornerCell(caption: "REMAINING",
+                           value: remainingDisplay,
+                           alignment: .trailing)
             }
             .padding(.horizontal, 22)
             .padding(.bottom, 110)
@@ -397,7 +359,6 @@ struct ActiveTimerView: View {
         let hasCountdown = config.openingCountdownSecs > 0
         if (elapsed == 1 && !hasCountdown) || isNewBlock {
             fireCues(for: postBlock)
-            flashPhaseLabel(block: postBlock, round: currentRound)
         }
 
         // Mid-block halfway cue — fires once at the exact midpoint of the block
@@ -447,35 +408,6 @@ struct ActiveTimerView: View {
         updateLiveActivity()
     }
 
-    // MARK: - Phase label flash
-
-    private func flashPhaseLabel(block: BlockConfig, round: Int) {
-        phaseLabelTask?.cancel()
-        phaseLabelRound = "RND \(round + 1)/\(totalRounds)"
-        phaseLabelText  = block.label.uppercased()
-
-        phaseLabelTask = Task {
-            // Fade in + glow
-            await MainActor.run {
-                phaseLabelGlow = 0
-                withAnimation(.easeOut(duration: 0.4)) {
-                    phaseLabelOpacity = 1
-                    phaseLabelGlow    = 1
-                }
-            }
-            // Hold
-            try? await Task.sleep(nanoseconds: 1_100_000_000)
-            // Fade out + shrink glow
-            guard !Task.isCancelled else { return }
-            await MainActor.run {
-                withAnimation(.easeIn(duration: 0.4)) {
-                    phaseLabelOpacity = 0
-                    phaseLabelGlow    = 0
-                }
-            }
-        }
-    }
-
     // MARK: - Cues
 
     private func fireCues(for block: BlockConfig) {
@@ -486,9 +418,12 @@ struct ActiveTimerView: View {
         }
         HapticEngine.shared.fire(block.hapticCue)
         switch block.visualFlash {
-        case .blockColor:  fireFlash(color: block.color.color)
-        case .flashlight:  FlashlightEngine.shared.burst()
-        case .none:        break
+        case .blockColor:
+            fireFlash(color: block.color.color)
+        case .flashlight, .flashlightDouble, .flashlightLong:
+            FlashlightEngine.shared.fire(block.visualFlash)
+        case .none:
+            break
         }
     }
 
@@ -571,9 +506,20 @@ struct ActiveTimerView: View {
         // Only fires on natural completion (not when the stop button is used).
         appState.markUnitCompleted(config.id)
         endReason = .complete
+        // Primary day-0 paywall placement: the first completed session leads
+        // straight into the paywall (once ever, never for Pro users). Delayed
+        // slightly so the closing cue lands before the transition.
+        if !hasSeenPostSessionPaywall && !StoreManager.shared.isPro {
+            hasSeenPostSessionPaywall = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                showPostSessionPaywall = true
+            }
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             if ReviewManager.shared.recordCompletedSession() {
-                showReviewPrompt = true
+                // Native StoreKit rating dialog — the system decides whether to
+                // actually display it (max 3 times per year, never after rating).
+                requestReview()
             }
         }
     }
@@ -655,12 +601,28 @@ struct ActiveTimerView: View {
     }
 }
 
-// MARK: - Corner label style
+// MARK: - Corner indicator cell
 
-extension View {
-    func cornerStyle() -> some View {
-        self
-            .font(.system(size: 14, design: .monospaced).weight(.regular))
-            .foregroundStyle(Color(hex: "C2C2CE"))
+/// Caption + large value, readable from across the room.
+private struct CornerCell: View {
+    let caption: LocalizedStringKey
+    let value: String
+    let alignment: HorizontalAlignment
+    var valueColor: Color = Color(hex: "E8E8F0")
+
+    var body: some View {
+        VStack(alignment: alignment, spacing: 4) {
+            Text(caption)
+                .font(.system(size: 12, weight: .medium, design: .monospaced))
+                .tracking(1.5)
+                .foregroundStyle(Color.white.opacity(0.40))
+            Text(value)
+                .font(.system(size: 26, weight: .medium, design: .monospaced))
+                .foregroundStyle(valueColor)
+                .lineLimit(1)
+                .minimumScaleFactor(0.45)
+        }
+        .frame(maxWidth: 170, alignment: alignment == .leading ? .leading : .trailing)
+        .animation(.easeInOut(duration: 0.25), value: value)
     }
 }

@@ -233,7 +233,6 @@ enum SoundCue: String, Codable, CaseIterable, Identifiable {
     case bell        = "Bell"
     case bleep       = "Bleep"
     case boxingBell  = "Boxing Bell"
-    case buzzer      = "Buzzer"
     case gong        = "Gong"
     case sonarHigh   = "Sonar High"
     case sonarLow    = "Sonar Low"
@@ -275,7 +274,7 @@ enum SoundCue: String, Codable, CaseIterable, Identifiable {
 
     var fileExtension: String {
         switch self {
-        case .bellReverb,
+        case .beeps, .bellGentle, .bellReverb, .bleep,
              .voiceMaleRunning, .voiceMaleWalking, .voiceMaleWarmingUp,
              .voiceMaleHalfway: return "mp3"
         default: return "wav"
@@ -323,17 +322,28 @@ enum HapticCue: String, Codable, CaseIterable, Identifiable {
 }
 
 enum VisualFlash: String, Codable, CaseIterable, Identifiable {
-    case blockColor  = "blockColor"
-    case flashlight  = "flashlight"
-    case none        = "none"
+    case blockColor       = "blockColor"
+    case flashlight       = "flashlight"
+    case flashlightDouble = "flashlightDouble"
+    case flashlightLong   = "flashlightLong"
+    case none             = "none"
 
     var id: String { rawValue }
 
+    /// Tolerant decoding: values from a newer app version fall back to .none
+    /// instead of failing the whole TimerConfig decode (e.g. on a stale Watch build).
+    init(from decoder: Decoder) throws {
+        let raw = try decoder.singleValueContainer().decode(String.self)
+        self = VisualFlash(rawValue: raw) ?? .none
+    }
+
     var displayName: String {
         switch self {
-        case .blockColor:  return NSLocalizedString("Block color", comment: "")
-        case .flashlight:  return NSLocalizedString("Flashlight", comment: "")
-        case .none:        return NSLocalizedString("No flash", comment: "")
+        case .blockColor:       return NSLocalizedString("Block color", comment: "")
+        case .flashlight:       return NSLocalizedString("Flashlight", comment: "")
+        case .flashlightDouble: return NSLocalizedString("Double flashlight", comment: "")
+        case .flashlightLong:   return NSLocalizedString("Long flashlight", comment: "")
+        case .none:             return NSLocalizedString("No flash", comment: "")
         }
     }
 }
@@ -433,7 +443,7 @@ enum VoiceAnnouncement {
             case .finish(.male):   return "FR_Voice_Male_Finish"
             }
         default:
-            let n = Int.random(in: 1...6)
+            let n = Int.random(in: 1...7)
             switch self {
             case .start(.female):  return "Voice_Female_Start_\(n)"
             case .start(.male):    return "Voice_Male_Start_\(n)"

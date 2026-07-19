@@ -108,6 +108,16 @@ final class StoreManager {
         purchaseError = nil
         defer { isLoading = false }
 
+        // Captured before purchasing — eligibility flips once the trial starts.
+        let startsTrial: Bool
+        if product.id == Self.annualID,
+           let subscription = product.subscription,
+           subscription.introductoryOffer?.paymentMode == .freeTrial {
+            startsTrial = await subscription.isEligibleForIntroOffer
+        } else {
+            startsTrial = false
+        }
+
         do {
             let result = try await product.purchase()
             switch result {
@@ -115,6 +125,10 @@ final class StoreManager {
                 let transaction = try checkVerified(verification)
                 await transaction.finish()
                 await refreshEntitlement()
+                // The paywall promises a day-5 reminder before the trial ends.
+                if isPro && startsTrial {
+                    TrialReminderManager.scheduleReminder()
+                }
             case .userCancelled:
                 break
             case .pending:

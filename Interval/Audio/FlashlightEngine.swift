@@ -18,12 +18,24 @@ final class FlashlightEngine: @unchecked Sendable {
     static let shared = FlashlightEngine()
     private init() {}
 
-    private let onDuration: Double = 0.18
+    private let onDuration: Double   = 0.18   // single burst
+    private let doubleGap: Double    = 0.15   // pause between double bursts
+    private let longDuration: Double = 1.0    // long burst
 
     nonisolated(unsafe) private var device: AVCaptureDevice? = nil
     /// True while we hold the AVCaptureDevice configuration lock.
     nonisolated(unsafe) private var configLocked = false
-    nonisolated(unsafe) private var pendingOff: DispatchWorkItem? = nil
+    nonisolated(unsafe) private var pendingWork: [DispatchWorkItem] = []
+
+    /// (delay from now, torch-on duration) steps for each flash style.
+    private func pattern(for style: VisualFlash) -> [(delay: Double, duration: Double)] {
+        switch style {
+        case .flashlight:       return [(0, onDuration)]
+        case .flashlightDouble: return [(0, onDuration), (onDuration + doubleGap, onDuration)]
+        case .flashlightLong:   return [(0, longDuration)]
+        case .blockColor, .none: return []
+        }
+    }
 
     // MARK: - Prepare
 
@@ -45,8 +57,8 @@ final class FlashlightEngine: @unchecked Sendable {
     /// Call when the session ends (stop, natural complete, countdown dismiss).
     /// Turns off the torch, releases the configuration lock, and forgets the device.
     func teardown() {
-        pendingOff?.cancel()
-        pendingOff = nil
+        pendingWork.forEach { $0.cancel() }
+        pendingWork = []
         if let dev = device {
             if configLocked {
                 dev.torchMode = .off
@@ -59,61 +71,60 @@ final class FlashlightEngine: @unchecked Sendable {
 
     // MARK: - Preview (one-shot, no prepare needed)
 
-    /// Fire a single torch burst without requiring a prior prepare() call.
+    /// Fire a flash pattern without requiring a prior prepare() call.
     /// Used for in-app previews (e.g. BlockEditorSheet).
-    func preview() {
+    func preview(_ style: VisualFlash = .flashlight) {
+        if device != nil { fire(style); return }   // session running — use its lock
         guard let dev = bestTorchDevice(), dev.hasTorch else { return }
-        do {
-            try dev.lockForConfiguration()
-            try dev.setTorchModeOn(level: 1.0)
-            nonisolated(unsafe) let capturedDev = dev
-            DispatchQueue.main.asyncAfter(deadline: .now() + onDuration) {
-                capturedDev.torchMode = .off
-                capturedDev.unlockForConfiguration()
-            }
-        } catch {}
+        schedule(pattern(for: style), on: dev, holdingLock: false)
     }
 
-    // MARK: - Burst
+    // MARK: - Fire
 
-    func burst() {
+    /// Fires the torch pattern for the given flash style during a session.
+    func fire(_ style: VisualFlash) {
         guard let dev = device, dev.hasTorch else { return }
+        // configLocked fast path sets torch mode directly using the held lock —
+        // the only path that works reliably from the lock screen. Otherwise each
+        // on/off operation briefly takes its own lock (foreground fallback).
+        schedule(pattern(for: style), on: dev, holdingLock: configLocked)
+    }
 
-        // Cancel any pending turn-off from a previous burst.
-        pendingOff?.cancel()
-        pendingOff = nil
+    /// Runs a torch on/off pattern on the main queue, which stays alive while
+    /// the audio background mode is active. Cancels any pattern still in flight.
+    private func schedule(_ steps: [(delay: Double, duration: Double)],
+                          on dev: AVCaptureDevice,
+                          holdingLock: Bool) {
+        pendingWork.forEach { $0.cancel() }
+        pendingWork = []
 
-        if configLocked {
-            // Fast path: we already hold the lock — set torch mode directly.
-            // This is the only path that works reliably from the lock screen.
-            guard (try? dev.setTorchModeOn(level: 1.0)) != nil else { return }
-        } else {
-            // Fallback (lock not held, e.g. another app had the camera at prepare time).
-            do {
-                try dev.lockForConfiguration()
-                defer { dev.unlockForConfiguration() }
-                try dev.setTorchModeOn(level: 1.0)
-            } catch {
-                return
-            }
-        }
-
-        // Schedule turn-off on the main queue, which stays alive while the
-        // audio background mode is active.
         nonisolated(unsafe) let capturedDev = dev
-        let capturedLocked = configLocked
-        let workItem = DispatchWorkItem {
-            if capturedLocked {
-                capturedDev.torchMode = .off
+
+        func setTorch(_ enabled: Bool) {
+            if holdingLock {
+                if enabled { _ = try? capturedDev.setTorchModeOn(level: 1.0) }
+                else       { capturedDev.torchMode = .off }
             } else {
-                if (try? capturedDev.lockForConfiguration()) != nil {
-                    capturedDev.torchMode = .off
-                    capturedDev.unlockForConfiguration()
-                }
+                guard (try? capturedDev.lockForConfiguration()) != nil else { return }
+                defer { capturedDev.unlockForConfiguration() }
+                if enabled { _ = try? capturedDev.setTorchModeOn(level: 1.0) }
+                else       { capturedDev.torchMode = .off }
             }
         }
-        pendingOff = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + onDuration, execute: workItem)
+
+        for step in steps {
+            let onItem  = DispatchWorkItem { setTorch(true) }
+            let offItem = DispatchWorkItem { setTorch(false) }
+            if step.delay <= 0 {
+                onItem.perform()
+            } else {
+                pendingWork.append(onItem)
+                DispatchQueue.main.asyncAfter(deadline: .now() + step.delay, execute: onItem)
+            }
+            pendingWork.append(offItem)
+            DispatchQueue.main.asyncAfter(deadline: .now() + step.delay + step.duration,
+                                          execute: offItem)
+        }
     }
 
     // MARK: - Private

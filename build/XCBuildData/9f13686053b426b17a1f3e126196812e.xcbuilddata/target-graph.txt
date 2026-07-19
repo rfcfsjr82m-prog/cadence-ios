@@ -1,6 +1,0 @@
-Target dependency graph (3 targets)
-Target 'Interval' in project 'Interval'
-➜ Explicit dependency on target 'CadenceWidget' in project 'Interval'
-➜ Explicit dependency on target 'CadenceWatch' in project 'Interval'
-Target 'CadenceWatch' in project 'Interval' (no dependencies)
-Target 'CadenceWidget' in project 'Interval' (no dependencies)
