@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AF0000000000000000000003 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = AF0000000000000000000002 /* AppsFlyerLib */; };
 		0002ED985C1D44B4878C79A191817A84 /* Voice_Female_Finish_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A56F264A16446DEA2E3BB9BDFA99AEE /* Voice_Female_Finish_3.mp3 */; };
 		030D32F0A0F070ECF71044F8 /* CadenceActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AF2A15B124D8F1FC0AE4B9 /* CadenceActivityAttributes.swift */; };
 		03D6F9491BA40BFD6A5EA7D4 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB0F5EDF396514584BD03D0 /* ActivityKit.framework */; };
@@ -16,6 +15,7 @@
 		05E51C61E42E7EE33A8F73EB /* Voice_Male_You're Halfway through.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4AE2AC9CB509DBAF94C5EE7F /* Voice_Male_You're Halfway through.mp3 */; };
 		0DD019035D52E74F92F49D84 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0B399C571E95D30A3BB0D2 /* LocationManager.swift */; };
 		0DE1F7FAC4CC4B89A376E47474CDA0F6 /* DE_Voice_Female_Finish.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A068F774584430DB4E74DACCD66F45F /* DE_Voice_Female_Finish.mp3 */; };
+		0DFACE0018AB4CC0090B0A02 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFACE0018AB4CC0090B0A01 /* OnboardingView.swift */; };
 		111B31C186B784FF8B6B306B /* Voice_Male_Warming-up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C3F763A6B5E8D5A4052F503D /* Voice_Male_Warming-up.mp3 */; };
 		118A6BFE56944B9ACCB6348D /* TimerSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6C561FDECF19C9E7402842 /* TimerSearch.swift */; };
 		1267B05C758D4879BEEA8EF462E50C9B /* Voice_Female_Start_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5DEE241ACC33434E8D30D3FE0607C0FE /* Voice_Female_Start_6.mp3 */; };
@@ -77,7 +77,6 @@
 		5B2DACC419E5427DAA28C0F0708A09C4 /* ES_Voice_Male_Finish.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C82DB36E426C4155AEA45438911C229D /* ES_Voice_Male_Finish.mp3 */; };
 		5BD90D2872CD486B7AF93172 /* Tock.wav in Resources */ = {isa = PBXBuildFile; fileRef = 17E184ED048E4504E0F775F1 /* Tock.wav */; };
 		5DC617E6C4004627130EAC8A /* WatchSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999330AE8E903658E8EDD5F5 /* WatchSyncManager.swift */; };
-		5E1090952FD937D000E5FF35 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 5E1090942FD937D000E5FF35 /* Products.storekit */; };
 		5E8140A62FCEF69800787B63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E8140A42FCEF69800787B63 /* Localizable.strings */; };
 		5E8140A72FCEF69800787B63 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E8140A22FCEF69800787B63 /* InfoPlist.strings */; };
 		5E8140A82FCEF69800787B63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E8140A42FCEF69800787B63 /* Localizable.strings */; };
@@ -152,6 +151,7 @@
 		AE3350A22FCEF69800787D02 /* BackgroundImageLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3350A12FCEF69800787D01 /* BackgroundImageLibrary.swift */; };
 		AE4450A22FCEF69800787E02 /* BeepPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4450A12FCEF69800787E01 /* BeepPlayer.swift */; };
 		AE5560A22FCEF69800787F02 /* TightMultilineText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5560A12FCEF69800787F01 /* TightMultilineText.swift */; };
+		AF0000000000000000000003 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = AF0000000000000000000002 /* AppsFlyerLib */; };
 		B0A1041DCFAC4BD1A6ED4CD559390B55 /* ES_Voice_Female_Start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D0A6C0D448BD43C7B7F621E8AE62F47B /* ES_Voice_Female_Start.mp3 */; };
 		B2F5CE0F60F64F20B1722611AC1943A0 /* Voice_Female_Finish_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C70266909AD04F1E8D5BE49523C7B832 /* Voice_Female_Finish_5.mp3 */; };
 		B356ADB4A5964787B6221B05 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F22AB10F534B1B82FEA35D /* LibraryView.swift */; };
@@ -191,7 +191,6 @@
 		D39A142731E5D6701DDB977B /* PersistedSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8AD55B81DFFAF7CC502119 /* PersistedSession.swift */; };
 		D3F106C13B174EFB944CEEB8 /* Voice_Male_Start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0E9F3C7B2BC0054F8AAEEC46 /* Voice_Male_Start.mp3 */; };
 		D576D469EC554A9D9BED291670CF9AEC /* PaywallSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0EBC2FD06204096ABDFACED9E9BEEB7 /* PaywallSheet.swift */; };
-		0DFACE0018AB4CC0090B0A02 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFACE0018AB4CC0090B0A01 /* OnboardingView.swift */; };
 		D6CF528AD49F4306A0C466746D5F4A19 /* Voice_Male_Finish_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 35DE89053B464082807F59BAC43EB458 /* Voice_Male_Finish_5.mp3 */; };
 		D728882A91F08D69CB5FC762 /* WatchTimerEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467AF02EEF94F8DE76628D03 /* WatchTimerEngine.swift */; };
 		D76D3C15D727FF9C24E9F67A /* Sonar High.wav in Resources */ = {isa = PBXBuildFile; fileRef = 21440A642E1615205CDD8B2B /* Sonar High.wav */; };
@@ -269,6 +268,7 @@
 		09F22AB10F534B1B82FEA35D /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		0BD486803B413958DF4D4371 /* FilterPillsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPillsView.swift; sourceTree = "<group>"; };
 		0C018594BD1247739277CD1B4F6BE5A5 /* Voice_Male_Start_6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mpeg; path = Voice_Male_Start_6.mp3; sourceTree = "<group>"; };
+		0DFACE0018AB4CC0090B0A01 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		0E9F3C7B2BC0054F8AAEEC46 /* Voice_Male_Start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mpeg; path = Voice_Male_Start.mp3; sourceTree = "<group>"; };
 		12CB9E7B4C494B0798C1C624669A76D5 /* FR_Voice_Female_Finish.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mpeg; path = FR_Voice_Female_Finish.mp3; sourceTree = "<group>"; };
 		1751537378BF40212ECD2911 /* CadenceWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CadenceWidget.entitlements; sourceTree = "<group>"; };
@@ -399,7 +399,6 @@
 		EED0EC38E32963BD648753ED /* Bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Bell.wav; sourceTree = "<group>"; };
 		F0E66B77B59D6BCD1515FF00 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F0EBC2FD06204096ABDFACED9E9BEEB7 /* PaywallSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallSheet.swift; sourceTree = "<group>"; };
-		0DFACE0018AB4CC0090B0A01 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		F110BA5CB049B4BA5EABF739 /* CadenceWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CadenceWatch.entitlements; sourceTree = "<group>"; };
 		F2363F7E38A84FC4966B710B4EC2FFF6 /* Voice_Female_Finish_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mpeg; path = Voice_Female_Finish_1.mp3; sourceTree = "<group>"; };
 		F7AA0001AAAA4BBB8CCC000000000001 /* Voice_Female_Start_7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mpeg; path = Voice_Female_Start_7.mp3; sourceTree = "<group>"; };
@@ -445,6 +444,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DFACE0018AB4CC0090B0A10 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				0DFACE0018AB4CC0090B0A01 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		0E18AAB34F2DE2FBDA181F76 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,14 +486,6 @@
 				F0EBC2FD06204096ABDFACED9E9BEEB7 /* PaywallSheet.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		0DFACE0018AB4CC0090B0A10 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				0DFACE0018AB4CC0090B0A01 /* OnboardingView.swift */,
-			);
-			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		15FCB20ADFB54C327A8D7906 /* Timer */ = {
@@ -827,9 +826,6 @@
 			};
 			buildConfigurationList = C1B0D475F7746409ADBE8D6F /* Build configuration list for PBXProject "Interval" */;
 			developmentRegion = en;
-			packageReferences = (
-				AF0000000000000000000001 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
-			);
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -840,6 +836,9 @@
 			);
 			mainGroup = AF94AE8C979A7DD302DBBA9A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AF0000000000000000000001 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8FE3C93E3CA730CECC8D421A /* Products */;
 			projectDirPath = "";
@@ -946,7 +945,6 @@
 				907A216AAE9BA9BE3516AC34 /* Voice_Female_Start.mp3 in Resources */,
 				D9EA142A6B740D237E83AEF8 /* Voice_Female_Finsih.mp3 in Resources */,
 				C0CBBA434ED998D58353C8C0 /* Voice_Male_Start.mp3 in Resources */,
-				5E1090952FD937D000E5FF35 /* Products.storekit in Resources */,
 				4605F3EB0B154A22A31B9416ED68587D /* PrivacyInfo.xcprivacy in Resources */,
 				6B114BBB4485ED3743D38AB0 /* Voice_Male_Finish.mp3 in Resources */,
 				9A9D1F5E1CB246EF98576D31B951661C /* Voice_Female_Start_1.mp3 in Resources */,
@@ -1157,7 +1155,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Interval/Interval.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = Interval/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1179,7 +1177,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CadenceWidget/CadenceWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = CadenceWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1204,7 +1202,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CadenceWatch/CadenceWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = CadenceWatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1251,7 +1249,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Interval/Interval.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = Interval/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1291,7 +1289,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CadenceWidget/CadenceWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = CadenceWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1316,7 +1314,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CadenceWatch/CadenceWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = UTLHMCMST6;
 				INFOPLIST_FILE = CadenceWatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

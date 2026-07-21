@@ -103,14 +103,19 @@ final class StoreManager {
 
     // MARK: - Purchase
 
-    func purchase(_ product: Product) async {
+    func purchase(_ product: Product,
+                  options: Set<Product.PurchaseOption> = [],
+                  scheduleTrialReminder: Bool = true) async {
         isLoading = true
         purchaseError = nil
         defer { isLoading = false }
 
         // Captured before purchasing — eligibility flips once the trial starts.
+        // Suppressed for the monthly-commitment plan, which isn't sold on the
+        // trial and must not fire a "your trial ends" reminder.
         let startsTrial: Bool
-        if product.id == Self.annualID,
+        if scheduleTrialReminder,
+           product.id == Self.annualID,
            let subscription = product.subscription,
            subscription.introductoryOffer?.paymentMode == .freeTrial {
             startsTrial = await subscription.isEligibleForIntroOffer
@@ -119,7 +124,7 @@ final class StoreManager {
         }
 
         do {
-            let result = try await product.purchase()
+            let result = try await product.purchase(options: options)
             switch result {
             case .success(let verification):
                 let transaction = try checkVerified(verification)
@@ -170,6 +175,40 @@ final class StoreManager {
         } else {
             Attribution.logPurchase(tier: tier, revenue: price, currency: currency)
         }
+    }
+
+    // MARK: - Monthly-commitment billing plan (annual, paid monthly)
+    //
+    // Apple's "Monthly with a 12-Month Commitment" billing plan on the annual
+    // subscription: same product ID as the up-front annual, billed monthly for
+    // a year. Requires iOS 26.4+ and is NOT offered in the US or Singapore, so
+    // `annualMonthlyCommitment` is nil for those users and the UI hides itself.
+
+    /// A plain, version-agnostic snapshot of the commitment plan's pricing —
+    /// so the rest of the app never touches iOS 26.4-only StoreKit types.
+    struct CommitmentPlan {
+        let perPeriodDisplayPrice: String   // e.g. "$1.99" (per month)
+        let totalDisplayPrice: String       // e.g. "$23.88" (full 12-month commitment)
+    }
+
+    /// The annual plan's monthly-commitment billing option, if the current
+    /// storefront + OS expose it. Reading this never affects the up-front annual.
+    var annualMonthlyCommitment: CommitmentPlan? {
+        guard #available(iOS 26.4, *),
+              let subscription = annual?.subscription,
+              let terms = subscription.pricingTerms.first(where: { $0.billingPlanType == .monthly })
+        else { return nil }
+        return CommitmentPlan(perPeriodDisplayPrice: terms.billingDisplayPrice,
+                              totalDisplayPrice: terms.commitmentInfo.displayPrice)
+    }
+
+    /// Purchases the annual plan billed monthly over a 12-month commitment.
+    @available(iOS 26.4, *)
+    func purchaseAnnualMonthlyCommitment() async {
+        guard let annual else { return }
+        await purchase(annual,
+                       options: [.billingPlanType(.monthly)],
+                       scheduleTrialReminder: false)
     }
 
     // MARK: - Restore

@@ -644,6 +644,18 @@
 
 /* No comment provided by engineer. */
 "Pay once, keep forever" = "Paga una vez, tuyo para siempre";
+"Prefer to pay once?" = "¿Prefieres pagar una sola vez?";
+"Skip the subscription — get every Pro feature forever with a single purchase." = "Olvídate de la suscripción: consigue todas las funciones Pro para siempre con un único pago.";
+"Get lifetime access" = "Obtener acceso de por vida";
+"No thanks" = "No, gracias";
+"One-time purchase — no subscription" = "Compra única: sin suscripción";
+"A gentler way in" = "Una forma más suave de empezar";
+"Spread it across the year, or unlock everything for good." = "Repártelo durante el año, o desbloquéalo todo para siempre.";
+"for 12 months · %@ total" = "durante 12 meses · %@ en total";
+"Annual, billed monthly" = "Anual, pago mensual";
+"Start monthly plan" = "Empezar plan mensual";
+"Billed monthly · 12-month commitment" = "Facturación mensual · compromiso de 12 meses";
+"Billed monthly for a 12-month commitment, then renews automatically. Cancel anytime after the commitment." = "Se factura mensualmente durante un compromiso de 12 meses y luego se renueva automáticamente. Cancela cuando quieras tras el compromiso.";
 
 /* No comment provided by engineer. */
 "%@ / month" = "%@ / mes";
