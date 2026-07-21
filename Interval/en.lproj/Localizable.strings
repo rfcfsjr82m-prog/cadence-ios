@@ -644,6 +644,18 @@
 
 /* No comment provided by engineer. */
 "Pay once, keep forever" = "Pay once, keep forever";
+"Prefer to pay once?" = "Prefer to pay once?";
+"Skip the subscription — get every Pro feature forever with a single purchase." = "Skip the subscription — get every Pro feature forever with a single purchase.";
+"Get lifetime access" = "Get lifetime access";
+"No thanks" = "No thanks";
+"One-time purchase — no subscription" = "One-time purchase — no subscription";
+"A gentler way in" = "A gentler way in";
+"Spread it across the year, or unlock everything for good." = "Spread it across the year, or unlock everything for good.";
+"for 12 months · %@ total" = "for 12 months · %@ total";
+"Annual, billed monthly" = "Annual, billed monthly";
+"Start monthly plan" = "Start monthly plan";
+"Billed monthly · 12-month commitment" = "Billed monthly · 12-month commitment";
+"Billed monthly for a 12-month commitment, then renews automatically. Cancel anytime after the commitment." = "Billed monthly for a 12-month commitment, then renews automatically. Cancel anytime after the commitment.";
 
 /* No comment provided by engineer. */
 "%@ / month" = "%@ / month";
