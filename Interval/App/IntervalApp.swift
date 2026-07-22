@@ -113,7 +113,15 @@ struct IntervalApp: App {
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([PersistedSession.self, SessionHistoryEntry.self])
-        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        // `.automatic` mirrors the local store to the user's private CloudKit
+        // database, so custom timers and history survive delete/reinstall and
+        // sync across the user's devices. Users not signed into iCloud still get
+        // the plain local store — sync just no-ops for them.
+        let config = ModelConfiguration(
+            schema: schema,
+            isStoredInMemoryOnly: false,
+            cloudKitDatabase: .automatic
+        )
         do {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
@@ -200,6 +208,17 @@ struct RootView: View {
             // Record first launch date for trial calculation
             if UserDefaults.standard.object(forKey: "firstLaunchDate") == nil {
                 UserDefaults.standard.set(Date(), forKey: "firstLaunchDate")
+            }
+
+            // CloudKit mirroring dropped the `.unique` constraint on
+            // PersistedSession.id, so two devices can each seed the same
+            // built-in preset before syncing. Collapse any such duplicates,
+            // keeping the most recently created record for each id.
+            let byID = Dictionary(grouping: sessions, by: { $0.id })
+            for (_, dupes) in byID where dupes.count > 1 {
+                for extra in dupes.sorted(by: { $0.createdAt > $1.createdAt }).dropFirst() {
+                    modelContext.delete(extra)
+                }
             }
 
             let configs = sessions.compactMap { $0.config() }

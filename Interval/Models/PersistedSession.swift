@@ -5,10 +5,15 @@ import SwiftData
 
 @Model
 final class PersistedSession {
-    @Attribute(.unique) var id: UUID
-    var payload: Data
-    var createdAt: Date
-    var isPreset: Bool
+    // NOTE: No `@Attribute(.unique)` and every property has a default value —
+    // both are hard requirements for the SwiftData + CloudKit mirrored store.
+    // Uniqueness of `id` is enforced manually (seeding checks existence; a
+    // launch-time dedup pass in `RootView.onAppear` collapses any records that
+    // two devices seeded independently before syncing).
+    var id: UUID = UUID()
+    var payload: Data = Data()
+    var createdAt: Date = Date()
+    var isPreset: Bool = false
 
     init(config: TimerConfig) {
         self.id = config.id

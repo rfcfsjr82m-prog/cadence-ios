@@ -9,14 +9,17 @@ import SwiftData
 
 @Model
 final class SessionHistoryEntry {
-    @Attribute(.unique) var id: UUID
-    var configID: UUID          // original timer ID — used to detect if it was deleted
-    var configName: String      // cached for display without decoding
-    var payload: Data           // full TimerConfig JSON
-    var practisedAt: Date
-    var wasCompleted: Bool      // true = natural end, false = manually stopped
-    var elapsedSeconds: Int
-    var totalSeconds: Int
+    // No `@Attribute(.unique)` and all properties defaulted — required for the
+    // SwiftData + CloudKit mirrored store. Each entry is created with a fresh
+    // UUID, so history rows never collide across devices.
+    var id: UUID = UUID()
+    var configID: UUID = UUID()     // original timer ID — used to detect if it was deleted
+    var configName: String = ""     // cached for display without decoding
+    var payload: Data = Data()      // full TimerConfig JSON
+    var practisedAt: Date = Date()
+    var wasCompleted: Bool = false  // true = natural end, false = manually stopped
+    var elapsedSeconds: Int = 0
+    var totalSeconds: Int = 0
 
     init(config: TimerConfig, wasCompleted: Bool, elapsedSeconds: Int) {
         self.id = UUID()
