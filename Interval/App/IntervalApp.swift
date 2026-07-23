@@ -205,6 +205,18 @@ struct RootView: View {
         }
         .preferredColorScheme(preferredScheme == 1 ? .dark : preferredScheme == 2 ? .light : nil)
         .onAppear {
+            // Restore an in-progress session that outlived the app — e.g. iOS
+            // suspended or terminated us in the background while the Live
+            // Activity kept counting on the lock screen. Wall-clock anchoring
+            // means we resume at the correct elapsed time.
+            if appState.activeSession == nil, let snap = ActiveSessionStore.load() {
+                if snap.currentElapsed < snap.config.totalDurationSeconds {
+                    appState.restoreActiveSession(snap)
+                } else {
+                    ActiveSessionStore.clear()
+                }
+            }
+
             // Record first launch date for trial calculation
             if UserDefaults.standard.object(forKey: "firstLaunchDate") == nil {
                 UserDefaults.standard.set(Date(), forKey: "firstLaunchDate")
@@ -279,6 +291,18 @@ struct RootView: View {
         }
         .onOpenURL { url in
             guard url.scheme == "cadence" else { return }
+
+            if url.host == "resume" {
+                // Tapped the lock-screen Live Activity — return to the running
+                // session (restoring it from disk if the app was terminated).
+                if appState.activeSession != nil {
+                    appState.navigate(to: .activeTimer)
+                } else if let snap = ActiveSessionStore.load(),
+                          snap.currentElapsed < snap.config.totalDurationSeconds {
+                    appState.restoreActiveSession(snap)
+                }
+                return
+            }
 
             if url.host == "widget-setup" {
                 // Deep link from widget empty state → open widget timer picker

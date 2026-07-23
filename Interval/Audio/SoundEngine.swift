@@ -9,6 +9,9 @@ final class SoundEngine: ObservableObject {
 
     private var players: [SoundCue: AVAudioPlayer] = [:]
     private var keepAlivePlayer: AVAudioPlayer?
+    /// True for the whole duration of a running session. Used to re-establish the
+    /// keep-alive loop after interruptions so the app never silently suspends.
+    private var keepAliveActive = false
 
     private init() {
         AudioSettings.shared.applyAudioSession()
@@ -68,24 +71,44 @@ final class SoundEngine: ObservableObject {
 
     /// Starts a silent looping audio player to hold the AVAudioSession active
     /// while the app is backgrounded between cues.  iOS suspends background audio
-    /// the moment nothing is playing; this zero-volume loop prevents that gap.
+    /// the moment nothing is playing; this zero-volume loop prevents that gap and
+    /// keeps the app running so the timer, cues and flashlight keep firing.
     func startKeepAlive() {
-        guard keepAlivePlayer == nil else { return }
-        let data = Self.silentWAVData()
-        keepAlivePlayer = try? AVAudioPlayer(data: data,
-                                             fileTypeHint: AVFileType.wav.rawValue)
-        keepAlivePlayer?.numberOfLoops = -1   // loop indefinitely
-        keepAlivePlayer?.volume        = 0
-        keepAlivePlayer?.prepareToPlay()
-        keepAlivePlayer?.play()
+        keepAliveActive = true
+        restartKeepAliveIfNeeded()
     }
 
     func stopKeepAlive() {
+        keepAliveActive = false
         keepAlivePlayer?.stop()
         keepAlivePlayer = nil
     }
 
-    /// Builds the smallest valid PCM WAV blob in memory (44-byte header + 1 silent sample).
+    /// (Re)establishes the keep-alive loop. Safe to call repeatedly — it only
+    /// acts when a session is active and the player isn't already playing. This
+    /// is what recovers background execution after an interruption stops it.
+    func restartKeepAliveIfNeeded() {
+        guard keepAliveActive else { return }
+        // The session must be active before playback can (re)start in the background.
+        AudioSettings.shared.applyAudioSession()
+
+        if keepAlivePlayer == nil {
+            let data = Self.silentWAVData()
+            keepAlivePlayer = try? AVAudioPlayer(data: data,
+                                                 fileTypeHint: AVFileType.wav.rawValue)
+            keepAlivePlayer?.numberOfLoops = -1   // loop indefinitely
+            keepAlivePlayer?.volume        = 0
+        }
+        keepAlivePlayer?.prepareToPlay()
+        if keepAlivePlayer?.isPlaying == false {
+            keepAlivePlayer?.play()
+        }
+    }
+
+    /// Builds a valid PCM WAV blob of continuous silence.  A full second of
+    /// samples (not a single degenerate sample) is what iOS reliably treats as
+    /// "actively playing audio" — the difference between the app staying alive in
+    /// the background and being suspended.
     private static func silentWAVData() -> Data {
         var d = Data()
 
@@ -99,7 +122,8 @@ final class SoundEngine: ObservableObject {
         let bitsPerSample: UInt16 = 16
         let byteRate               = sampleRate * UInt32(numChannels) * UInt32(bitsPerSample) / 8
         let blockAlign:    UInt16  = numChannels * bitsPerSample / 8
-        let dataSize:      UInt32  = 2          // one 16-bit silent sample
+        let numSamples:    UInt32  = sampleRate            // 1 second of silence
+        let dataSize:      UInt32  = numSamples * UInt32(blockAlign)
 
         // RIFF header
         d.append(contentsOf: "RIFF".utf8)
@@ -119,7 +143,7 @@ final class SoundEngine: ObservableObject {
         // data sub-chunk
         d.append(contentsOf: "data".utf8)
         append(dataSize)
-        append(Int16(0))                        // one silent sample
+        d.append(Data(count: Int(dataSize)))    // all-zero samples == silence
 
         return d
     }
@@ -136,6 +160,9 @@ final class SoundEngine: ObservableObject {
         ) { [weak self] _ in
             Task { @MainActor [weak self] in
                 self?.players.values.forEach { $0.prepareToPlay() }
+                // Make sure the silent keep-alive is actually running as we enter
+                // the background — this is what prevents iOS from suspending us.
+                self?.restartKeepAliveIfNeeded()
             }
         }
 
@@ -155,6 +182,23 @@ final class SoundEngine: ObservableObject {
 
             Task { @MainActor [weak self] in
                 self?.reloadPlayers()
+                // An interruption stops the keep-alive player; without this the
+                // app would suspend the next time the screen locks and the timer
+                // would freeze. Restart it as soon as the interruption ends.
+                self?.restartKeepAliveIfNeeded()
+            }
+        }
+
+        // If the media server resets (rare, but fatal to background audio),
+        // rebuild players and the keep-alive loop from scratch.
+        NotificationCenter.default.addObserver(
+            forName: AVAudioSession.mediaServicesWereResetNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.reloadPlayers()
+                self?.restartKeepAliveIfNeeded()
             }
         }
     }

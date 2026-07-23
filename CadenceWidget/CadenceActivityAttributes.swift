@@ -1,3 +1,4 @@
+import Foundation
 import ActivityKit
 
 // Mirror of the same struct in the main app target.
@@ -6,11 +7,15 @@ import ActivityKit
 struct CadenceActivityAttributes: ActivityAttributes, Sendable {
     struct ContentState: Codable, Hashable, Sendable {
         var blockLabel: String
-        var blockLeft: Int
         var roundLabel: String
-        var totalLeft: Int
         var blockColorHex: String
         var isPaused: Bool
+        var blockStartDate: Date
+        var blockEndDate: Date
+        var sessionStartDate: Date
+        var sessionEndDate: Date
+        var blockLeftAtPause: Int
+        var totalLeftAtPause: Int
     }
     var timerName: String
 }
