@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+@preconcurrency import ActivityKit
 import AppsFlyerLib
 
 // MARK: - AppsFlyer attribution
@@ -205,15 +206,23 @@ struct RootView: View {
         }
         .preferredColorScheme(preferredScheme == 1 ? .dark : preferredScheme == 2 ? .light : nil)
         .onAppear {
-            // Restore an in-progress session that outlived the app — e.g. iOS
-            // suspended or terminated us in the background while the Live
-            // Activity kept counting on the lock screen. Wall-clock anchoring
-            // means we resume at the correct elapsed time.
-            if appState.activeSession == nil, let snap = ActiveSessionStore.load() {
-                if snap.currentElapsed < snap.config.totalDurationSeconds {
-                    appState.restoreActiveSession(snap)
-                } else {
-                    ActiveSessionStore.clear()
+            // NOTE: we deliberately do NOT auto-restore a persisted session here.
+            // Cold-launching straight into a "running" timer the user never
+            // started (e.g. after force-quitting mid-session) reads as the app
+            // starting timers on its own and logging phantom sessions. A session
+            // is only ever resumed when the user explicitly taps the lock-screen
+            // Live Activity — handled via the `cadence://resume` deep link below.
+            // Opening the app normally always lands on the library.
+
+            // A Live Activity is drawn by iOS and can outlive the app: a force-quit
+            // runs no app code, so any lock-screen timer keeps ticking and repeated
+            // kills leave several stacked. On a normal launch we're not resuming
+            // anything, so tear down every lingering Activity now. (The explicit
+            // resume path via `cadence://resume` re-creates its own Activity in
+            // ActiveTimerView, so this doesn't disturb an intentional resume.)
+            if appState.activeSession == nil {
+                for activity in Activity<CadenceActivityAttributes>.activities {
+                    Task { await activity.end(nil, dismissalPolicy: .immediate) }
                 }
             }
 

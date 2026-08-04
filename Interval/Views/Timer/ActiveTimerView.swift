@@ -715,21 +715,34 @@ struct ActiveTimerView: View {
         )
     }
 
+    /// Absolute wall-clock instant the whole session ends. Used as the Live
+    /// Activity `staleDate` so a lingering activity (e.g. one that outlived a
+    /// force-quit) stops looking live once its time is up.
+    private var sessionEndAbsolute: Date {
+        anchorDate.addingTimeInterval(Double(totalSecs - elapsedAtAnchor))
+    }
+
     private func startLiveActivity() {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
         // If one is already running (e.g. resumed session), don't stack a second.
         guard liveActivity == nil else { updateLiveActivity(); return }
+        // End any Activity left over from a previous run before starting a fresh
+        // one, so lock-screen timers can never stack up across launches.
+        for old in Activity<CadenceActivityAttributes>.activities {
+            Task { await old.end(nil, dismissalPolicy: .immediate) }
+        }
         let attrs   = CadenceActivityAttributes(timerName: config.name)
-        let content = ActivityContent(state: liveActivityState(), staleDate: nil)
+        let content = ActivityContent(state: liveActivityState(), staleDate: sessionEndAbsolute)
         liveActivity = try? Activity.request(attributes: attrs, content: content)
         lastPushedBlockKey = currentRound * max(1, config.blocks.count) + currentBlockIndex
     }
 
     private func updateLiveActivity() {
         guard let activity = liveActivity else { return }
-        // No staleDate needed: the widget renders a native `Text(timerInterval:)`
-        // countdown that stays live between pushes, so it never dims or freezes.
-        let content = ActivityContent(state: liveActivityState(), staleDate: nil)
+        // `staleDate` is the session end: the native `Text(timerInterval:)`
+        // countdown stays live between pushes, and iOS marks the activity stale
+        // once the session's time is up so a leftover one doesn't look active.
+        let content = ActivityContent(state: liveActivityState(), staleDate: sessionEndAbsolute)
         Task { await activity.update(content) }
     }
 

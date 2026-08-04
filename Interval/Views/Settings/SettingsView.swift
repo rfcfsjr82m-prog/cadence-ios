@@ -480,6 +480,10 @@ private struct ActivityHistoryView: View {
                             ForEach(history) { entry in
                                 historyRow(entry)
                             }
+                            Text("Long-press an entry to delete it.")
+                                .font(.system(size: 12))
+                                .foregroundStyle(Color.textTertiary)
+                                .padding(.top, 6)
                         }
                         .padding(20)
                         .padding(.bottom, 20)
@@ -566,6 +570,15 @@ private struct ActivityHistoryView: View {
                 .strokeBorder(Color.borderDefault, lineWidth: 0.5))
         }
         .buttonStyle(.plain)
+        // Long-press any entry to remove it — lets the user delete sessions that
+        // don't reflect actual work so the history stays accurate.
+        .contextMenu {
+            Button(role: .destructive) {
+                modelContext.delete(entry)
+            } label: {
+                Label("Delete Entry", systemImage: "trash")
+            }
+        }
     }
 
     private func durationLabel(_ entry: SessionHistoryEntry) -> String {
