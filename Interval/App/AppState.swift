@@ -1,6 +1,50 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - Active-session persistence
+//
+// A running session is snapshotted to disk so it survives the app being
+// suspended or terminated in the background. Because timing is anchored to
+// wall-clock (`anchorDate` + `elapsedAtAnchor`), the exact elapsed time can be
+// reconstructed at any later moment — even after a cold relaunch triggered by
+// tapping the lock-screen Live Activity.
+
+struct ActiveSessionSnapshot: Codable {
+    var config: TimerConfig
+    /// Wall-clock instant that corresponds to `elapsedAtAnchor` seconds elapsed.
+    var anchorDate: Date
+    /// Elapsed seconds captured at `anchorDate`.
+    var elapsedAtAnchor: Int
+    var isPaused: Bool
+
+    /// Live elapsed seconds reconstructed from wall-clock.
+    var currentElapsed: Int {
+        if isPaused { return elapsedAtAnchor }
+        return elapsedAtAnchor + max(0, Int(Date().timeIntervalSince(anchorDate)))
+    }
+}
+
+enum ActiveSessionStore {
+    private static let key = "activeSessionSnapshot"
+
+    static func save(_ snapshot: ActiveSessionSnapshot) {
+        if let data = try? JSONEncoder().encode(snapshot) {
+            UserDefaults.standard.set(data, forKey: key)
+        }
+    }
+
+    static func load() -> ActiveSessionSnapshot? {
+        guard let data = UserDefaults.standard.data(forKey: key),
+              let snapshot = try? JSONDecoder().decode(ActiveSessionSnapshot.self, from: data)
+        else { return nil }
+        return snapshot
+    }
+
+    static func clear() {
+        UserDefaults.standard.removeObject(forKey: key)
+    }
+}
+
 // MARK: - App-wide navigation and session state
 
 @Observable
@@ -8,6 +52,9 @@ class AppState {
     var route: Route = .library
     var wizardSession: TimerConfig = .empty()
     var activeSession: TimerConfig? = nil
+    /// Set when a persisted session is being restored, so `ActiveTimerView`
+    /// picks up its timing instead of starting from zero. Cleared once consumed.
+    var pendingRestore: ActiveSessionSnapshot? = nil
     var editingSessionID: UUID? = nil
     var selectedTab: LibraryTab
     var shuffledPresetIDs: [UUID]
@@ -66,7 +113,12 @@ class AppState {
 
     /// Write pinned timer snapshots to the shared App Group so the widget displays them.
     func syncPinnedSnapshots(allConfigs: [TimerConfig]) {
-        let configMap = Dictionary(uniqueKeysWithValues: allConfigs.map { ($0.id, $0) })
+        // CloudKit can transiently produce two PersistedSessions with the same
+        // id (the `.unique` constraint is dropped when mirroring), and the
+        // dedup pass in RootView may not have flushed yet. `uniqueKeysWithValues`
+        // TRAPS on a duplicate key, so uniquing-keys is used to keep the first.
+        let configMap = Dictionary(allConfigs.map { ($0.id, $0) },
+                                   uniquingKeysWith: { first, _ in first })
         let pinned = pinnedTimerIDs.compactMap { configMap[$0] }.map { c in
             PinnedTimerSnapshot(
                 id: c.id, name: c.name,
@@ -113,9 +165,20 @@ class AppState {
 
     func startSession(_ config: TimerConfig, returnTab: LibraryTab? = nil) {
         activeSession = config
+        pendingRestore = nil
         // Remember which tab to return to after the session ends
         _returnTab = returnTab
         navigate(to: .activeTimer)
+    }
+
+    /// Restores a session that outlived the app (suspended/terminated in the
+    /// background while its Live Activity kept running). Set directly without an
+    /// animated transition so a cold launch lands straight on the timer.
+    func restoreActiveSession(_ snapshot: ActiveSessionSnapshot) {
+        activeSession = snapshot.config
+        pendingRestore = snapshot
+        _returnTab = nil
+        route = .activeTimer
     }
 
     private var _returnTab: LibraryTab? = nil
@@ -128,6 +191,8 @@ class AppState {
         }
         _returnTab = nil
         activeSession = nil
+        pendingRestore = nil
+        ActiveSessionStore.clear()
         navigate(to: .library)
     }
 }

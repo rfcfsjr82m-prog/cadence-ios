@@ -1,9 +1,104 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+@preconcurrency import ActivityKit
+import AppsFlyerLib
+
+// MARK: - AppsFlyer attribution
+//
+// AppsFlyer ties Apple Search Ads installs through to trial-starts and
+// subscription purchases. Configuration lives here (app entry point); the
+// two conversion events are logged from `StoreManager.purchase(_:)`.
+//
+// ATT: we deliberately never set `waitForATTUserAuthorization` and never touch
+// AppTrackingTransparency — AppsFlyer attribution for ASA does not require ATT,
+// so no tracking prompt is shown.
+
+enum Attribution {
+    /// AppsFlyer dev key (App Settings → Dev Key). Confirmed against the
+    /// dashboard 2026-07-19.
+    static let devKey = "cxSKhNTjZpEdkSDbBCPgC4"
+    static let appleAppID = "6778636283"
+
+    enum Tier: String { case monthly, annual, lifetime }
+
+    /// Configure the SDK. Called once from `AppDelegate`.
+    static func configure() {
+        let af = AppsFlyerLib.shared()
+        af.appsFlyerDevKey = devKey
+        af.appleAppID = appleAppID
+        #if DEBUG
+        af.isDebug = true
+        // Printed so you can register this device in AppsFlyer → Test devices.
+        print("📊 AppsFlyer IDFV:", UIDevice.current.identifierForVendor?.uuidString ?? "nil")
+        print("📊 AppsFlyer UID:", af.getAppsFlyerUID())
+        #endif
+    }
+
+    /// Start reporting. Must run while the app is in the foreground, so it is
+    /// driven off `scenePhase == .active`.
+    static func start() {
+        AppsFlyerLib.shared().start()
+    }
+
+    /// A free trial began (annual plan, intro free-trial offer).
+    static func logTrialStart(tier: Tier, price: Double, currency: String) {
+        AppsFlyerLib.shared().logEvent(AFEventStartTrial, withValues: [
+            AFEventParamContentId: tier.rawValue,
+            AFEventParamContentType: "subscription",
+            AFEventParamPrice: price,
+            AFEventParamCurrency: currency,
+        ])
+    }
+
+    /// A paid subscription or lifetime unlock was purchased.
+    static func logPurchase(tier: Tier, revenue: Double, currency: String) {
+        AppsFlyerLib.shared().logEvent(AFEventPurchase, withValues: [
+            AFEventParamRevenue: revenue,
+            AFEventParamCurrency: currency,
+            AFEventParamContentId: tier.rawValue,
+            AFEventParamContentType: tier == .lifetime ? "lifetime" : "subscription",
+        ])
+    }
+}
+
+// AppsFlyer's setup expects a UIApplicationDelegate for launch + URL callbacks.
+final class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+        Attribution.configure()
+        return true
+    }
+
+    // Forward deep links / universal links to AppsFlyer for deferred
+    // deep-link attribution. SwiftUI's own `.onOpenURL` still fires for the
+    // app's `cadence://` scheme — these callbacks coexist with it.
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+    ) -> Bool {
+        AppsFlyerLib.shared().handleOpen(url, options: options)
+        return true
+    }
+
+    func application(
+        _ application: UIApplication,
+        continue userActivity: NSUserActivity,
+        restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+    ) -> Bool {
+        AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+        return true
+    }
+}
 
 @main
 struct IntervalApp: App {
+
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @Environment(\.scenePhase) private var scenePhase
 
     @State private var appState = AppState()
 
@@ -19,7 +114,15 @@ struct IntervalApp: App {
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([PersistedSession.self, SessionHistoryEntry.self])
-        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        // `.automatic` mirrors the local store to the user's private CloudKit
+        // database, so custom timers and history survive delete/reinstall and
+        // sync across the user's devices. Users not signed into iCloud still get
+        // the plain local store — sync just no-ops for them.
+        let config = ModelConfiguration(
+            schema: schema,
+            isStoredInMemoryOnly: false,
+            cloudKitDatabase: .automatic
+        )
         do {
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
@@ -32,6 +135,13 @@ struct IntervalApp: App {
             RootView()
                 .environment(appState)
                 .modelContainer(sharedModelContainer)
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            // AppsFlyer's start() must fire in the foreground; the SDK is
+            // already configured in AppDelegate.didFinishLaunching.
+            if newPhase == .active {
+                Attribution.start()
+            }
         }
     }
 }
@@ -96,9 +206,40 @@ struct RootView: View {
         }
         .preferredColorScheme(preferredScheme == 1 ? .dark : preferredScheme == 2 ? .light : nil)
         .onAppear {
+            // NOTE: we deliberately do NOT auto-restore a persisted session here.
+            // Cold-launching straight into a "running" timer the user never
+            // started (e.g. after force-quitting mid-session) reads as the app
+            // starting timers on its own and logging phantom sessions. A session
+            // is only ever resumed when the user explicitly taps the lock-screen
+            // Live Activity — handled via the `cadence://resume` deep link below.
+            // Opening the app normally always lands on the library.
+
+            // A Live Activity is drawn by iOS and can outlive the app: a force-quit
+            // runs no app code, so any lock-screen timer keeps ticking and repeated
+            // kills leave several stacked. On a normal launch we're not resuming
+            // anything, so tear down every lingering Activity now. (The explicit
+            // resume path via `cadence://resume` re-creates its own Activity in
+            // ActiveTimerView, so this doesn't disturb an intentional resume.)
+            if appState.activeSession == nil {
+                for activity in Activity<CadenceActivityAttributes>.activities {
+                    Task { await activity.end(nil, dismissalPolicy: .immediate) }
+                }
+            }
+
             // Record first launch date for trial calculation
             if UserDefaults.standard.object(forKey: "firstLaunchDate") == nil {
                 UserDefaults.standard.set(Date(), forKey: "firstLaunchDate")
+            }
+
+            // CloudKit mirroring dropped the `.unique` constraint on
+            // PersistedSession.id, so two devices can each seed the same
+            // built-in preset before syncing. Collapse any such duplicates,
+            // keeping the most recently created record for each id.
+            let byID = Dictionary(grouping: sessions, by: { $0.id })
+            for (_, dupes) in byID where dupes.count > 1 {
+                for extra in dupes.sorted(by: { $0.createdAt > $1.createdAt }).dropFirst() {
+                    modelContext.delete(extra)
+                }
             }
 
             let configs = sessions.compactMap { $0.config() }
@@ -159,6 +300,18 @@ struct RootView: View {
         }
         .onOpenURL { url in
             guard url.scheme == "cadence" else { return }
+
+            if url.host == "resume" {
+                // Tapped the lock-screen Live Activity — return to the running
+                // session (restoring it from disk if the app was terminated).
+                if appState.activeSession != nil {
+                    appState.navigate(to: .activeTimer)
+                } else if let snap = ActiveSessionStore.load(),
+                          snap.currentElapsed < snap.config.totalDurationSeconds {
+                    appState.restoreActiveSession(snap)
+                }
+                return
+            }
 
             if url.host == "widget-setup" {
                 // Deep link from widget empty state → open widget timer picker

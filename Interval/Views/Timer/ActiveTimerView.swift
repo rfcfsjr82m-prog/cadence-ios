@@ -16,7 +16,14 @@ struct ActiveTimerView: View {
 
     // MARK: - Timer state
 
+    // `elapsed` is the displayed second count. It is not free-running: every
+    // tick it is recomputed from wall-clock (`anchorDate` + `elapsedAtAnchor`),
+    // so the timer stays correct across background suspension instead of
+    // freezing whenever the run-loop timer stops firing.
     @State private var elapsed: Int = 0
+    @State private var anchorDate: Date = Date()      // wall-clock at `elapsedAtAnchor`
+    @State private var elapsedAtAnchor: Int = 0       // elapsed seconds captured at `anchorDate`
+    @State private var lastPushedBlockKey: Int = -1   // dedupes Live Activity block pushes
     @State private var isPaused: Bool = false
     @State private var endReason: SessionEndReason? = nil
     // Primary day-0 paywall placement: shown once, right after the user's
@@ -144,7 +151,8 @@ struct ActiveTimerView: View {
                     soundEnabled: config.openingCountdownSoundEnabled,
                     onFinish: {
                         showCountdown = false
-                        lastTickDate = Date()   // anchor interpolation from session start
+                        reanchor(to: 0)         // real session clock starts now
+                        startLiveActivity()
                         // Fire first block cues immediately — don't wait for the first tick
                         fireCues(for: currentBlock)
                     },
@@ -202,10 +210,22 @@ struct ActiveTimerView: View {
             tick()
         }
         .onChange(of: scenePhase) { _, newPhase in
-            // iOS can deactivate the audio session at the moment the app backgrounds.
-            // Re-activating it here ensures cues keep firing from the lock screen.
-            if newPhase == .background {
+            switch newPhase {
+            case .background:
+                // iOS can deactivate the audio session at the moment the app
+                // backgrounds. Re-activating it here keeps cues firing from the
+                // lock screen for as long as the system lets us run.
                 AudioSettings.shared.applyAudioSession()
+            case .active:
+                // Coming back to the foreground: recompute from wall-clock right
+                // away so the UI jumps to the true elapsed time (rather than
+                // waiting up to a second for the next tick) and catches any
+                // time that passed while we were suspended.
+                if !isPaused && endReason == nil && !showCountdown {
+                    tick()
+                }
+            default:
+                break
             }
         }
         .statusBarHidden(true)
@@ -256,6 +276,7 @@ struct ActiveTimerView: View {
             Button {
                 sessionEndDate = Date()
                 endLiveActivity()
+                ActiveSessionStore.clear()
                 SoundEngine.shared.stopKeepAlive()
                 FlashlightEngine.shared.teardown()
                 endReason = .stopped(elapsed: elapsed, total: totalSecs)
@@ -269,8 +290,18 @@ struct ActiveTimerView: View {
 
             // Pause / Resume
             Button {
-                if isPaused { lastTickDate = Date() }  // re-anchor interpolation on resume
-                isPaused.toggle()
+                if isPaused {
+                    // Resume: restart the wall-clock anchor from the current second.
+                    isPaused = false
+                    elapsedAtAnchor = elapsed
+                    anchorDate = Date()
+                    lastTickDate = Date()
+                } else {
+                    // Pause: freeze elapsed at the current second.
+                    isPaused = true
+                    elapsedAtAnchor = elapsed
+                }
+                persistSnapshot()
                 updateLiveActivity()
             } label: {
                 Image(systemName: isPaused ? "play.fill" : "pause.fill")
@@ -304,8 +335,6 @@ struct ActiveTimerView: View {
     // MARK: - Setup
 
     private func setup() {
-        sessionStartDate = Date()
-        lastTickDate = Date()
         // Preload every sound-file cue this session may play
         var cuesToPreload = Set(config.blocks.map(\.soundCue))
         config.blocks.forEach { if $0.midwayCue != .silent { cuesToPreload.insert($0.midwayCue) } }
@@ -323,20 +352,122 @@ struct ActiveTimerView: View {
         SoundEngine.shared.startKeepAlive()
         // Cache the torch device NOW while foregrounded — lock screen burst() needs it
         FlashlightEngine.shared.prepare()
-        // Start the lock-screen Live Activity
-        startLiveActivity()
+
+        // Restoring a session that outlived the app? Rebuild timing from the
+        // persisted wall-clock anchor rather than starting from zero.
+        if let snap = appState.pendingRestore, snap.config.id == config.id {
+            appState.pendingRestore = nil
+            anchorDate = snap.anchorDate
+            elapsedAtAnchor = snap.elapsedAtAnchor
+            isPaused = snap.isPaused
+            elapsed = wallClockElapsed()
+            sessionStartDate = snap.anchorDate.addingTimeInterval(-Double(snap.elapsedAtAnchor))
+            lastTickDate = Date()
+            startLiveActivity()
+            // Finished while we were away — go straight to the done screen.
+            if elapsed >= totalSecs {
+                endSession()
+            }
+            return
+        }
+
+        // Fresh session.
+        sessionStartDate = Date()
 
         if config.openingCountdownSecs > 0 {
             showCountdown = true
+            // The wall-clock anchor, Live Activity and persistence all begin when
+            // the countdown finishes — that's when the real session clock starts.
         } else {
+            reanchor(to: 0)
+            startLiveActivity()
             playAnnouncementCue(config.openingAnnouncementCue, isStart: true)
             // No opening cue — cues fire at the START of each block (see tick)
         }
     }
 
+    // MARK: - Wall-clock anchoring
+
+    /// The true elapsed time derived from wall-clock. Immune to the run-loop
+    /// timer stalling in the background.
+    private func wallClockElapsed() -> Int {
+        if isPaused { return elapsedAtAnchor }
+        return elapsedAtAnchor + max(0, Int(Date().timeIntervalSince(anchorDate)))
+    }
+
+    /// Re-pins the wall-clock anchor to a specific elapsed value (session start,
+    /// resume, skip, restart) and persists it so the session can be restored.
+    private func reanchor(to newElapsed: Int) {
+        elapsed = newElapsed
+        elapsedAtAnchor = newElapsed
+        anchorDate = Date()
+        lastTickDate = Date()
+        persistSnapshot()
+    }
+
+    /// Writes the running session to disk so it survives suspension/termination.
+    private func persistSnapshot() {
+        ActiveSessionStore.save(ActiveSessionSnapshot(
+            config: config,
+            anchorDate: anchorDate,
+            elapsedAtAnchor: elapsedAtAnchor,
+            isPaused: isPaused
+        ))
+    }
+
     // MARK: - Tick
 
+    /// Advances `elapsed` to match wall-clock, then fires the appropriate cues.
     private func tick() {
+        let target = wallClockElapsed()
+        guard target > elapsed else { return }   // sub-second; rings interpolate via TimelineView
+
+        let delta = target - elapsed
+        if delta <= 2 {
+            // Normal foreground / background-audio path: step second-by-second so
+            // no per-second cue (block start, halfway, prep beeps) is missed.
+            for _ in 0..<delta {
+                if stepOneSecond() { return }   // session ended
+            }
+        } else {
+            // Large jump — we were suspended and just resumed. Resync to the true
+            // time without replaying the flood of cues we slept through.
+            resyncAfterBackground(to: target)
+            if endReason != nil { return }
+        }
+
+        pushLiveActivityIfBlockChanged()
+    }
+
+    /// Jumps straight to `target` after a suspension, firing at most one cue to
+    /// re-orient the user to the block they woke up in.
+    private func resyncAfterBackground(to target: Int) {
+        let preIndex = currentBlockIndex
+        let preRound = currentRound
+        elapsed = min(target, totalSecs)
+        lastTickDate = Date()
+        if elapsed >= totalSecs {
+            endSession()
+            return
+        }
+        if currentBlockIndex != preIndex || currentRound != preRound {
+            fireCues(for: currentBlock)
+        }
+    }
+
+    /// Pushes a Live Activity update only when the block/round changes. The
+    /// lock-screen countdown runs natively between pushes, so per-second updates
+    /// are unnecessary (and would be throttled by the system anyway).
+    private func pushLiveActivityIfBlockChanged() {
+        let key = currentRound * max(1, config.blocks.count) + currentBlockIndex
+        guard key != lastPushedBlockKey else { return }
+        lastPushedBlockKey = key
+        updateLiveActivity()
+    }
+
+    /// Advances exactly one second and fires that second's cues.
+    /// Returns `true` if the session ended.
+    private func stepOneSecond() -> Bool {
         // Snapshot BEFORE increment so we can detect block transitions
         let preIndex = currentBlockIndex
 
@@ -345,7 +476,7 @@ struct ActiveTimerView: View {
         // Session complete
         if elapsed >= totalSecs {
             endSession()
-            return
+            return true
         }
 
         let postIndex  = currentBlockIndex
@@ -404,8 +535,7 @@ struct ActiveTimerView: View {
             }
         }
 
-        // Update lock-screen Live Activity every second for real-time display.
-        updateLiveActivity()
+        return false
     }
 
     // MARK: - Cues
@@ -471,9 +601,9 @@ struct ActiveTimerView: View {
                 if nextStart >= totalSecs {
                     endSession()
                 } else {
-                    elapsed = nextStart
-                    lastTickDate = Date()
+                    reanchor(to: nextStart)
                     fireCues(for: currentBlock)
+                    updateLiveActivity()
                 }
                 return
             }
@@ -486,9 +616,9 @@ struct ActiveTimerView: View {
         if nextRoundStart >= totalSecs {
             endSession()
         } else {
-            elapsed = nextRoundStart
-            lastTickDate = Date()
+            reanchor(to: nextRoundStart)
             fireCues(for: currentBlock)
+            updateLiveActivity()
         }
     }
 
@@ -500,6 +630,7 @@ struct ActiveTimerView: View {
             playAnnouncementCue(config.closingAnnouncementCue, isStart: false)
         }
         endLiveActivity()
+        ActiveSessionStore.clear()
         SoundEngine.shared.stopKeepAlive()
         FlashlightEngine.shared.teardown()
         // Mark this unit complete so the protocol view shows a green checkmark.
@@ -526,17 +657,20 @@ struct ActiveTimerView: View {
 
     private func restartSession() {
         sessionStartDate = Date()
-        elapsed = 0
-        lastTickDate = Date()
         isPaused = false
         endReason = nil
         flashOpacity = 0
+        lastPushedBlockKey = -1
         SoundEngine.shared.startKeepAlive()
         FlashlightEngine.shared.prepare()   // re-acquire torch lock (released on stop/end)
 
         if config.openingCountdownSecs > 0 {
+            elapsed = 0
             showCountdown = true
+            // anchor + Live Activity begin when the countdown finishes
         } else {
+            reanchor(to: 0)
+            startLiveActivity()
             playAnnouncementCue(config.openingAnnouncementCue, isStart: true)
             // No opening cue — cues fire at end of each block (see tick)
         }
@@ -544,10 +678,11 @@ struct ActiveTimerView: View {
 
     /// Resumes a stopped session from exactly where it left off.
     private func resumeSession() {
-        lastTickDate = Date()
         isPaused = false
         endReason = nil
         flashOpacity = 0
+        lastPushedBlockKey = -1
+        reanchor(to: elapsed)   // continue wall-clock from the stopped second
         SoundEngine.shared.startKeepAlive()
         FlashlightEngine.shared.prepare()   // re-acquire torch lock (released on stop)
         startLiveActivity()
@@ -556,30 +691,58 @@ struct ActiveTimerView: View {
     // MARK: - Live Activity (lock screen progress)
 
     private func liveActivityState() -> CadenceActivityAttributes.ContentState {
-        CadenceActivityAttributes.ContentState(
-            blockLabel:    currentBlock.label,
-            blockLeft:     blockLeft,
-            roundLabel:    "\(currentRound + 1) / \(totalRounds)",
-            totalLeft:     max(0, totalSecs - elapsed),
-            blockColorHex: currentBlock.color.hexString,
-            isPaused:      isPaused
+        // Absolute dates are derived from the wall-clock anchor, not `Date()`, so
+        // they stay identical across every push within a block/session. That makes
+        // the native lock-screen countdown perfectly stable (no jitter at
+        // boundaries) and — crucially — correct for the whole session from a
+        // single push, so it can never freeze even if the app is suspended.
+        let blockEndElapsed  = elapsed + max(0, blockLeft)
+        let blockEndDate     = anchorDate.addingTimeInterval(Double(blockEndElapsed - elapsedAtAnchor))
+        let blockStartDate   = blockEndDate.addingTimeInterval(-Double(max(1, currentBlock.durationSeconds)))
+        let sessionStartDate = anchorDate.addingTimeInterval(-Double(elapsedAtAnchor))
+        let sessionEndDate   = anchorDate.addingTimeInterval(Double(totalSecs - elapsedAtAnchor))
+        return CadenceActivityAttributes.ContentState(
+            blockLabel:       currentBlock.label,
+            roundLabel:       "\(currentRound + 1) / \(totalRounds)",
+            blockColorHex:    currentBlock.color.hexString,
+            isPaused:         isPaused,
+            blockStartDate:   blockStartDate,
+            blockEndDate:     blockEndDate,
+            sessionStartDate: sessionStartDate,
+            sessionEndDate:   sessionEndDate,
+            blockLeftAtPause: max(0, blockLeft),
+            totalLeftAtPause: max(0, totalSecs - elapsed)
         )
+    }
+
+    /// Absolute wall-clock instant the whole session ends. Used as the Live
+    /// Activity `staleDate` so a lingering activity (e.g. one that outlived a
+    /// force-quit) stops looking live once its time is up.
+    private var sessionEndAbsolute: Date {
+        anchorDate.addingTimeInterval(Double(totalSecs - elapsedAtAnchor))
     }
 
     private func startLiveActivity() {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
+        // If one is already running (e.g. resumed session), don't stack a second.
+        guard liveActivity == nil else { updateLiveActivity(); return }
+        // End any Activity left over from a previous run before starting a fresh
+        // one, so lock-screen timers can never stack up across launches.
+        for old in Activity<CadenceActivityAttributes>.activities {
+            Task { await old.end(nil, dismissalPolicy: .immediate) }
+        }
         let attrs   = CadenceActivityAttributes(timerName: config.name)
-        let state   = liveActivityState()
-        let content = ActivityContent(state: state, staleDate: nil)
+        let content = ActivityContent(state: liveActivityState(), staleDate: sessionEndAbsolute)
         liveActivity = try? Activity.request(attributes: attrs, content: content)
+        lastPushedBlockKey = currentRound * max(1, config.blocks.count) + currentBlockIndex
     }
 
     private func updateLiveActivity() {
         guard let activity = liveActivity else { return }
-        // staleDate = 1.5 s from now tells the system a fresh update is coming soon,
-        // so it doesn't dim/grey the lock-screen widget between ticks.
-        let content = ActivityContent(state: liveActivityState(),
-                                      staleDate: isPaused ? nil : .now + 1.5)
+        // `staleDate` is the session end: the native `Text(timerInterval:)`
+        // countdown stays live between pushes, and iOS marks the activity stale
+        // once the session's time is up so a leftover one doesn't look active.
+        let content = ActivityContent(state: liveActivityState(), staleDate: sessionEndAbsolute)
         Task { await activity.update(content) }
     }
 
