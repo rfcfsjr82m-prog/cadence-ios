@@ -98,7 +98,10 @@ struct WidgetTimerPickerView: View {
     }
 
     private func save() {
-        let map = Dictionary(uniqueKeysWithValues: allTimers.map { ($0.id, $0) })
+        // Duplicate ids can occur (CloudKit drops the `.unique` constraint when
+        // mirroring), and `uniqueKeysWithValues` traps on them — unique the keys.
+        let map = Dictionary(allTimers.map { ($0.id, $0) },
+                             uniquingKeysWith: { first, _ in first })
         let selected = selectedIDs.compactMap { map[$0] }
         SharedDefaults.writeWidgetTimers(selected)
         WidgetCenter.shared.reloadTimelines(ofKind: "PinnedTimersWidget")

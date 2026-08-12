@@ -113,7 +113,12 @@ class AppState {
 
     /// Write pinned timer snapshots to the shared App Group so the widget displays them.
     func syncPinnedSnapshots(allConfigs: [TimerConfig]) {
-        let configMap = Dictionary(uniqueKeysWithValues: allConfigs.map { ($0.id, $0) })
+        // CloudKit can transiently produce two PersistedSessions with the same
+        // id (the `.unique` constraint is dropped when mirroring), and the
+        // dedup pass in RootView may not have flushed yet. `uniqueKeysWithValues`
+        // TRAPS on a duplicate key, so uniquing-keys is used to keep the first.
+        let configMap = Dictionary(allConfigs.map { ($0.id, $0) },
+                                   uniquingKeysWith: { first, _ in first })
         let pinned = pinnedTimerIDs.compactMap { configMap[$0] }.map { c in
             PinnedTimerSnapshot(
                 id: c.id, name: c.name,
