@@ -147,9 +147,8 @@ struct PaywallSheet: View {
     private var subtitle: String {
         switch context {
         case .sessionComplete:
-            // Most first sessions are presets, which stay free — say so, then
-            // sell what Pro actually adds.
-            return NSLocalizedString("Presets stay free forever. Pro adds unlimited custom timers and every program.", comment: "Paywall subtitle after first completed session")
+            // Sell what Pro adds: no run limits on anything.
+            return NSLocalizedString("Pro removes the free-run limits — unlimited presets, custom timers, and every program.", comment: "Paywall subtitle after first completed session")
         case .gate, .general:
             return NSLocalizedString("Unlimited timers for everything you practice — with Cadence Pro.", comment: "Paywall subtitle")
         }

@@ -63,6 +63,28 @@ final class StoreManager {
         UserDefaults.standard.set(freeRunsUsed, forKey: Self.freeRunsKey)
     }
 
+    // MARK: - Preset free pool
+    //
+    // Built-in presets have their own, larger free allowance, independent of
+    // the custom-timer / program pool above. Preset-only users get this many
+    // preset runs before the paywall appears. Tune the cap by changing this one
+    // number (e.g. 5 or 10).
+    static let presetRunLimit = 10
+    private static let presetRunsKey = "presetRunsUsed"
+    private(set) var presetRunsUsed: Int =
+        UserDefaults.standard.integer(forKey: StoreManager.presetRunsKey)
+
+    /// Whether a free user may start a built-in preset.
+    func canRunPreset() -> Bool {
+        isPro || presetRunsUsed < Self.presetRunLimit
+    }
+
+    /// Records one preset run against the preset pool.
+    func recordPresetRun() {
+        presetRunsUsed += 1
+        UserDefaults.standard.set(presetRunsUsed, forKey: Self.presetRunsKey)
+    }
+
     private var transactionListener: Task<Void, Never>?
 
     private init() {

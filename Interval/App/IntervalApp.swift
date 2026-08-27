@@ -156,6 +156,8 @@ struct RootView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
     /// Dismissal for the current launch when the always-show testing flag is on.
     @State private var onboardingDismissedThisLaunch = false
+    /// Paywall triggered by a widget-launched preset that hit the free cap.
+    @State private var showWidgetPaywall = false
 
     var body: some View {
         ZStack {
@@ -328,6 +330,13 @@ struct RootView: View {
             let allConfigs = sessions.compactMap { $0.config() }
             if let config = allConfigs.first(where: { $0.id == id }) {
                 if config.isPreset {
+                    // Presets are gated by the preset free pool, same as the
+                    // Library tab — otherwise the widget would bypass the cap.
+                    guard StoreManager.shared.canRunPreset() else {
+                        showWidgetPaywall = true
+                        return
+                    }
+                    StoreManager.shared.recordPresetRun()
                     appState.startSession(config)
                 } else {
                     // Custom timers are Pro-gated — don't start directly from
@@ -344,6 +353,9 @@ struct RootView: View {
             set: { appState.showWidgetPicker = $0 }
         )) {
             WidgetTimerPickerView()
+        }
+        .sheet(isPresented: $showWidgetPaywall) {
+            PaywallSheet(context: .gate)
         }
     }
 }

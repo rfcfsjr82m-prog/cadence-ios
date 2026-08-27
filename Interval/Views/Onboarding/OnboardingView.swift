@@ -333,7 +333,7 @@ struct OnboardingView: View {
         VStack(spacing: 0) {
             slideHeader(
                 title: NSLocalizedString("Presets for your practice", comment: "Onboarding presets title"),
-                subtitle: NSLocalizedString("Ready to start — and free forever.", comment: "Onboarding presets subtitle"))
+                subtitle: NSLocalizedString("Ready to start — no setup needed.", comment: "Onboarding presets subtitle"))
 
             let groups = presetGroups
             ScrollView(showsIndicators: false) {
@@ -688,7 +688,7 @@ struct OnboardingView: View {
                     paywallBullet(NSLocalizedString("7-day free trial with the annual plan", comment: "Onboarding paywall bullet"))
                 }
 
-                Text(NSLocalizedString("Your first 2 runs of custom timers & programs are free — and all presets stay free forever.", comment: "Onboarding paywall footnote"))
+                Text(String(format: NSLocalizedString("Your first %d preset runs are free, plus %d runs of custom timers & programs — then unlock everything with Pro.", comment: "Onboarding paywall footnote"), StoreManager.presetRunLimit, StoreManager.freeRunLimit))
                     .font(.system(size: 12))
                     .foregroundStyle(.white.opacity(0.6))
                     .multilineTextAlignment(.center)

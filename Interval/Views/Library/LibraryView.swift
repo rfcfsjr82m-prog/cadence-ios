@@ -234,10 +234,18 @@ struct LibraryView: View {
                 }
             }
         } else {
-            // Presets — no swipe, no edit/delete, but pin is supported
+            // Presets — no swipe, no edit/delete, but pin is supported.
+            // Gated by the separate preset free pool.
             TimerCard(
                 config: config,
-                onStart: { appState.startSession(config) },
+                onStart: {
+                    guard StoreManager.shared.canRunPreset() else {
+                        showPaywall = true
+                        return
+                    }
+                    StoreManager.shared.recordPresetRun()
+                    appState.startSession(config)
+                },
                 onEdit: nil,
                 onDuplicate: { duplicate(config) },
                 onDelete: nil,
