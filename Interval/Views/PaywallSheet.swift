@@ -24,6 +24,19 @@ struct PaywallSheet: View {
 
     var context: Context = .general
     var onPurchased: (() -> Void)? = nil
+    /// Overrides the context-derived analytics source (e.g. onboarding, which
+    /// shares the `.general` context with Settings but must be told apart).
+    var analyticsSource: String? = nil
+
+    /// The `source` value logged with `paywall_viewed` / `paywall_dismissed`.
+    private var paywallSource: String {
+        if let analyticsSource { return analyticsSource }
+        switch context {
+        case .sessionComplete: return "session_complete"
+        case .gate:            return "free_run_gate"
+        case .general:         return "general"
+        }
+    }
 
     @Environment(\.dismiss) private var dismiss
     @State private var store = StoreManager.shared
@@ -59,6 +72,15 @@ struct PaywallSheet: View {
             await store.loadProducts()
             if selectedProductID == nil {
                 selectedProductID = store.annual?.id ?? store.monthly?.id
+            }
+        }
+        .onAppear {
+            Analytics.log("paywall_viewed", ["source": paywallSource])
+        }
+        .onDisappear {
+            // Only a dismissal-without-purchase; a purchase flips isPro first.
+            if !store.isPro {
+                Analytics.log("paywall_dismissed", ["source": paywallSource])
             }
         }
     }

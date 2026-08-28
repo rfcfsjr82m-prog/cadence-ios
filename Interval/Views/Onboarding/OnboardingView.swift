@@ -25,6 +25,8 @@ struct OnboardingView: View {
     @State private var infoProgram: TrainingProtocol? = nil
     @State private var voicePlayer: AVAudioPlayer? = nil
     @State private var infoPreset: TimerConfig? = nil
+    /// Guards `finish` so onboarding_completed logs exactly once.
+    @State private var didFinish = false
 
     private let pageCount = 6
 
@@ -66,14 +68,21 @@ struct OnboardingView: View {
                 }
         )
         .sheet(isPresented: $showPaywall) {
-            PaywallSheet(onPurchased: { finish() })
+            PaywallSheet(onPurchased: { finish("discover_pro") }, analyticsSource: "onboarding")
         }
         .onChange(of: showPaywall) { _, showing in
             // Came back from the paywall as a Pro user → done.
-            if !showing && StoreManager.shared.isPro { finish() }
+            if !showing && StoreManager.shared.isPro { finish("discover_pro") }
+        }
+        .onChange(of: page) { _, newPage in
+            Analytics.log("onboarding_slide_viewed",
+                          ["slide_number": newPage, "slide_name": slideName(newPage)])
         }
         .onAppear {
             SoundEngine.shared.preload(cues: [.beeps, .gong, .sonarPing, .boxingBell])
+            // First slide isn't covered by the page onChange above.
+            Analytics.log("onboarding_slide_viewed",
+                          ["slide_number": page, "slide_name": slideName(page)])
         }
     }
 
@@ -116,7 +125,11 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                CircleIconButton(systemName: "xmark") { finish() }
+                CircleIconButton(systemName: "xmark") {
+                    Analytics.log("onboarding_exited",
+                                  ["slide_number": page, "slide_name": slideName(page)])
+                    finish("exited_early")
+                }
             }
             .padding(.horizontal, 20)
             .padding(.top, 8)
@@ -695,6 +708,7 @@ struct OnboardingView: View {
                     .padding(.horizontal, 8)
 
                 Button {
+                    Analytics.log("onboarding_discover_pro_tapped")
                     showPaywall = true
                 } label: {
                     Text(NSLocalizedString("Discover Pro", comment: "Onboarding paywall CTA"))
@@ -707,7 +721,8 @@ struct OnboardingView: View {
                 .buttonStyle(.plain)
 
                 Button {
-                    finish()
+                    Analytics.log("onboarding_paywall_skipped")
+                    finish("skipped_paywall")
                 } label: {
                     Text(NSLocalizedString("Not now", comment: "Onboarding paywall dismiss"))
                         .font(.system(size: 15, weight: .medium))
@@ -787,8 +802,26 @@ struct OnboardingView: View {
         withAnimation { page -= 1 }
     }
 
-    private func finish() {
+    /// Ends onboarding once, logging how the user got through it. Idempotent —
+    /// the first caller's `exitPath` wins (a purchase can trigger both the
+    /// `onPurchased` callback and the paywall-dismissed `onChange`).
+    private func finish(_ exitPath: String = "completed") {
+        guard !didFinish else { return }
+        didFinish = true
+        Analytics.log("onboarding_completed", ["exit_path": exitPath])
         onFinished()
+    }
+
+    /// Stable analytics name for each onboarding slide index.
+    private func slideName(_ page: Int) -> String {
+        switch page {
+        case 0:  return "welcome"
+        case 1:  return "cues"
+        case 2:  return "pillars"
+        case 3:  return "presets"
+        case 4:  return "programs"
+        default: return "paywall"
+        }
     }
 }
 

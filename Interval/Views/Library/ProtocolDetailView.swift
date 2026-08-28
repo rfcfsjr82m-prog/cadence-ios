@@ -32,10 +32,18 @@ struct ProtocolDetailView: View {
                                     isCompleted: appState.completedUnitIDs.contains(unit.id),
                                     onStart: {
                                         guard StoreManager.shared.canRunFreeTimer() else {
+                                            Analytics.log("free_run_gate_triggered", [
+                                                "gate_type": "program",
+                                                "run_count": StoreManager.shared.freeRunsUsed,
+                                            ])
                                             showPaywall = true
                                             return
                                         }
                                         StoreManager.shared.recordFreeRun()
+                                        Analytics.log("custom_timer_started", [
+                                            "run_count": StoreManager.shared.freeRunsUsed,
+                                            "kind": "program",
+                                        ])
                                         dismiss()
                                         appState.startSession(unit, returnTab: .programs)
                                     }

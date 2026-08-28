@@ -62,6 +62,18 @@ enum Attribution {
     }
 }
 
+// MARK: - In-app analytics events
+//
+// Thin wrapper over AppsFlyer's logEvent for the onboarding → paywall →
+// purchase funnel instrumentation. Pure measurement: these calls sit at
+// existing decision points and never change UI or control flow. Event and
+// parameter names are the analytics contract — keep them stable.
+enum Analytics {
+    static func log(_ event: String, _ values: [String: Any] = [:]) {
+        AppsFlyerLib.shared().logEvent(event, withValues: values.isEmpty ? nil : values)
+    }
+}
+
 // AppsFlyer's setup expects a UIApplicationDelegate for launch + URL callbacks.
 final class AppDelegate: NSObject, UIApplicationDelegate {
     func application(
@@ -333,10 +345,20 @@ struct RootView: View {
                     // Presets are gated by the preset free pool, same as the
                     // Library tab — otherwise the widget would bypass the cap.
                     guard StoreManager.shared.canRunPreset() else {
+                        Analytics.log("free_run_gate_triggered", [
+                            "gate_type": "preset",
+                            "run_count": StoreManager.shared.presetRunsUsed,
+                            "source": "widget",
+                        ])
                         showWidgetPaywall = true
                         return
                     }
                     StoreManager.shared.recordPresetRun()
+                    Analytics.log("preset_started", [
+                        "preset_id": config.id.uuidString,
+                        "preset_name": config.name,
+                        "source": "widget",
+                    ])
                     appState.startSession(config)
                 } else {
                     // Custom timers are Pro-gated — don't start directly from

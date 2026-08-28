@@ -193,7 +193,24 @@ struct LibraryView: View {
                 .buttonStyle(.plain)
                 TimerCard(
                     config: config,
-                    onStart: { appState.startSession(config) },
+                    onStart: {
+                        // Same free-run gate as the normal personal path, so
+                        // multi-select mode can't be used to bypass the cap.
+                        guard StoreManager.shared.canRunFreeTimer() else {
+                            Analytics.log("free_run_gate_triggered", [
+                                "gate_type": "custom",
+                                "run_count": StoreManager.shared.freeRunsUsed,
+                            ])
+                            showPaywall = true
+                            return
+                        }
+                        StoreManager.shared.recordFreeRun()
+                        Analytics.log("custom_timer_started", [
+                            "run_count": StoreManager.shared.freeRunsUsed,
+                            "kind": "custom",
+                        ])
+                        appState.startSession(config)
+                    },
                     onEdit: { appState.startWizard(editing: config) },
                     onDuplicate: { duplicate(config) },
                     onDelete: { deleteTarget = config; showDeleteConfirm = true },
@@ -209,10 +226,18 @@ struct LibraryView: View {
                 config: config,
                 onStart: {
                     guard StoreManager.shared.canRunFreeTimer() else {
+                        Analytics.log("free_run_gate_triggered", [
+                            "gate_type": "custom",
+                            "run_count": StoreManager.shared.freeRunsUsed,
+                        ])
                         showPaywall = true
                         return
                     }
                     StoreManager.shared.recordFreeRun()
+                    Analytics.log("custom_timer_started", [
+                        "run_count": StoreManager.shared.freeRunsUsed,
+                        "kind": "custom",
+                    ])
                     appState.startSession(config)
                 },
                 onEdit: { appState.startWizard(editing: config) },
@@ -240,10 +265,18 @@ struct LibraryView: View {
                 config: config,
                 onStart: {
                     guard StoreManager.shared.canRunPreset() else {
+                        Analytics.log("free_run_gate_triggered", [
+                            "gate_type": "preset",
+                            "run_count": StoreManager.shared.presetRunsUsed,
+                        ])
                         showPaywall = true
                         return
                     }
                     StoreManager.shared.recordPresetRun()
+                    Analytics.log("preset_started", [
+                        "preset_id": config.id.uuidString,
+                        "preset_name": config.name,
+                    ])
                     appState.startSession(config)
                 },
                 onEdit: nil,
