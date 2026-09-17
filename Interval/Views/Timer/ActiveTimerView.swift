@@ -470,6 +470,7 @@ struct ActiveTimerView: View {
     private func stepOneSecond() -> Bool {
         // Snapshot BEFORE increment so we can detect block transitions
         let preIndex = currentBlockIndex
+        let preRound = currentRound
 
         elapsed += 1
 
@@ -481,7 +482,11 @@ struct ActiveTimerView: View {
 
         let postIndex  = currentBlockIndex
         let postBlock  = currentBlock
-        let isNewBlock = postIndex != preIndex
+        // A block transition is a change of block index OR a roll-over into a new
+        // round. The round check is essential: when a round has a single block,
+        // the index is always 0, so a bare index comparison never sees the new
+        // round begin and the block-start cue would only ever fire on round 1.
+        let isNewBlock = postIndex != preIndex || currentRound != preRound
         let isNewRound = secInRound == 0
 
         // Fire ALL cues at the START of each block:
